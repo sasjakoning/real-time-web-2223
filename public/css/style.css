@@ -21,245 +21,72 @@ time, mark, audio, video {
     vertical-align: baseline;
 }
 
+
 :root {
-    --dark: #017F6A;
-    --light: #E6FEDA;
-    --background: #EFE6DF;
-    --accent: #02A884;
-    --white: #FFFFFF;
-    --black: #000000;
+	--background: hsl(0, 0%, 0%);
+	--primary: hsl(0, 0%, 100%);
 }
 
 body {
-    width: 100dvw;
-    height: 100dvh;
-    background: var(--background) url(../images/background.webp) center;
-    background-size: 20rem;
-    color: var(--black);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+	background: gray;
 }
 
-img {
-    width: 100%;
+main {
+	display: grid;
+	place-items: center;
+	height: 100dvh;
+	width: 100dvw;
 }
 
-header {
-    background: var(--dark);
-    height: 2.5rem;
-    padding: .5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.container {
+	width: 20rem;
+	height: 20rem;
+	background: lightgray;
+	position: relative;
 }
 
-.header--userInfo {
-    display: flex;
-    align-items: center;
-    gap: .5rem;
-    color: var(--white);
+.player {
+	width: 2rem;
+	height: 2rem;
+	background: red;
+
+	position: absolute;
+
+	left: 100%;
+	top: 100%;
+
+	/* transform: translate(-100%, -100%); */
 }
 
-.header--userInfo > img {
-    width: 2rem;
-    height: 2rem;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
+.playerControls {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, 1fr);
 }
 
-.header--userInfo > div h1 {
-    font-weight: 600;
+.playerControls > div {
+	width: 3rem;
+	height: 3rem;
+	border: .25rem solid white;
+	border-radius: .75rem;
 }
 
-.header--userInfo > div p {
-    font-size: .75rem;
+.playerControls--up {
+	grid-column: 2;
+	grid-row: 1;
 }
 
-.header--userInfo .header--backBtn {
-    width: 1rem;
-    height: 1rem;
-    background: url(../images/back.svg) no-repeat center; 
-    background-size: contain;
-    border: none;
+.playerControls--right {
+	grid-column: 3;
+	grid-row: 2;
 }
 
-.header--functions {
-    display: flex;
-    gap: 1.5rem;
+.playerControls--down {
+	grid-column: 2;
+	grid-row: 3;
 }
 
-.header--functions > button {
-    width: 1.25rem;
-    height: 1.25rem;
-    border: none;
-    background: none;
-}
-
-.header--functions .header--videoBtn {
-    background: url(../images/video.svg) no-repeat center; 
-    background-size: contain;
-}
-
-.header--functions .header--callBtn {
-    background: url(../images/phone.svg) no-repeat center; 
-    background-size: contain;
-}
-
-.header--functions .header--settingsBtn {
-    background: url(../images/settings.svg) no-repeat center; 
-    background-size: contain;
-}
-
-
-/* ---------------------------------- */
-/*                Chat                */
-/* ---------------------------------- */
-
-.chat {
-    list-style: none;
-    width: clamp(20rem, calc(100% - 2rem), 40rem);
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-}
-
-.chat > li {
-    max-width: 80%;
-    padding: .5rem 1rem;
-    border-radius: .5rem;
-    position: relative;
-    margin-top: 1rem;
-    /* drop shadow */
-    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, .1));
-}
-
-.chat > li:has(p:nth-of-type(2)) p:first-of-type {
-    font-weight: 600;
-    margin-bottom: .5rem;
-}
-
-.chat .receivedText {
-    background: var(--white);
-    margin-right: auto;
-    border-top-left-radius: 0;
-}
-
-.chat .receivedText + .receivedText {
-    border-top-left-radius: .5rem;
-    margin-top: .2rem;
-}
-
-.chat .receivedText::before {
-    content: '';
-    position: absolute;
-    top: -.25rem;
-    left: -.2rem;
-    width: 0;
-    height: 0;
-    rotate: -90deg;
-    border-top: .5rem solid transparent;
-    border-right: .5rem solid var(--white);
-    border-bottom: .5rem solid transparent;
-}
-
-.chat .receivedText + .receivedText::before {
-    content: '';
-    display: none;
-}
-
-.chat .sentText {
-    background: var(--light);
-    margin-left: auto;
-    border-top-right-radius: 0;
-}
-
-.chat .sentText + .sentText {
-    background: var(--light);
-    margin-left: auto;
-    border-top-right-radius: .5rem;
-    margin-top: .2rem;
-}
-
-.chat .sentText::before {
-    content: '';
-    position: absolute;
-    top: -.25rem;
-    right: -.2rem;
-    width: 0;
-    height: 0;
-    rotate: 90deg;
-    border-top: .5rem solid transparent;
-    border-left: .5rem solid var(--light);
-    border-bottom: .5rem solid transparent;
-}
-
-.chat .sentText + .sentText::before {
-    content: '';
-    display: none;
-}
-
-/* ----------- text input ----------- */
-
-.textInput {
-    display: flex;
-    width: 100%;
-    min-height: 3rem;
-    justify-content: space-between;
-    gap: .5rem;
-    width: calc(100% - 1rem);
-    margin: auto;
-    margin-bottom: .5rem;
-    margin-top: .5rem;
-}
-
-.textInput > div {
-    width: 100%;
-    display: flex;
-    padding: .8rem;
-    background: var(--white);
-    border-radius: 1000rem;
-}
-
-.textInput > div > textarea {
-    width: 100%;
-    border: none;
-    background: none;
-    margin: 0 1rem;
-    font-size: 1rem;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-
-    resize: none;
-    overflow: hidden;
-    height: 1rem;
-}
-
-.textInput button {
-    /* width: 1.5rem;
-    height: 1.5rem; */
-    height: 100%;
-    aspect-ratio: 1/1;
-    background-size: contain;
-    border: none;
-}
-
-.textInput > div > .textInput--emojiBtn {
-    background: url(../images/emoji.svg) no-repeat center;
-    background-size: contain; 
-}
-
-.textInput > div > .textInput--attachmentsBtn {
-    background: url(../images/paperclip.svg) no-repeat center;
-    background-size: contain; 
-}
-
-.textInput .textInput--sendBtn {
-    height: 3rem;
-    width: 3rem;
-    aspect-ratio: 1/1;
-    background: var(--accent) url(../images/send.svg) no-repeat center;
-    background-size: 50%; 
-    border-radius: 50%;
+.playerControls--left {
+	grid-column: 1;
+	grid-row: 2;
 }
