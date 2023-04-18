@@ -3,7 +3,9 @@ import handlebars from 'express-handlebars';
 import http from 'http';
 import path from 'path';
 import router from './router/router.js';
+import session from 'express-session';
 
+const sessionLength = (1000 * 60 * 60 * 24) * 7; // 1 day
 
 const __dirname = path.resolve();
 const port = process.env.PORT || 5500;
@@ -18,6 +20,16 @@ app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/public'));
 app.use('/', express.static(__dirname + '/'));
 app.use(express.urlencoded({ extended: true }));
+app.set('trust proxy', 1);
+
+app.use(session({
+  name: 'chatsession',
+  secret: "chatsecretsessiondata",
+  saveUninitialized:true,
+  cookie: { maxAge: sessionLength },
+  resave: false
+}));
+
 
 
 io.on('connection', (socket) => {

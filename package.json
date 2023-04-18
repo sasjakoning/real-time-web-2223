@@ -12,7 +12,9 @@
     "start:dev": "nodemon --inspect app.js"
   },
   "nodemonConfig": {
-    "watch": ["."],
+    "watch": [
+      "."
+    ],
     "ext": "js,html,css,hbs"
   },
   "repository": {
@@ -31,6 +33,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-handlebars": "^7.0.2",
+    "express-session": "^1.17.3",
     "http": "^0.0.1-security",
     "socket.io": "^4.6.1"
   },

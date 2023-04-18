@@ -3,8 +3,8 @@ const router = express.Router();
 
 // homepage
 router.get('/', (req, res) => {
-    // res.render('home');
-    res.redirect('/chat');
+    res.render('home');
+    // res.redirect('/chat');
 });
 
 router.get('/chat', (req, res) => {
