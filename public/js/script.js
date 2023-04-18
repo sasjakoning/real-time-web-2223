@@ -76,3 +76,21 @@ if (chatForm){
         messages.scrollTop = messages.scrollHeight;
     });
 }
+
+
+
+const apiKey = "14c26031f74c49c6a3256b2102ed69b1";
+const stationCode = "EKZ"; // replace with your desired station code
+
+fetch(`https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/departures?station=${stationCode}`, {
+  headers: {
+    "Ocp-Apim-Subscription-Key": apiKey
+  }
+})
+.then(response => response.json())
+.then(data => {
+  console.log(data);
+})
+.catch(error => {
+  console.error(error);
+});
