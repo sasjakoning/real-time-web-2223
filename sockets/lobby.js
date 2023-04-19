@@ -40,4 +40,11 @@ export default (io, socket, onlineUsers) => {
             io.emit(`stop${movementEvent.direction}`, { playerMovement });
         });
     });
+
+
+    socket.on('disconnect', () => {
+        delete onlineUsers[socket.username];
+        io.emit("userDisconnected", onlineUsers)
+        console.log(`User disconnected: ${socket.username}`);
+    })
 }

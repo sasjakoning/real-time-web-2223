@@ -16,13 +16,13 @@ if (lobby){
 
     socket.on("onlineUsers", (onlineUsers) => {
         console.log("online users:", onlineUsers)
-        for(username in onlineUsers){
+        for(let username in onlineUsers){
             console.log("username: ", username)
             const newUser = document.createElement("li");
 
             const newUserTitle = document.createElement("p");
     
-            newUserTitle.textContent = data.username;
+            newUserTitle.textContent = username;
     
             newUser.appendChild(newUserTitle);
     
@@ -32,6 +32,33 @@ if (lobby){
             );
         }
     })
+
+    socket.on("userDisconnected", (onlineUsers) => {
+        // clear the user list and repopulate it
+
+        // clear the user list
+
+        while (userList.firstChild) {
+            userList.removeChild(userList.firstChild);
+        }
+
+        // repopulate the user list
+        for(let username in onlineUsers){
+            console.log("username: ", username)
+            const newUser = document.createElement("li");
+
+            const newUserTitle = document.createElement("p");
+    
+            newUserTitle.textContent = username;
+    
+            newUser.appendChild(newUserTitle);
+    
+            userList.appendChild(
+                // create a new li element
+                Object.assign(newUser)
+            );
+        }
+    });
 
     // store the current movement direction
     let movement = { x: 0, y: 0 };
