@@ -1,89 +1,80 @@
 
-import movement from "/js/playerMovement.js";
-
-movement.playerMovement()
+import movementHandler from "/js/playerMovement.js";
 
 
 
-// let socket = io();
-// let messages = document.querySelector(".chat");
-// let input = document.querySelector(".chatInput");
-// const chatForm = document.querySelector(".textInput")
+let socket = io();
+let currentUser;
+socket.emit("getOnlineUsers");
+const lobby = document.querySelector(".lobby");
 
-// const usernameForm = document.querySelector("#usernameForm");
 
-// /* ---------- set username ---------- */
 
-// if(usernameForm) {
-//     usernameForm.addEventListener("submit", (e) => {
-//         e.preventDefault();
-//         const usernameInput = document.querySelector("#usernameInput");
-//         const username = usernameInput.value;
-//         socket.emit("setUsername", username);
-//     });
 
-//     socket.on("userSet", (data) => {
-//         // change url to /chat
-//         // window.location.href = "/chat";
 
-//         const usernameFormContainer = document.querySelector(
-//             "#usernameForm"
-//           );
-//         usernameFormContainer.style.display = "none";
-//     })
-// }
+if (lobby){
 
-// /* -------------- chat -------------- */
+    socket.on("onlineUsers", (onlineUsers) => {
+        console.log("online users:", onlineUsers)
+        for(username in onlineUsers){
+            console.log("username: ", username)
+            const newUser = document.createElement("li");
 
-// if (chatForm){
-
-//     chatForm.addEventListener("submit", (e) => {
-//       e.preventDefault();
-//       if (input.value) {
-//         const message = input.value;
-//         const senderId = socket.id;
-//         socket.emit("chatMessage", { message, senderId });
-//         input.value = "";
-//       }
-//     });
+            const newUserTitle = document.createElement("p");
     
-//     socket.on("chatMessage", (data) => {
-//         console.log(data)
-//         const { message, username, senderId } = data;
+            newUserTitle.textContent = data.username;
+    
+            newUser.appendChild(newUserTitle);
+    
+            userList.appendChild(
+                // create a new li element
+                Object.assign(newUser)
+            );
+        }
+    })
+
+    // store the current movement direction
+    let movement = { x: 0, y: 0 };
+    
+    movementHandler.playerMovement(socket, movement);
+
+}
+
+
+const usernameForm = document.querySelector("#usernameForm");
+const userList = document.querySelector(".userList");
+
+/* ---------- set username ---------- */
+
+if(usernameForm) {
+
+    usernameForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        console.log("submitting username")
+        const usernameInput = document.querySelector("#usernameInput");
+        const username = usernameInput.value;
+        socket.emit("newUser", username);
+    });
+
+    socket.on("newUser", (data) => {
+
+        console.log("New user joined: ", data)
+
+        const newUser = document.createElement("li");
+
+        const newUserTitle = document.createElement("p");
+
+        newUserTitle.textContent = data;
+
+        newUser.appendChild(newUserTitle);
+
+        userList.appendChild(
+            // create a new li element
+            Object.assign(newUser)
+        );
         
-//         const isFromSelf = senderId === socket.id;
-        
-//         console.log(message, username)
-//         // add the message to the DOM
-//         const listItem = document.createElement("li");
-
-//         if(!isFromSelf){
-//             const userTitle = document.createElement("p");
-//             userTitle.textContent = username;
-
-//             listItem.appendChild(userTitle);
-
-//             listItem.classList.add("receivedText");
-//         }else {
-//             listItem.classList.add("sentText");
-
-//         }
-
-//         const userMessage = document.createElement("p");
-//         userMessage.textContent = message;
-
-//         listItem.appendChild(userMessage);
-
-
-//         messages.appendChild(
-//         // create a new li element
-//         Object.assign(listItem)
-//         );
-
-//         messages.scrollTop = messages.scrollHeight;
-//     });
-// }
-
+    })
+}
 
 
 // const apiKey = "";

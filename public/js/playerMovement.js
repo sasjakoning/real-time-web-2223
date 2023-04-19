@@ -1,9 +1,26 @@
-function playerMovement() {
+function playerMovement(socket, movement) {
+
+    const movementEvents = [
+        "moveForward",
+        "moveRight",
+        "moveBackward",
+        "moveLeft",
+        "stopForward",
+        "stopRight",
+        "stopBackward",
+        "stopLeft",
+    ];
+    
+    movementEvents.forEach((eventName) => {
+        socket.on(eventName, (data) => {
+            movement = data.playerMovement;
+        });
+    });
+    
 
     const container = document.querySelector('.container');
     const player = document.querySelector('.player');
-    console.log(player);
-    
+
     // get container dimensions
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
@@ -12,8 +29,6 @@ function playerMovement() {
     const playerWidth = player.offsetWidth;
     const playerHeight = player.offsetHeight;
     
-    // store the current movement direction
-    let movement = { x: 0, y: 0 };
     
     // update the player's position based on the current movement direction
     function updatePlayerPosition() {
@@ -32,6 +47,7 @@ function playerMovement() {
         const clampedLeftPercentage = Math.min(Math.max(newLeftPercentage, minLeftPercentage), maxLeftPercentage);
         const clampedTopPercentage = Math.min(Math.max(newTopPercentage, minTopPercentage), maxTopPercentage);
         
+        
         player.style.left = `${clampedLeftPercentage}%`;
         player.style.top = `${clampedTopPercentage}%`;
         
@@ -43,15 +59,19 @@ function playerMovement() {
         switch (e.key) {
             case 'w':
                 movement.y = -1;
+                socket.emit("pressDownForward", { movement });
                 break;
             case 'a':
                 movement.x = -1;
+                socket.emit("pressDownRight", { movement });
                 break;
             case 's':
                 movement.y = 1;
+                socket.emit("pressDownBackward", { movement });
                 break;
             case 'd':
                 movement.x = 1;
+                socket.emit("pressDownLeft", { movement });
                 break;
         }
     }
@@ -60,15 +80,19 @@ function playerMovement() {
         switch (e.key) {
             case 'w':
                 movement.y = 0;
+                socket.emit("pressUpForward", { movement });
                 break;
             case 'a':
                 movement.x = 0;
+                socket.emit("pressUpRight", { movement });
                 break;
             case 's':
                 movement.y = 0;
+                socket.emit("pressUpBackward", { movement });
                 break;
             case 'd':
                 movement.x = 0;
+                socket.emit("pressUpLeft", { movement });
                 break;
         }
     }
