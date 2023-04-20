@@ -5,6 +5,8 @@ import path from 'path';
 import router from './router/router.js';
 import session from 'express-session';
 
+import lobbySocket from './sockets/lobby.js';
+
 const sessionLength = (1000 * 60 * 60 * 24) * 7; // 1 day
 
 const __dirname = path.resolve();
@@ -32,45 +34,20 @@ app.use(session({
 
 
 
+let onlineUsers = {};
+
 io.on('connection', (socket) => {
+
+  lobbySocket(io, socket, onlineUsers);
+
   console.log(`User connected: ${socket.id}`);
-  // io.emit('history', history)
 
-  socket.on("setUsername", (username) => {
-    socket.username = username;
-    socket.emit("userSet", { username });
-  });
-
-  socket.on('chatMessage', (data) => {
-    // while (history.length > historySize) {
-    //   history.shift()
-    // }
-    // history.push(message)
-
-    const { message, senderId } = data;
-    const username = socket.username;
-    const isFromSelf = senderId === socket.id;
-    const chatMessage = message;
-    const chatUsername = username;
-
-    console.log(chatMessage)
-
-    io.emit('chatMessage', { 
-      message: chatMessage,
-      username: chatUsername,
-      isFromSelf,
-      senderId })
-  })
-
-  socket.on('disconnect', () => {
-    console.log(`User disconnected: ${socket.id}`);
-  })
 })
 
 
 
 server.listen(process.env.PORT || port, () => {
-  console.log('Example app listening on port 3000!');
+  console.log('Example app listening on port 5500!');
 });
 
 app.engine('hbs',
