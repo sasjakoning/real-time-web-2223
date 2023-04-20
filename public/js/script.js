@@ -2,19 +2,26 @@
 import movementHandler from "/js/playerMovement.js";
 
 
-
+// load socket.io
 let socket = io();
-let currentUser;
+
+// get currently online users
 socket.emit("getOnlineUsers");
+
+// get DOM for lobby, player container and user list
 const lobby = document.querySelector(".lobby");
-const playerContainer = document.querySelector(".container")
+const playerContainer = document.querySelector(".container");
+const userList = document.querySelector(".userList");
+
+// open user register dialog
+const registerDialog = document.querySelector("dialog");
+registerDialog.showModal();
 
 
-
-
-
+// check if user is on lobby page
 if (lobby){
 
+    // handle currently online users by adding to user list
     socket.on("onlineUsers", (onlineUsers) => {
         console.log("online users:", onlineUsers)
         for(let username in onlineUsers){
@@ -34,11 +41,11 @@ if (lobby){
         }
     })
 
+
+    // handle user disconnect by removing from userlist
     socket.on("userDisconnected", (onlineUsers) => {
-        // clear the user list and repopulate it
-
-        // clear the user list
-
+    
+        // fix this
         while (userList.firstChild) {
             userList.removeChild(userList.firstChild);
         }
@@ -61,8 +68,8 @@ if (lobby){
         }
     });
     
+    // get user register form
     const usernameForm = document.querySelector("#usernameForm");
-    const userList = document.querySelector(".userList");
     
     /* ---------- set username ---------- */
     
@@ -74,6 +81,9 @@ if (lobby){
             const usernameInput = document.querySelector("#usernameInput");
             const username = usernameInput.value;
             socket.emit("newUser", username);
+
+            // close dialog
+            registerDialog.close();
         });
     
         socket.on("newUser", (data, id) => {
@@ -101,11 +111,11 @@ if (lobby){
                 Object.assign(newUser)
             );
 
-            // store the current movement direction
-            let movement = { x: 0, y: 0 };
+            // // store the current movement direction
+            // let movement = { x: 0, y: 0 };
 
-            // trigger player insertion and movement
-            movementHandler.playerMovement(socket, movement);
+            // // trigger player insertion and movement
+            // movementHandler.playerMovement(socket, movement);
             
         })
     }
