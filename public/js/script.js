@@ -7,6 +7,7 @@ let socket = io();
 let currentUser;
 socket.emit("getOnlineUsers");
 const lobby = document.querySelector(".lobby");
+const playerContainer = document.querySelector(".container")
 
 
 
@@ -59,49 +60,58 @@ if (lobby){
             );
         }
     });
-
-    // store the current movement direction
-    let movement = { x: 0, y: 0 };
     
-    movementHandler.playerMovement(socket, movement);
+    const usernameForm = document.querySelector("#usernameForm");
+    const userList = document.querySelector(".userList");
+    
+    /* ---------- set username ---------- */
+    
+    if(usernameForm) {
+    
+        usernameForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            console.log("submitting username")
+            const usernameInput = document.querySelector("#usernameInput");
+            const username = usernameInput.value;
+            socket.emit("newUser", username);
+        });
+    
+        socket.on("newUser", (data, id) => {
+    
+            console.log("New user joined: ", data)
+            console.log("With socket id: ", id)
+    
+            const newPlayerElement = document.createElement("div");
+            newPlayerElement.classList.add("player");
+            newPlayerElement.dataset.playerId = id;
+    
+            playerContainer.appendChild(newPlayerElement)
+    
+    
+            const newUser = document.createElement("li");
+    
+            const newUserTitle = document.createElement("p");
+    
+            newUserTitle.textContent = data;
+    
+            newUser.appendChild(newUserTitle);
+    
+            userList.appendChild(
+                // create a new li element
+                Object.assign(newUser)
+            );
 
+            // store the current movement direction
+            let movement = { x: 0, y: 0 };
+
+            // trigger player insertion and movement
+            movementHandler.playerMovement(socket, movement);
+            
+        })
+    }
 }
 
 
-const usernameForm = document.querySelector("#usernameForm");
-const userList = document.querySelector(".userList");
-
-/* ---------- set username ---------- */
-
-if(usernameForm) {
-
-    usernameForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        console.log("submitting username")
-        const usernameInput = document.querySelector("#usernameInput");
-        const username = usernameInput.value;
-        socket.emit("newUser", username);
-    });
-
-    socket.on("newUser", (data) => {
-
-        console.log("New user joined: ", data)
-
-        const newUser = document.createElement("li");
-
-        const newUserTitle = document.createElement("p");
-
-        newUserTitle.textContent = data;
-
-        newUser.appendChild(newUserTitle);
-
-        userList.appendChild(
-            // create a new li element
-            Object.assign(newUser)
-        );
-        
-    })
-}
 
 
 // const apiKey = "";

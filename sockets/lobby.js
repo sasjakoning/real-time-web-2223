@@ -17,7 +17,7 @@ export default (io, socket, onlineUsers) => {
         socket["username"] = username;
 
         // socket.username = username;
-        io.emit("newUser", username);
+        io.emit("newUser", username, socket.id);
     });
 
     const movementEvents = [
@@ -31,13 +31,13 @@ export default (io, socket, onlineUsers) => {
         socket.on(movementEvent.pressDown, (data) => {
             console.log(`moving ${movementEvent.name}`);
             const playerMovement = data.movement;
-            io.emit(movementEvent.name, { playerMovement });
+            io.emit(movementEvent.name, playerMovement, socket.id);
         });
 
         socket.on(movementEvent.pressUp, (data) => {
             console.log(`stop ${movementEvent.name}`);
             const playerMovement = data.movement;
-            io.emit(`stop${movementEvent.direction}`, { playerMovement });
+            io.emit(`stop${movementEvent.direction}`, playerMovement, socket.id);
         });
     });
 
