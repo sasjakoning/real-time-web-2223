@@ -1,9 +1,6 @@
-export default (io, socket, onlineUsers) => {
+export default (io, socket) => {
 
-    // onlineUsers[socket.id] = {
-    //     x: 0,
-    //     y: 0
-    // };
+    let onlineUsers = {};
 
     console.log("currently online users: ", onlineUsers);
 
@@ -18,9 +15,8 @@ export default (io, socket, onlineUsers) => {
             y: 0,
             username: username
         };
-        console.log(onlineUsers);
 
-        io.emit("userConnected", onlineUsers);
+        socket.emit("userConnected", onlineUsers, socket.id);
 
         console.log(`User connected: ${socket.id}`);
     });
@@ -51,7 +47,7 @@ export default (io, socket, onlineUsers) => {
     // handle disconnect event, remove user from onlineUsers and send to client.
     socket.on('disconnect', () => {
         delete onlineUsers[socket.id];
-        io.emit("userDisconnected", onlineUsers)
+        io.emit("userDisconnected", onlineUsers);
         console.log(`User disconnected: ${socket.id}`);
     })
 }

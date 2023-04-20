@@ -1,7 +1,3 @@
-
-import movementHandler from "/js/playerMovement.js";
-
-
 // load socket.io
 let socket = io();
 
@@ -22,7 +18,6 @@ registerDialog.showModal();
 if (lobby) {
 
     let playerId;
-    // let movement = { x: 0, y: 0 };
 
     // handle currently online users by adding to user list
     socket.on("onlineUsers", (onlineUsers) => {
@@ -30,35 +25,50 @@ if (lobby) {
         for (let id in onlineUsers) {
 
             // create player
-            console.log("HERE: ",onlineUsers)
-            if(onlineUsers.hasOwnProperty(id)) {
+            if(id !== playerId && onlineUsers.hasOwnProperty(id)) {
+                console.log("adding user through socket.on onlineUsers", id, playerId)
                 addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
             }
 
-            // add to user list
-            const newUser = document.createElement("li");
-            const newUserTitle = document.createElement("p");
-            newUserTitle.textContent = id;
-            newUser.appendChild(newUserTitle);
-            userList.appendChild(
-                // create a new li element
-                Object.assign(newUser)
-            );
+
+            // updateuserlist with current username
+
+            if (!Object.keys(onlineUsers).length === 0) {
+                updateUserlist(onlineUsers);
+            }
+            
+            // // add to user list
+            // const newUser = document.createElement("li");
+            // const newUserTitle = document.createElement("p");
+            // newUserTitle.textContent = id;
+            // newUser.appendChild(newUserTitle);
+            // userList.appendChild(
+            //     // create a new li element
+            //     Object.assign(newUser)
+            // );
 
         }
     });
 
-    socket.on("userConnected", (onlineUsers) => {
+
+    // handle new user
+    socket.on("userConnected", (onlineUsers, id) => {
         console.log("user connected:", onlineUsers);
         for (let id in onlineUsers) {
-            if(onlineUsers.hasOwnProperty(id)) {
+            if(id === playerId && onlineUsers.hasOwnProperty(id)) {
+                console.log("adding user through socket.on userConnected")
                 addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
+
+                if (!Object.keys(onlineUsers).length === 0) {
+                    updateUserlist(onlineUsers);
+                }
             }
         }
     });
 
 
     socket.on("playerId", (id) => {
+        console.log("setting player id: ", id);
         playerId = id;
     });
 
@@ -84,27 +94,32 @@ if (lobby) {
     // handle user disconnect by removing from user list
     socket.on("userDisconnected", (onlineUsers) => {
 
-        // fix this
-        while (userList.firstChild) {
-            userList.removeChild(userList.firstChild);
+
+        if (!Object.keys(onlineUsers).length === 0) {
+            updateUserlist(onlineUsers);
         }
 
-        // repopulate the user list
-        for (let username in onlineUsers) {
-            console.log("username: ", username)
-            const newUser = document.createElement("li");
+        // // fix this
+        // while (userList.firstChild) {
+        //     userList.removeChild(userList.firstChild);
+        // }
 
-            const newUserTitle = document.createElement("p");
+        // // repopulate the user list
+        // for (let username in onlineUsers) {
+        //     console.log("username: ", username)
+        //     const newUser = document.createElement("li");
 
-            newUserTitle.textContent = username;
+        //     const newUserTitle = document.createElement("p");
 
-            newUser.appendChild(newUserTitle);
+        //     newUserTitle.textContent = username;
 
-            userList.appendChild(
-                // create a new li element
-                Object.assign(newUser)
-            );
-        }
+        //     newUser.appendChild(newUserTitle);
+
+        //     userList.appendChild(
+        //         // create a new li element
+        //         Object.assign(newUser)
+        //     );
+        // }
     });
 
 
@@ -167,6 +182,32 @@ function addPlayer(id, x, y) {
 
     playerContainer.appendChild(player);
 
+};
+
+function updateUserlist(onlineUsers) {
+
+    console.log(onlineUsers)
+
+    onlineUsers.forEach(user => {
+        const newUser = document.createElement("li");
+        const newUserTitle = document.createElement("p");
+        newUserTitle.textContent = user.username;
+        newUser.appendChild(newUserTitle);
+        userList.appendChild(
+            // create a new li element
+            Object.assign(newUser)
+        );
+    });
+
+    // // add to user list
+    // const newUser = document.createElement("li");
+    // const newUserTitle = document.createElement("p");
+    // newUserTitle.textContent = username;
+    // newUser.appendChild(newUserTitle);
+    // userList.appendChild(
+    //     // create a new li element
+    //     Object.assign(newUser)
+    // );
 }
 
 

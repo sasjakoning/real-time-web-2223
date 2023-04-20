@@ -34,11 +34,10 @@ app.use(session({
 
 
 
-let onlineUsers = {};
 
 io.on('connection', (socket) => {
 
-  lobbySocket(io, socket, onlineUsers);
+  lobbySocket(io, socket);
 
 })
 
