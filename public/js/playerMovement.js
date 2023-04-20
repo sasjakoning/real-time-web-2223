@@ -1,33 +1,85 @@
-function playerMovement(socket, movement) {
 
-    let playerId;
-    let currentPlayer;
 
-    const movementEvents = [
-        "moveForward",
-        "moveRight",
-        "moveBackward",
-        "moveLeft",
-        "stopForward",
-        "stopRight",
-        "stopBackward",
-        "stopLeft",
-    ];
+// handle keyboard input
+function handleKeyDown(e, socket, movement) {
+    switch (e.key) {
+        case 'w':
+            movement.y = -1;
+            socket.emit("pressDownForward", { movement });
+            break;
+        case 'a':
+            movement.x = -1;
+            socket.emit("pressDownRight", { movement });
+            break;
+        case 's':
+            movement.y = 1;
+            socket.emit("pressDownBackward", { movement });
+            break;
+        case 'd':
+            movement.x = 1;
+            socket.emit("pressDownLeft", { movement });
+            break;
+    }
+}
+
+function handleKeyUp(e, socket, movement) {
+    switch (e.key) {
+        case 'w':
+            movement.y = 0;
+            socket.emit("pressUpForward", { movement });
+            break;
+        case 'a':
+            movement.x = 0;
+            socket.emit("pressUpRight", { movement });
+            break;
+        case 's':
+            movement.y = 0;
+            socket.emit("pressUpBackward", { movement });
+            break;
+        case 'd':
+            movement.x = 0;
+            socket.emit("pressUpLeft", { movement });
+            break;
+    }
+}
+
+
+// let playerId;
+// let currentPlayer;
+
+// // handle movement events send by server
+// const movementEvents = [
+//     "moveForward",
+//     "moveRight",
+//     "moveBackward",
+//     "moveLeft",
+//     "stopForward",
+//     "stopRight",
+//     "stopBackward",
+//     "stopLeft",
+// ];
+
+// function triggerMovement(socket, movement) {
     
-    movementEvents.forEach((eventName) => {
-        socket.on(eventName, (data, id) => {
-            movement = data.playerMovement;
-            playerId = id;
+//     movementEvents.forEach((eventName) => {
+//         socket.on(eventName, (data, id) => {
+//             console.log(data)
+//             movement = data.playerMovement;
+//             playerId = id;
+    
+//             if(playerId === socket.id){
+//                 console.log("movement by current user")
+//                 currentPlayer = document.querySelector(`[data-player-id="${playerId}"]`)
+//             }else {
+//                 console.log("movement by external user")
+//             }
+//         });
+//     });
 
-            if(playerId === socket.id){
-                console.log("movement by current user")
-                currentPlayer = document.querySelector(`[data-player-id="${playerId}"]`)
-            }else {
-                console.log("movement by external user")
-            }
-        });
-    });
+// }
 
+
+function playerMovement(socket, movement) {
 
     const container = document.querySelector('.container');
 
@@ -66,56 +118,15 @@ function playerMovement(socket, movement) {
         requestAnimationFrame(updatePlayerPosition);
     }
     
-    // handle keyboard input
-    function handleKeyDown(e) {
-        switch (e.key) {
-            case 'w':
-                movement.y = -1;
-                socket.emit("pressDownForward", { movement });
-                break;
-            case 'a':
-                movement.x = -1;
-                socket.emit("pressDownRight", { movement });
-                break;
-            case 's':
-                movement.y = 1;
-                socket.emit("pressDownBackward", { movement });
-                break;
-            case 'd':
-                movement.x = 1;
-                socket.emit("pressDownLeft", { movement });
-                break;
-        }
-    }
-    
-    function handleKeyUp(e) {
-        switch (e.key) {
-            case 'w':
-                movement.y = 0;
-                socket.emit("pressUpForward", { movement });
-                break;
-            case 'a':
-                movement.x = 0;
-                socket.emit("pressUpRight", { movement });
-                break;
-            case 's':
-                movement.y = 0;
-                socket.emit("pressUpBackward", { movement });
-                break;
-            case 'd':
-                movement.x = 0;
-                socket.emit("pressUpLeft", { movement });
-                break;
-        }
-    }
     
     // start the update loop
     requestAnimationFrame(updatePlayerPosition);
     
-    // add event listeners
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyUp);
 
 }
 
-export default { playerMovement }
+export default { 
+    playerMovement,
+    handleKeyDown,
+    handleKeyUp
+}
