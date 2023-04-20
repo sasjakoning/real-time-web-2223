@@ -21,27 +21,64 @@ registerDialog.showModal();
 // check if user is on lobby page
 if (lobby) {
 
-    let movement = { x: 0, y: 0 };
+    let playerId;
+    // let movement = { x: 0, y: 0 };
 
     // handle currently online users by adding to user list
     socket.on("onlineUsers", (onlineUsers) => {
-        console.log("online users:", onlineUsers)
-        for (let username in onlineUsers) {
-            console.log("username: ", username)
+        console.log("socket.on onlineUsers");
+        for (let id in onlineUsers) {
+
+            // create player
+            console.log("HERE: ",onlineUsers)
+            if(onlineUsers.hasOwnProperty(id)) {
+                addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
+            }
+
+            // add to user list
             const newUser = document.createElement("li");
-
             const newUserTitle = document.createElement("p");
-
-            newUserTitle.textContent = username;
-
+            newUserTitle.textContent = id;
             newUser.appendChild(newUserTitle);
-
             userList.appendChild(
                 // create a new li element
                 Object.assign(newUser)
             );
+
         }
-    })
+    });
+
+    socket.on("userConnected", (onlineUsers) => {
+        console.log("user connected:", onlineUsers);
+        for (let id in onlineUsers) {
+            if(onlineUsers.hasOwnProperty(id)) {
+                addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
+            }
+        }
+    });
+
+
+    socket.on("playerId", (id) => {
+        playerId = id;
+    });
+
+    document.addEventListener("keydown", (e) => {
+        // if keydown is w a s d
+        if (e.key === "w" || e.key === "a" || e.key === "s" || e.key === "d") {
+            socket.emit("keydown", { key: e.key });
+        }
+    });
+
+    socket.on("updatePlayer", (data) => {
+        const player = document.getElementById(data.id);
+
+        if(player) {
+            player.style.left = `${data.x}px`;
+            player.style.top = `${data.y}px`;
+        } else {
+            addPlayer(data.id, data.x, data.y);
+        }
+    });
 
 
     // handle user disconnect by removing from user list
@@ -71,8 +108,6 @@ if (lobby) {
     });
 
 
-    /* ---------- set username ---------- */
-
     // get user register form
     const usernameForm = document.querySelector("#usernameForm");
 
@@ -90,80 +125,49 @@ if (lobby) {
         registerDialog.close();
     });
 
-    // handle new user
-    socket.on("newUser", (data, id) => {
+    // // handle new user
+    // socket.on("newUser", (data, id) => {
 
-        console.log("New user joined: ", data);
-        console.log("With socket id: ", id);
+    //     console.log("New user joined: ", data);
+    //     console.log("With socket id: ", id);
 
-        // create a new player element in DOM
-        const newPlayerElement = document.createElement("div");
-        newPlayerElement.classList.add("player");
-        newPlayerElement.dataset.playerId = id;
-        playerContainer.appendChild(newPlayerElement);
+    //     // create a new player element in DOM
+    //     const newPlayerElement = document.createElement("div");
+    //     newPlayerElement.classList.add("player");
+    //     newPlayerElement.dataset.playerId = id;
+    //     playerContainer.appendChild(newPlayerElement);
 
 
-        // add new user to user list
-        const newUser = document.createElement("li");
-        const newUserTitle = document.createElement("p");
-        newUserTitle.textContent = data;
-        newUser.appendChild(newUserTitle);
-        userList.appendChild(
-            // create a new li element
-            Object.assign(newUser)
-        );
+    //     // add new user to user list
+    //     const newUser = document.createElement("li");
+    //     const newUserTitle = document.createElement("p");
+    //     newUserTitle.textContent = data;
+    //     newUser.appendChild(newUserTitle);
+    //     userList.appendChild(
+    //         // create a new li element
+    //         Object.assign(newUser)
+    //     );
 
-        // // store the current movement direction
-        // let movement = { x: 0, y: 0 };
+    //     // // store the current movement direction
+    //     // let movement = { x: 0, y: 0 };
 
-        // // trigger player insertion and movement
-        // movementHandler.playerMovement(socket, movement);
+    //     // // trigger player insertion and movement
+    //     // movementHandler.playerMovement(socket, movement);
 
-    });
-
-    let playerId;
-    let currentPlayer;
-
-    // handle movement events send by server
-    const movementEvents = [
-        "moveForward",
-        "moveRight",
-        "moveBackward",
-        "moveLeft",
-        "stopForward",
-        "stopRight",
-        "stopBackward",
-        "stopLeft",
-    ];
-
-    movementEvents.forEach((eventName) => {
-        socket.on(eventName, (data, id) => {
-            movement = data;
-            playerId = id;
-
-            console.log(movement, playerId)
-    
-            if(playerId === socket.id){
-                console.log("movement by current user")
-                currentPlayer = document.querySelector(`[data-player-id="${playerId}"]`)
-            }else {
-                console.log("movement by external user")
-            }
-        });
-    });
-        
+    // });
 
     
-    // add event listeners for keyboard key down and key up events
-    document.addEventListener('keydown', (e) => {
-        movementHandler.handleKeyDown(e, socket, movement);
-    });
-
-    document.addEventListener('keyup', (e) => {
-        movementHandler.handleKeyUp(e, socket, movement);
-    });
 }
 
+function addPlayer(id, x, y) {
+    const player = document.createElement("div");
+
+    player.id = id;
+    player.classList.add("player");
+
+    playerContainer.appendChild(player);
+
+}
 
 
 

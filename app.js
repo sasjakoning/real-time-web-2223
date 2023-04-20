@@ -40,8 +40,6 @@ io.on('connection', (socket) => {
 
   lobbySocket(io, socket, onlineUsers);
 
-  console.log(`User connected: ${socket.id}`);
-
 })
 
 
