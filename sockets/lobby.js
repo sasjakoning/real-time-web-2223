@@ -1,50 +1,53 @@
+export default (io, socket) => {
 
-export default (io, socket, onlineUsers) => {
+    let onlineUsers = {};
 
-    console.log("online users:", onlineUsers)
+    console.log("currently online users: ", onlineUsers);
 
-    socket.on("getOnlineUsers", () => {
+    io.emit("onlineUsers", onlineUsers);
+
+    socket.emit("playerId", socket.id);
+
+    socket.on("newUser", (username) => { 
+
+        onlineUsers[socket.id] = {
+            x: 0,
+            y: 0,
+            username: username
+        };
+
+        socket.emit("userConnected", onlineUsers, socket.id);
+
+        console.log(`User connected: ${socket.id}`);
+    });
+
+    socket.on("keydown", (data) => {
+        const player = onlineUsers[socket.id];
         console.log(onlineUsers)
-        socket.emit("onlineUsers", onlineUsers);
+
+        switch(data.key) {
+            case "w":
+                player.y -= 1;
+                break;
+            case "a":
+                player.x -= 1;
+                break;
+            case "s":
+                player.y += 1;
+                break;
+            case "d":
+                player.x += 1;
+                break;
+        }
+
+        io.emit("updatePlayer", { id: socket.id, x: player.x, y: player.y });
     })
 
-    socket.on("newUser", (username) => {
-        console.log("setUsername: " + username);
 
-        // save username to socket
-        onlineUsers[username] = socket.id;
-        console.log(onlineUsers)
-        socket["username"] = username;
-
-        // socket.username = username;
-        io.emit("newUser", username, socket.id);
-    });
-
-    const movementEvents = [
-        { name: "moveForward", direction: "Forward", pressDown: "pressDownForward", pressUp: "pressUpForward" },
-        { name: "moveRight", direction: "Right", pressDown: "pressDownRight", pressUp: "pressUpRight" },
-        { name: "moveBackward", direction: "Backward", pressDown: "pressDownBackward", pressUp: "pressUpBackward" },
-        { name: "moveLeft", direction: "Left", pressDown: "pressDownLeft", pressUp: "pressUpLeft" },
-    ];
-
-    movementEvents.forEach((movementEvent) => {
-        socket.on(movementEvent.pressDown, (data) => {
-            console.log(`moving ${movementEvent.name}`);
-            const playerMovement = data.movement;
-            io.emit(movementEvent.name, playerMovement, socket.id);
-        });
-
-        socket.on(movementEvent.pressUp, (data) => {
-            console.log(`stop ${movementEvent.name}`);
-            const playerMovement = data.movement;
-            io.emit(`stop${movementEvent.direction}`, playerMovement, socket.id);
-        });
-    });
-
-
+    // handle disconnect event, remove user from onlineUsers and send to client.
     socket.on('disconnect', () => {
-        delete onlineUsers[socket.username];
-        io.emit("userDisconnected", onlineUsers)
-        console.log(`User disconnected: ${socket.username}`);
+        delete onlineUsers[socket.id];
+        io.emit("userDisconnected", onlineUsers);
+        console.log(`User disconnected: ${socket.id}`);
     })
 }

@@ -90,3 +90,13 @@ main {
 	grid-column: 1;
 	grid-row: 2;
 }
+
+dialog {
+	width: clamp(10rem, 100%, 40rem);
+	height: clamp(5rem, 100%, 20rem);
+	z-index: 100;
+}
+
+dialog::backdrop {
+	background-color: rgba(0, 0, 0, .5);
+}
