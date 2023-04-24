@@ -61,8 +61,9 @@ export default (io, socket, onlineUsers) => {
 
     // handle disconnect event, remove user from onlineUsers and send to client.
     socket.on('disconnect', () => {
+        const id = socket.id;
         delete onlineUsers[socket.id];
-        io.emit("userDisconnected", onlineUsers);
+        io.emit("userDisconnected", onlineUsers,id);
         console.log(`User disconnected: ${socket.id}`);
     })
 }
