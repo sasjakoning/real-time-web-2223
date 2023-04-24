@@ -1,8 +1,8 @@
 // load socket.io
 let socket = io();
 
-// get currently online users
-socket.emit("getOnlineUsers");
+// // get currently online users
+// socket.emit("getOnlineUsers");
 
 // get DOM for lobby, player container and user list
 const lobby = document.querySelector(".lobby");
@@ -21,7 +21,7 @@ if (lobby) {
 
     // handle currently online users by adding to user list
     socket.on("onlineUsers", (onlineUsers) => {
-        console.log("socket.on onlineUsers");
+        console.log("currently online users: ", onlineUsers);
         for (let id in onlineUsers) {
 
             // create player
@@ -73,9 +73,20 @@ if (lobby) {
     });
 
     document.addEventListener("keydown", (e) => {
+        const player = document.getElementById(playerId);
+        // get size of player
+
+        const playerWidth = player.offsetWidth;
+        const playerHeight = player.offsetHeight;
+
+        const container = document.querySelector(".container");
+
+        const containerWidth = container.offsetWidth;
+        const containerHeight = container.offsetHeight;
+
         // if keydown is w a s d
         if (e.key === "w" || e.key === "a" || e.key === "s" || e.key === "d") {
-            socket.emit("keydown", { key: e.key });
+            socket.emit("keydown", { key: e.key, playerWidth, playerHeight, containerWidth, containerHeight });
         }
     });
 
@@ -83,8 +94,10 @@ if (lobby) {
         const player = document.getElementById(data.id);
 
         if(player) {
-            player.style.left = `${data.x}px`;
-            player.style.top = `${data.y}px`;
+
+            player.style.left = `${data.x}%`;
+            player.style.top = `${data.y}%`;
+
         } else {
             addPlayer(data.id, data.x, data.y);
         }
