@@ -14,7 +14,7 @@ export default (io, socket, onlineUsers) => {
             username: username
         };
 
-        socket.emit("userConnected", onlineUsers, socket.id);
+        io.emit("userConnected", onlineUsers, socket.id);
 
         console.log(`User connected: ${socket.id}`);
     });

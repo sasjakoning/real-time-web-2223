@@ -24,28 +24,16 @@ if (lobby) {
         console.log("currently online users: ", onlineUsers);
         for (let id in onlineUsers) {
 
-            // create player
+            // add to user list if not current user
             if(id !== playerId && onlineUsers.hasOwnProperty(id)) {
                 console.log("adding user through socket.on onlineUsers", id, playerId)
                 addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
             }
 
+            // turn onlineUsers into an array
+            const onlineUsersArray = Object.entries(onlineUsers);
 
-            // updateuserlist with current username
-
-            if (!Object.keys(onlineUsers).length === 0) {
-                updateUserlist(onlineUsers);
-            }
-            
-            // // add to user list
-            // const newUser = document.createElement("li");
-            // const newUserTitle = document.createElement("p");
-            // newUserTitle.textContent = id;
-            // newUser.appendChild(newUserTitle);
-            // userList.appendChild(
-            //     // create a new li element
-            //     Object.assign(newUser)
-            // );
+            updateUserlist(onlineUsersArray);
 
         }
     });
@@ -53,16 +41,17 @@ if (lobby) {
 
     // handle new user
     socket.on("userConnected", (onlineUsers, id) => {
-        console.log("user connected:", onlineUsers);
+        console.log("user connected, new userlist: ", onlineUsers);
         for (let id in onlineUsers) {
             if(id === playerId && onlineUsers.hasOwnProperty(id)) {
                 console.log("adding user through socket.on userConnected")
                 addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
-
-                if (!Object.keys(onlineUsers).length === 0) {
-                    updateUserlist(onlineUsers);
-                }
             }
+
+            // turn onlineUsers into an array
+            const onlineUsersArray = Object.entries(onlineUsers);
+
+            updateUserlist(onlineUsersArray);
         }
     });
 
@@ -199,12 +188,16 @@ function addPlayer(id, x, y) {
 
 function updateUserlist(onlineUsers) {
 
-    console.log(onlineUsers)
+    // clear userList
+    
+    while (userList.firstChild) {
+        userList.removeChild(userList.firstChild);
+    }
 
     onlineUsers.forEach(user => {
         const newUser = document.createElement("li");
         const newUserTitle = document.createElement("p");
-        newUserTitle.textContent = user.username;
+        newUserTitle.textContent = user[1].username;
         newUser.appendChild(newUserTitle);
         userList.appendChild(
             // create a new li element
