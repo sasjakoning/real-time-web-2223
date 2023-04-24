@@ -1,5 +1,5 @@
 function handleKeyDown(e, playerId, socket) {
-    if (e.key === "w" || e.key === "a" || e.key === "s" || e.key === "d") {
+    if (e.key === "w" || e.key === "a" || e.key === "s" || e.key === "d" || e.target.parentNode.classList == "playerControls") {
         const player = document.getElementById(playerId);
         // get size of player
 
@@ -11,7 +11,14 @@ function handleKeyDown(e, playerId, socket) {
         const containerWidth = container.offsetWidth;
         const containerHeight = container.offsetHeight;
 
-        socket.emit("keydown", { key: e.key, playerWidth, playerHeight, containerWidth, containerHeight });
+        if(e.target.parentNode.classList == "playerControls") {
+            const controlClass = e.target.classList.value
+            
+            socket.emit("keydown", { key: controlClass, playerWidth, playerHeight, containerWidth, containerHeight });
+        }else {
+            socket.emit("keydown", { key: e.key, playerWidth, playerHeight, containerWidth, containerHeight });
+        }
+
     }
 }
 

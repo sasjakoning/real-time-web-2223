@@ -72,6 +72,14 @@ if (lobby) {
             playerMovement.handleKeyDown(e, playerId, socket);
         });
 
+        const playerControls = document.querySelectorAll(".playerControls > div");
+
+        playerControls.forEach(control => {
+            control.addEventListener("mousedown", (e) => {
+                playerMovement.handleKeyDown(e, playerId, socket);
+            })
+        })
+
     });
 
 
