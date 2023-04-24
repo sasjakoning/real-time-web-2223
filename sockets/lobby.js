@@ -1,6 +1,4 @@
-export default (io, socket) => {
-
-    let onlineUsers = {};
+export default (io, socket, onlineUsers) => {
 
     console.log("currently online users: ", onlineUsers);
 
@@ -8,7 +6,7 @@ export default (io, socket) => {
 
     socket.emit("playerId", socket.id);
 
-    socket.on("newUser", (username) => { 
+    socket.on("newUser", (username) => {
 
         onlineUsers[socket.id] = {
             x: 0,
@@ -16,29 +14,46 @@ export default (io, socket) => {
             username: username
         };
 
-        socket.emit("userConnected", onlineUsers, socket.id);
+        io.emit("userConnected", onlineUsers, socket.id);
 
         console.log(`User connected: ${socket.id}`);
     });
 
     socket.on("keydown", (data) => {
         const player = onlineUsers[socket.id];
-        console.log(onlineUsers)
+
+        // calculate player width and height in percentage
+        const playerWidthPercentage = (data.playerWidth / data.containerWidth) * 100;
+        const playerHeightPercentage = (data.playerHeight / data.containerHeight) * 100;
 
         switch(data.key) {
             case "w":
                 player.y -= 1;
+                if(player.y < 0){
+                    player.y = 0;
+                }
                 break;
             case "a":
                 player.x -= 1;
+                if(player.x < 0){
+                    player.x = 0;
+                }
                 break;
             case "s":
                 player.y += 1;
+                if(player.y > (100 - playerHeightPercentage)){
+                    player.y = (100 - playerHeightPercentage);
+                }
                 break;
             case "d":
                 player.x += 1;
+                if(player.x > (100 - playerWidthPercentage)){
+                    player.x = (100 - playerWidthPercentage);
+                }
                 break;
         }
+
+        
 
         io.emit("updatePlayer", { id: socket.id, x: player.x, y: player.y });
     })

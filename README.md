@@ -1,3 +1,4 @@
+
 # Real time web 22/23
 
 ## Description
@@ -86,3 +87,4 @@ To create a better idea of what happens within the app, I made a flowchart that 
 (WIP)
 
 <img src="readme-images/flowchart.jpg" width="800px">
+

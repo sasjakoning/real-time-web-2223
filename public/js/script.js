@@ -1,8 +1,8 @@
 // load socket.io
 let socket = io();
 
-// get currently online users
-socket.emit("getOnlineUsers");
+// // get currently online users
+// socket.emit("getOnlineUsers");
 
 // get DOM for lobby, player container and user list
 const lobby = document.querySelector(".lobby");
@@ -21,31 +21,21 @@ if (lobby) {
 
     // handle currently online users by adding to user list
     socket.on("onlineUsers", (onlineUsers) => {
-        console.log("socket.on onlineUsers");
+        console.log("currently online users: ", onlineUsers);
         for (let id in onlineUsers) {
 
-            // create player
+            // add to user list if not current user
             if(id !== playerId && onlineUsers.hasOwnProperty(id)) {
                 console.log("adding user through socket.on onlineUsers", id, playerId)
                 addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
             }
 
+            // turn onlineUsers into an array
+            const onlineUsersArray = Object.entries(onlineUsers);
 
-            // updateuserlist with current username
+            updateUserlist(onlineUsersArray);
 
-            if (!Object.keys(onlineUsers).length === 0) {
-                updateUserlist(onlineUsers);
-            }
-            
-            // // add to user list
-            // const newUser = document.createElement("li");
-            // const newUserTitle = document.createElement("p");
-            // newUserTitle.textContent = id;
-            // newUser.appendChild(newUserTitle);
-            // userList.appendChild(
-            //     // create a new li element
-            //     Object.assign(newUser)
-            // );
+            updateUserPosition(onlineUsersArray);
 
         }
     });
@@ -53,16 +43,17 @@ if (lobby) {
 
     // handle new user
     socket.on("userConnected", (onlineUsers, id) => {
-        console.log("user connected:", onlineUsers);
+        console.log("user connected, new userlist: ", onlineUsers);
         for (let id in onlineUsers) {
             if(id === playerId && onlineUsers.hasOwnProperty(id)) {
                 console.log("adding user through socket.on userConnected")
                 addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
-
-                if (!Object.keys(onlineUsers).length === 0) {
-                    updateUserlist(onlineUsers);
-                }
             }
+
+            // turn onlineUsers into an array
+            const onlineUsersArray = Object.entries(onlineUsers);
+
+            updateUserlist(onlineUsersArray);
         }
     });
 
@@ -72,19 +63,39 @@ if (lobby) {
         playerId = id;
     });
 
-    document.addEventListener("keydown", (e) => {
-        // if keydown is w a s d
-        if (e.key === "w" || e.key === "a" || e.key === "s" || e.key === "d") {
-            socket.emit("keydown", { key: e.key });
-        }
+    // check if dialog is closed before adding event listener
+    registerDialog.addEventListener("close", () => {
+
+        document.addEventListener("keydown", (e) => {
+            // if keydown is w a s d
+            if (e.key === "w" || e.key === "a" || e.key === "s" || e.key === "d") {
+                const player = document.getElementById(playerId);
+                // get size of player
+        
+                const playerWidth = player.offsetWidth;
+                const playerHeight = player.offsetHeight;
+        
+                const container = document.querySelector(".container");
+        
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
+    
+                socket.emit("keydown", { key: e.key, playerWidth, playerHeight, containerWidth, containerHeight });
+            }
+        });
+
     });
+
+
 
     socket.on("updatePlayer", (data) => {
         const player = document.getElementById(data.id);
 
         if(player) {
-            player.style.left = `${data.x}px`;
-            player.style.top = `${data.y}px`;
+
+            player.style.left = `${data.x}%`;
+            player.style.top = `${data.y}%`;
+
         } else {
             addPlayer(data.id, data.x, data.y);
         }
@@ -186,12 +197,16 @@ function addPlayer(id, x, y) {
 
 function updateUserlist(onlineUsers) {
 
-    console.log(onlineUsers)
+    // clear userList
+    
+    while (userList.firstChild) {
+        userList.removeChild(userList.firstChild);
+    }
 
     onlineUsers.forEach(user => {
         const newUser = document.createElement("li");
         const newUserTitle = document.createElement("p");
-        newUserTitle.textContent = user.username;
+        newUserTitle.textContent = user[1].username;
         newUser.appendChild(newUserTitle);
         userList.appendChild(
             // create a new li element
@@ -199,15 +214,19 @@ function updateUserlist(onlineUsers) {
         );
     });
 
-    // // add to user list
-    // const newUser = document.createElement("li");
-    // const newUserTitle = document.createElement("p");
-    // newUserTitle.textContent = username;
-    // newUser.appendChild(newUserTitle);
-    // userList.appendChild(
-    //     // create a new li element
-    //     Object.assign(newUser)
-    // );
+}
+
+function updateUserPosition(onlineUsers){
+    
+        onlineUsers.forEach(user => {
+            const player = document.getElementById(user[0]);
+    
+            if(player) {
+                player.style.left = `${user[1].x}%`;
+                player.style.top = `${user[1].y}%`;
+            }
+        });
+    
 }
 
 
