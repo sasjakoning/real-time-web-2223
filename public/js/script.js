@@ -1,3 +1,6 @@
+import playerMovement from "./playerMovement.js";
+import userSignIn from "./userSignIn.js";
+
 // load socket.io
 let socket = io();
 
@@ -19,6 +22,9 @@ if (lobby) {
 
     let playerId;
 
+    // handle new user sign in
+    userSignIn.userSignIn(socket, registerDialog);
+
     // handle currently online users by adding to user list
     socket.on("onlineUsers", (onlineUsers) => {
         console.log("currently online users: ", onlineUsers);
@@ -32,7 +38,7 @@ if (lobby) {
 
             updateUserlist(onlineUsersArray);
 
-            updateUserPosition(onlineUsersArray);
+            playerMovement.updateUserPosition(onlineUsersArray);
 
         }
     });
@@ -62,35 +68,28 @@ if (lobby) {
     registerDialog.addEventListener("close", () => {
 
         document.addEventListener("keydown", (e) => {
-            // if keydown is w a s d
-            if (e.key === "w" || e.key === "a" || e.key === "s" || e.key === "d") {
-                const player = document.getElementById(playerId);
-                // get size of player
-        
-                const playerWidth = player.offsetWidth;
-                const playerHeight = player.offsetHeight;
-        
-                const container = document.querySelector(".container");
-        
-                const containerWidth = container.offsetWidth;
-                const containerHeight = container.offsetHeight;
-    
-                socket.emit("keydown", { key: e.key, playerWidth, playerHeight, containerWidth, containerHeight });
-            }
+            // handle keydown event
+            playerMovement.handleKeyDown(e, playerId, socket);
         });
+
+        const playerControls = document.querySelectorAll(".playerControls > div");
+
+        playerControls.forEach(control => {
+            control.addEventListener("mousedown", (e) => {
+                playerMovement.handleKeyDown(e, playerId, socket);
+            })
+        })
 
     });
 
 
 
+    // update external player position
     socket.on("updatePlayer", (data) => {
         const player = document.getElementById(data.id);
 
         if(player) {
-
-            player.style.left = `${data.x}%`;
-            player.style.top = `${data.y}%`;
-
+            playerMovement.updateExternalPlayerPosition(player, data);
         } else {
             addPlayer(data.id, data.x, data.y);
         }
@@ -111,25 +110,6 @@ if (lobby) {
             playerContainer.removeChild(player);
         }
     });
-
-
-    // get user register form
-    const usernameForm = document.querySelector("#usernameForm");
-
-    // handle user register form submit
-    usernameForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        console.log("submitting username")
-        const usernameInput = document.querySelector("#usernameInput");
-        const username = usernameInput.value;
-
-        // send username to socket
-        socket.emit("newUser", username);
-
-        // close dialog
-        registerDialog.close();
-    });
-
 
     
 }
@@ -168,20 +148,6 @@ function updateUserlist(onlineUsers) {
     });
 
 }
-
-function updateUserPosition(onlineUsers){
-    
-        onlineUsers.forEach(user => {
-            const player = document.getElementById(user[0]);
-    
-            if(player) {
-                player.style.left = `${user[1].x}%`;
-                player.style.top = `${user[1].y}%`;
-            }
-        });
-    
-}
-
 
 
 

@@ -28,30 +28,37 @@ export default (io, socket, onlineUsers) => {
 
         switch(data.key) {
             case "w":
+            case "playerControls--up":
                 player.y -= 1;
                 if(player.y < 0){
                     player.y = 0;
                 }
                 break;
             case "a":
+            case "playerControls--left":
                 player.x -= 1;
                 if(player.x < 0){
                     player.x = 0;
                 }
                 break;
             case "s":
+            case "playerControls--down":
                 player.y += 1;
                 if(player.y > (100 - playerHeightPercentage)){
                     player.y = (100 - playerHeightPercentage);
                 }
                 break;
             case "d":
+            case "playerControls--right":
                 player.x += 1;
                 if(player.x > (100 - playerWidthPercentage)){
                     player.x = (100 - playerWidthPercentage);
                 }
                 break;
+            
         }
+
+        console.log(data.key)
 
         
 
