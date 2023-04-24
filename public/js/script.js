@@ -35,6 +35,8 @@ if (lobby) {
 
             updateUserlist(onlineUsersArray);
 
+            updateUserPosition(onlineUsersArray);
+
         }
     });
 
@@ -61,23 +63,30 @@ if (lobby) {
         playerId = id;
     });
 
-    document.addEventListener("keydown", (e) => {
-        const player = document.getElementById(playerId);
-        // get size of player
+    // check if dialog is closed before adding event listener
+    registerDialog.addEventListener("close", () => {
 
-        const playerWidth = player.offsetWidth;
-        const playerHeight = player.offsetHeight;
+        document.addEventListener("keydown", (e) => {
+            // if keydown is w a s d
+            if (e.key === "w" || e.key === "a" || e.key === "s" || e.key === "d") {
+                const player = document.getElementById(playerId);
+                // get size of player
+        
+                const playerWidth = player.offsetWidth;
+                const playerHeight = player.offsetHeight;
+        
+                const container = document.querySelector(".container");
+        
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
+    
+                socket.emit("keydown", { key: e.key, playerWidth, playerHeight, containerWidth, containerHeight });
+            }
+        });
 
-        const container = document.querySelector(".container");
-
-        const containerWidth = container.offsetWidth;
-        const containerHeight = container.offsetHeight;
-
-        // if keydown is w a s d
-        if (e.key === "w" || e.key === "a" || e.key === "s" || e.key === "d") {
-            socket.emit("keydown", { key: e.key, playerWidth, playerHeight, containerWidth, containerHeight });
-        }
     });
+
+
 
     socket.on("updatePlayer", (data) => {
         const player = document.getElementById(data.id);
@@ -205,15 +214,19 @@ function updateUserlist(onlineUsers) {
         );
     });
 
-    // // add to user list
-    // const newUser = document.createElement("li");
-    // const newUserTitle = document.createElement("p");
-    // newUserTitle.textContent = username;
-    // newUser.appendChild(newUserTitle);
-    // userList.appendChild(
-    //     // create a new li element
-    //     Object.assign(newUser)
-    // );
+}
+
+function updateUserPosition(onlineUsers){
+    
+        onlineUsers.forEach(user => {
+            const player = document.getElementById(user[0]);
+    
+            if(player) {
+                player.style.left = `${user[1].x}%`;
+                player.style.top = `${user[1].y}%`;
+            }
+        });
+    
 }
 
 
