@@ -67,33 +67,25 @@ if (lobby) {
     // check if dialog is closed before adding event listener
     registerDialog.addEventListener("close", () => {
 
-        document.addEventListener("keydown", (e) => {
-            // handle keydown event
-            playerMovement.handleKeyDown(e, playerId, socket);
+        playerContainer.addEventListener("click", (e) => {
+            const x = e.offsetX;
+            const y = e.offsetY;
+
+            playerMovement.movePlayer(x, y, socket.id, socket);
         });
-
-        const playerControls = document.querySelectorAll(".playerControls > div");
-
-        playerControls.forEach(control => {
-            control.addEventListener("mousedown", (e) => {
-                playerMovement.handleKeyDown(e, playerId, socket);
-            })
-        })
 
     });
 
 
 
     // update external player position
-    socket.on("updatePlayer", (data) => {
+    socket.on("updatePlayerMovement", (data) => {
         const player = document.getElementById(data.id);
 
-        if(player) {
-            playerMovement.updateExternalPlayerPosition(player, data);
-        } else {
-            addPlayer(data.id, data.x, data.y);
+        if(player && data.id !== socket.id) {
+            playerMovement.movePlayer(data.x, data.y, data.id, socket);
         }
-    });
+    })
 
 
     // handle user disconnect by removing from user list

@@ -55,7 +55,8 @@ main {
 	left: 100%;
 	top: 100%;
 
-	/* transform: translate(-100%, -100%); */
+	transform: translate(-50%, -50%);
+	transition: .5s ease-in;
 }
 
 .playerControls {

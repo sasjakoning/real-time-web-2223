@@ -1,47 +1,44 @@
-function handleKeyDown(e, playerId, socket) {
-    if (e.key === "w" || e.key === "a" || e.key === "s" || e.key === "d" || e.target.parentNode.classList == "playerControls") {
-        const player = document.getElementById(playerId);
-        // get size of player
 
-        const playerWidth = player.offsetWidth;
-        const playerHeight = player.offsetHeight;
+function movePlayer(x, y, id, socket) {
+    const player = document.getElementById(id);
+    console.log("player", player)
+    const playerRect = player.getBoundingClientRect();
 
-        const container = document.querySelector(".container");
+    const diffX = Math.abs(playerRect.x - x);
+    const diffY = Math.abs(playerRect.y - y);
 
-        const containerWidth = container.offsetWidth;
-        const containerHeight = container.offsetHeight;
-
-        if(e.target.parentNode.classList == "playerControls") {
-            const controlClass = e.target.classList.value
-            
-            socket.emit("keydown", { key: controlClass, playerWidth, playerHeight, containerWidth, containerHeight });
-        }else {
-            socket.emit("keydown", { key: e.key, playerWidth, playerHeight, containerWidth, containerHeight });
-        }
-
+    if(id == socket.id) {
+        socket.emit("playerMove", { x, y });
     }
-}
 
-function updateExternalPlayerPosition(player, data) {
-    player.style.left = `${data.x}%`;
-    player.style.top = `${data.y}%`;
+    if (diffX > diffY) { 
+        player.style.left = `${x}px`;
+        setTimeout(() => {
+            player.style.top = `${y}px`;
+        }, 500);
+    } else {
+        player.style.top = `${y}px`;
+        setTimeout(() => {
+            player.style.left = `${x}px`;
+        }, 500);
+    }
 }
 
 function updateUserPosition(onlineUsers){
     
     onlineUsers.forEach(user => {
+        console.log(user)
         const player = document.getElementById(user[0]);
 
         if(player) {
-            player.style.left = `${user[1].x}%`;
-            player.style.top = `${user[1].y}%`;
+            player.style.left = `${user[1].x}px`;
+            player.style.top = `${user[1].y}px`;
         }
     });
 
 }
 
 export default { 
-    handleKeyDown,
-    updateExternalPlayerPosition,
+    movePlayer,
     updateUserPosition
 }
