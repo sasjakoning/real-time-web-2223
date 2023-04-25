@@ -59,6 +59,13 @@ main {
 	transition: .5s ease-in;
 }
 
+.player > p {
+    position: absolute;
+    top: -1.5rem;
+    transform: translate(-50%, 0);
+    left: 50%;
+}
+
 .playerControls {
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);

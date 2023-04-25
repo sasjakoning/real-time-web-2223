@@ -32,7 +32,7 @@ if (lobby) {
 
             console.log("id: ", id, "playerId: ", socket.id)
             
-            addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
+            addPlayer(id, onlineUsers[id].username, onlineUsers[id].x, onlineUsers[id].y);
             // turn onlineUsers into an array
             const onlineUsersArray = Object.entries(onlineUsers);
 
@@ -48,7 +48,7 @@ if (lobby) {
     socket.on("userConnected", (onlineUsers, id) => {
         for (let id in onlineUsers) {
             console.log("ADDING PLAYER ON USERCONNECTED")
-            addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
+            addPlayer(id, onlineUsers[id].username, onlineUsers[id].x, onlineUsers[id].y);
 
 
             // turn onlineUsers into an array
@@ -108,7 +108,7 @@ if (lobby) {
     
 }
 
-function addPlayer(id, x, y) {
+function addPlayer(id, username, x, y) {
     const playerExists = document.getElementById(id);
 
     if(!playerExists){
@@ -116,6 +116,10 @@ function addPlayer(id, x, y) {
     
         player.id = id;
         player.classList.add("player");
+
+        const playerName = document.createElement("p");
+        playerName.textContent = username;
+        player.appendChild(playerName);
     
         playerContainer.appendChild(player);
     }
