@@ -19,52 +19,14 @@ export default (io, socket, onlineUsers) => {
         console.log(`User connected: ${socket.id}`);
     });
 
-    socket.on("keydown", (data) => {
-        const player = onlineUsers[socket.id];
+    socket.on("playerMove", (data) => {
+        // const player = onlineUsers[socket.id];
 
-        // calculate player width and height in percentage
-        const playerWidthPercentage = (data.playerWidth / data.containerWidth) * 100;
-        const playerHeightPercentage = (data.playerHeight / data.containerHeight) * 100;
+        onlineUsers[socket.id].x = data.x;
+        onlineUsers[socket.id].y = data.y;
 
-        switch(data.key) {
-            case "w":
-            case "playerControls--up":
-                player.y -= 1;
-                if(player.y < 0){
-                    player.y = 0;
-                }
-                break;
-            case "a":
-            case "playerControls--left":
-                player.x -= 1;
-                if(player.x < 0){
-                    player.x = 0;
-                }
-                break;
-            case "s":
-            case "playerControls--down":
-                player.y += 1;
-                if(player.y > (100 - playerHeightPercentage)){
-                    player.y = (100 - playerHeightPercentage);
-                }
-                break;
-            case "d":
-            case "playerControls--right":
-                player.x += 1;
-                if(player.x > (100 - playerWidthPercentage)){
-                    player.x = (100 - playerWidthPercentage);
-                }
-                break;
-            
-        }
-
-        console.log(data.key)
-
-        
-
-        io.emit("updatePlayer", { id: socket.id, x: player.x, y: player.y });
+        io.emit("updatePlayerMovement", { id: socket.id, x: data.x, y: data.y });
     })
-
 
     // handle disconnect event, remove user from onlineUsers and send to client.
     socket.on('disconnect', () => {
