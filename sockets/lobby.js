@@ -33,7 +33,7 @@ export default (io, socket, onlineUsers) => {
         console.log("reason: ", reason);
         const id = socket.id;
         delete onlineUsers[socket.id];
-        io.emit("userDisconnected", onlineUsers,id);
+        io.emit("userDisconnected", onlineUsers,id, reason);
         console.log(`User disconnected: ${socket.id}`);
     })
 }

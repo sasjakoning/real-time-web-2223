@@ -89,7 +89,9 @@ if (lobby) {
 
 
     // handle user disconnect by removing from user list
-    socket.on("userDisconnected", (onlineUsers, id) => {
+    socket.on("userDisconnected", (onlineUsers, id, reason) => {
+
+        console.log("user disconnected: ", id, "reason: ", reason)
 
 
         if (!Object.keys(onlineUsers).length === 0) {
