@@ -1,8 +1,14 @@
 import playerMovement from "./playerMovement.js";
 import userSignIn from "./userSignIn.js";
+import rive from "./rive.js";
 
 // load socket.io
 let socket = io();
+
+let frontWalk;
+let backWalk;
+let leftWalk;
+let rightWalk;
 
 // // get currently online users
 // socket.emit("getOnlineUsers");
@@ -71,6 +77,8 @@ if (lobby) {
             const x = e.offsetX;
             const y = e.offsetY;
 
+            frontWalk.value = true;
+
             playerMovement.movePlayer(x, y, socket.id, socket);
         });
 
@@ -113,6 +121,11 @@ function addPlayer(id, username, x, y) {
 
     if(!playerExists){
         const player = document.createElement("div");
+        const playerCanvas = document.createElement("canvas");
+        playerCanvas.classList.add("playerCanvas");
+        player.appendChild(playerCanvas);
+
+        rive.character(playerCanvas);
     
         player.id = id;
         player.classList.add("player");
@@ -164,3 +177,15 @@ function updateUserlist(onlineUsers) {
 // .catch(error => {
 //   console.error(error);
 // });
+
+function initAnims(front, back, left, right) {
+    frontWalk = front;
+    backWalk = back;
+    leftWalk = left;
+    rightWalk = right;
+}
+
+
+export default {
+    initAnims
+}

@@ -1,5 +1,5 @@
 
-function movePlayer(x, y, id, socket) {
+function movePlayer(x, y, id, socket, leftWalk, rightWalk, frontWalk, backWalk) {
     const player = document.getElementById(id);
     console.log("player", player)
     const playerRect = player.getBoundingClientRect();
