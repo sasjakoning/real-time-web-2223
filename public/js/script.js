@@ -66,6 +66,7 @@ if (lobby) {
 
     // this is a change
 
+
     socket.on("playerId", (id) => {
         console.log("setting player id: ", id);
         playerId = id;
