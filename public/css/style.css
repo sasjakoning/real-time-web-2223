@@ -38,11 +38,18 @@ main {
 	width: 100dvw;
 }
 
+.perspective {
+	transform-style: preserve-3d;
+	perspective: 300px;
+}
+
 .container {
 	width: 20rem;
 	height: 20rem;
 	background: lightgray;
 	position: relative;
+	rotate: x 20deg;
+	transform-style: preserve-3d;
 }
 
 .player {
@@ -57,6 +64,7 @@ main {
 
 	transform: translate(-50%, -50%);
 	transition: .5s ease-in;
+	rotate: x -20deg;
 }
 
 .player > p {
