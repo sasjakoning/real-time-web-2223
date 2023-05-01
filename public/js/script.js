@@ -77,9 +77,7 @@ if (lobby) {
             const x = e.offsetX;
             const y = e.offsetY;
 
-            frontWalk.value = true;
-
-            playerMovement.movePlayer(x, y, socket.id, socket);
+            playerMovement.movePlayer(x, y, socket.id, socket, leftWalk, rightWalk, frontWalk, backWalk);
         });
 
     });
