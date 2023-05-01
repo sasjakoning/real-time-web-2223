@@ -64,7 +64,7 @@ if (lobby) {
         }
     });
 
-    // this is a change
+// This is a change
 
 
     socket.on("playerId", (id) => {
