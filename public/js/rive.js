@@ -24,6 +24,8 @@ function character(canvas) {
       },
     });
 
+    console.log(canvasCharacter)
+
 }
 
 

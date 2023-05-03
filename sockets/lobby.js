@@ -25,7 +25,7 @@ export default (io, socket, onlineUsers) => {
         onlineUsers[socket.id].x = data.x;
         onlineUsers[socket.id].y = data.y;
 
-        io.emit("updatePlayerMovement", { id: socket.id, x: data.x, y: data.y });
+        io.emit("updatePlayerMovement", { id: socket.id, x: data.x, y: data.y, leftWalk: data.leftWalk, rightWalk: data.rightWalk, frontWalk: data.frontWalk, backWalk: data.backWalk });
     })
 
     // handle disconnect event, remove user from onlineUsers and send to client.

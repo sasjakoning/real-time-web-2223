@@ -86,12 +86,13 @@ if (lobby) {
 
 
 
-    // update external player position
+    // update player position
     socket.on("updatePlayerMovement", (data) => {
         const player = document.getElementById(data.id);
 
         if(player && data.id !== socket.id) {
-            playerMovement.movePlayer(data.x, data.y, data.id, socket);
+            console.log("updating external player position", data);
+            playerMovement.movePlayer(data.x, data.y, data.id, socket, data.leftWalk, data.rightWalk, data.frontWalk, data.backWalk);
         }
     })
 

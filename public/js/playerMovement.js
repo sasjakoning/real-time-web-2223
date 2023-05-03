@@ -6,7 +6,7 @@ function movePlayer(x, y, id, socket, leftWalk, rightWalk, frontWalk, backWalk) 
     const diffY = Math.abs(playerRect.y - y);
   
     if (id == socket.id) {
-      socket.emit("playerMove", { x, y });
+      socket.emit("playerMove", { x, y, leftWalk, rightWalk, frontWalk, backWalk });
     }
   
     if (diffX > diffY) {
