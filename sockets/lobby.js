@@ -4,8 +4,6 @@ export default (io, socket, onlineUsers) => {
 
     io.emit("onlineUsers", onlineUsers);
 
-    socket.emit("playerId", socket.id);
-
     socket.on("newUser", (username) => {
 
         onlineUsers[socket.id] = {
@@ -14,7 +12,7 @@ export default (io, socket, onlineUsers) => {
             username: username
         };
 
-        io.emit("userConnected", onlineUsers, socket.id);
+        io.emit("userConnected", onlineUsers);
 
         console.log(`User connected: ${socket.id}`);
     });

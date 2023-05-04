@@ -5,10 +5,6 @@ function movePlayer(x, y, id, socket, leftWalk, rightWalk, frontWalk, backWalk) 
     const diffX = Math.abs(playerRect.x - x);
     const diffY = Math.abs(playerRect.y - y);
   
-    if (id == socket.id) {
-      socket.emit("playerMove", { x, y, leftWalk, rightWalk, frontWalk, backWalk });
-    }
-  
     if (diffX > diffY) {
         player.style.left = `${x}px`;
         // handle animation direction based on x position of player
@@ -39,6 +35,10 @@ function movePlayer(x, y, id, socket, leftWalk, rightWalk, frontWalk, backWalk) 
             }, 500);
         }, 500);
 
+    }
+
+    if (id == socket.id) {
+      socket.emit("playerMove", { x, y, leftWalk, rightWalk, frontWalk, backWalk });
     }
   
     function handleAnimationEnd() {

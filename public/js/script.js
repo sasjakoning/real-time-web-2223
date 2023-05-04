@@ -26,8 +26,6 @@ registerDialog.showModal();
 // check if user is on lobby page
 if (lobby) {
 
-    let playerId;
-
     // handle new user sign in
     userSignIn.userSignIn(socket, registerDialog);
 
@@ -51,25 +49,16 @@ if (lobby) {
 
 
     // handle new user
-    socket.on("userConnected", (onlineUsers, id) => {
+    socket.on("userConnected", (onlineUsers) => {
         for (let id in onlineUsers) {
             console.log("ADDING PLAYER ON USERCONNECTED")
             addPlayer(id, onlineUsers[id].username, onlineUsers[id].x, onlineUsers[id].y);
-
 
             // turn onlineUsers into an array
             const onlineUsersArray = Object.entries(onlineUsers);
 
             updateUserlist(onlineUsersArray);
         }
-    });
-
-// This is a change
-
-
-    socket.on("playerId", (id) => {
-        console.log("setting player id: ", id);
-        playerId = id;
     });
 
     // check if dialog is closed before adding event listener
