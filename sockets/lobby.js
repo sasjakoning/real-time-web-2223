@@ -1,37 +1,33 @@
 export default (io, socket, onlineUsers) => {
+    // 1. HANDLE USER CONNECTION
 
-    console.log("currently online users: ", onlineUsers);
+    console.log('a user connected to lobby');
 
-    io.emit("onlineUsers", onlineUsers);
+    // 2. SEND CURRENTLY ONLINE USERS TO CLIENT
+    io.emit('updateOnlineUsers', onlineUsers);
 
-    socket.on("newUser", (username) => {
-
-        onlineUsers[socket.id] = {
-            x: 0,
-            y: 0,
-            username: username
+    // 3. HANDLE NEW USER SIGN IN
+    socket.on('newUser', (username) => {
+        const user = {
+            username: username,
+            id: socket.id
         };
 
-        io.emit("userConnected", onlineUsers);
+        onlineUsers.push(user);
 
-        console.log(`User connected: ${socket.id}`);
+        io.emit('updateOnlineUsers', onlineUsers);
     });
 
-    socket.on("playerMove", (data) => {
-        // const player = onlineUsers[socket.id];
+    
+    // ?. HANDLE USER DISCONNECT
+    socket.on('disconnect', () => {
+        console.log('a user disconnected from lobby');
+        for (let user in onlineUsers) {
+            if (onlineUsers[user] === socket.id) {
+                delete onlineUsers[user];
+                io.emit('updateOnlineUsers', onlineUsers);
+            }
+        }
+    });
 
-        onlineUsers[socket.id].x = data.x;
-        onlineUsers[socket.id].y = data.y;
-
-        io.emit("updatePlayerMovement", { id: socket.id, x: data.x, y: data.y, leftWalk: data.leftWalk, rightWalk: data.rightWalk, frontWalk: data.frontWalk, backWalk: data.backWalk });
-    })
-
-    // handle disconnect event, remove user from onlineUsers and send to client.
-    socket.on('disconnect', (reason) => {
-        console.log("reason: ", reason);
-        const id = socket.id;
-        delete onlineUsers[socket.id];
-        io.emit("userDisconnected", onlineUsers,id, reason);
-        console.log(`User disconnected: ${socket.id}`);
-    })
 }

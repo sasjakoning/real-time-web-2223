@@ -1,181 +1,96 @@
-import playerMovement from "./playerMovement.js";
-import userSignIn from "./userSignIn.js";
-import rive from "./rive.js";
+import userSignIn from './userSignIn.js';
+import rive from './rive.js';
 
-// load socket.io
 let socket = io();
 
-let frontWalk;
-let backWalk;
-let leftWalk;
-let rightWalk;
-
-// // get currently online users
-// socket.emit("getOnlineUsers");
-
-// get DOM for lobby, player container and user list
-const lobby = document.querySelector(".lobby");
-const playerContainer = document.querySelector(".container");
-const userList = document.querySelector(".userList");
+let onlineUsers = [];
 
 // open user register dialog
 const registerDialog = document.querySelector("dialog");
 registerDialog.showModal();
 
+// get player container
+const playerContainer = document.querySelector(".container");
 
-// check if user is on lobby page
-if (lobby) {
 
-    // handle new user sign in
-    userSignIn.userSignIn(socket, registerDialog);
+// check if lobby page is loaded
+const lobby = document.querySelector('.lobby');
 
-    // handle currently online users by adding to user list
-    socket.on("onlineUsers", (onlineUsers) => {
-        console.log("currently online users: ", onlineUsers);
-        for (let id in onlineUsers) {
+if(lobby) {
 
-            console.log("id: ", id, "playerId: ", socket.id)
-            
-            addPlayer(id, onlineUsers[id].username, onlineUsers[id].x, onlineUsers[id].y);
-            // turn onlineUsers into an array
-            const onlineUsersArray = Object.entries(onlineUsers);
+    // 1. UPDATE ONLINE USERS
+    socket.on('updateOnlineUsers', (users) => {
+        onlineUsers = users;
+        updateOnlineUsers();
 
-            updateUserlist(onlineUsersArray);
+        console.log(onlineUsers);
 
-            playerMovement.updateUserPosition(onlineUsersArray);
-
+        // add players to container
+        for (let i = 0; i < onlineUsers.length; i++) {
+            const user = onlineUsers[i];
+            addPlayer(user.id, user.username);
         }
     });
 
 
-    // handle new user
-    socket.on("userConnected", (onlineUsers) => {
-        for (let id in onlineUsers) {
-            console.log("ADDING PLAYER ON USERCONNECTED")
-            addPlayer(id, onlineUsers[id].username, onlineUsers[id].x, onlineUsers[id].y);
-
-            // turn onlineUsers into an array
-            const onlineUsersArray = Object.entries(onlineUsers);
-
-            updateUserlist(onlineUsersArray);
-        }
+    // 2. HANDLE NEW USER
+    const usernameForm = document.querySelector("#usernameForm");
+    usernameForm.addEventListener("submit", (e) => {
+        userSignIn.userSignIn(socket, registerDialog, e);
     });
 
-    // check if dialog is closed before adding event listener
-    registerDialog.addEventListener("close", () => {
-
-        playerContainer.addEventListener("click", (e) => {
-            const x = e.offsetX;
-            const y = e.offsetY;
-
-            playerMovement.movePlayer(x, y, socket.id, socket, leftWalk, rightWalk, frontWalk, backWalk);
-        });
-
-    });
-
-
-
-    // update player position
-    socket.on("updatePlayerMovement", (data) => {
-        const player = document.getElementById(data.id);
-
-        if(player && data.id !== socket.id) {
-            console.log("updating external player position", data);
-            playerMovement.movePlayer(data.x, data.y, data.id, socket, data.leftWalk, data.rightWalk, data.frontWalk, data.backWalk);
-        }
-    })
-
-
-    // handle user disconnect by removing from user list
-    socket.on("userDisconnected", (onlineUsers, id, reason) => {
-
-        console.log("user disconnected: ", id, "reason: ", reason)
-
-
-        if (!Object.keys(onlineUsers).length === 0) {
-            updateUserlist(onlineUsers);
-        }
-
-        // remove player for container based on id
-        const player = document.getElementById(id);
-        if(player){
-            playerContainer.removeChild(player);
-        }
-    });
-
+    registerDialog.addEventListener("close", handlePlayerMovement());
     
+
 }
 
-function addPlayer(id, username, x, y) {
-    const playerExists = document.getElementById(id);
+function updateOnlineUsers() {
+    let onlineUsersList = document.querySelector('.userList');
+    onlineUsersList.innerHTML = '';
 
-    if(!playerExists){
-        const player = document.createElement("div");
-        const playerCanvas = document.createElement("canvas");
-        playerCanvas.classList.add("playerCanvas");
-        player.appendChild(playerCanvas);
-
-        rive.character(playerCanvas);
-    
-        player.id = id;
-        player.classList.add("player");
-
-        const playerName = document.createElement("p");
-        playerName.textContent = username;
-        player.appendChild(playerName);
-    
-        playerContainer.appendChild(player);
+    for (let i = 0; i < onlineUsers.length; i++) {
+        const user = onlineUsers[i];
+        let li = document.createElement('li');
+        li.innerHTML = user.username;
+        onlineUsersList.appendChild(li);
     }
 
 };
 
-function updateUserlist(onlineUsers) {
+function addPlayer(id, username){
+    const playerExists = document.getElementById(id);
 
-    // clear userList
-    
-    while (userList.firstChild) {
-        userList.removeChild(userList.firstChild);
+    if(!playerExists){
+        console.log("adding new player to container");
+
+        // create div with canvas
+        const player = document.createElement('div');
+        const playerCanvas = document.createElement('canvas');
+        playerCanvas.classList.add("playerCanvas");
+        player.appendChild(playerCanvas);
+
+        rive.character(playerCanvas);
+        
+        // add id to div
+        player.id = id;
+        player.classList.add('player');
+
+        // add username to div
+        const playerName = document.createElement('p');
+        playerName.textContent = username;
+        player.appendChild(playerName);
+
+        playerContainer.appendChild(player);
+    }else {
+        console.log("player already exists");
     }
+}
 
-    onlineUsers.forEach(user => {
-        const newUser = document.createElement("li");
-        const newUserTitle = document.createElement("p");
-        newUserTitle.textContent = user[1].username;
-        newUser.appendChild(newUserTitle);
-        userList.appendChild(
-            // create a new li element
-            Object.assign(newUser)
-        );
+function handlePlayerMovement() {
+    playerContainer.addEventListener('click', (e) => {
+        const x = e.offsetX;
+        const y = e.offsetY;
+
+        console.log(x, y);
     });
-
-}
-
-
-
-// const apiKey = "";
-// const stationCode = "EKZ"; // replace with your desired station code
-
-// fetch(`https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/departures?station=${stationCode}`, {
-//   headers: {
-//     "Ocp-Apim-Subscription-Key": apiKey
-//   }
-// })
-// .then(response => response.json())
-// .then(data => {
-//   console.log(data);
-// })
-// .catch(error => {
-//   console.error(error);
-// });
-
-function initAnims(front, back, left, right) {
-    frontWalk = front;
-    backWalk = back;
-    leftWalk = left;
-    rightWalk = right;
-}
-
-
-export default {
-    initAnims
 }
