@@ -1,5 +1,6 @@
 import userSignIn from './userSignIn.js';
 import rive from './rive.js';
+import playerMovement from './playerMovement.js';
 
 let socket = io();
 
@@ -92,5 +93,6 @@ function handlePlayerMovement() {
         const y = e.offsetY;
 
         console.log(x, y);
+        playerMovement.movePlayer(x, y, socket.id, socket);
     });
 }

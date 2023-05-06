@@ -23,12 +23,13 @@ time, mark, audio, video {
 
 
 :root {
-	--background: hsl(0, 0%, 0%);
+	--background: hsl(220, 27%, 9%);
+	--backgroundGradient: linear-gradient(0deg, rgba(16,20,28,1) 0%, rgba(16,20,28,1) 14%, rgba(52,57,69,1) 14%, rgba(52,57,69,1) 26%, rgba(113,120,132,1) 26%, rgba(113,120,132,1) 30%, rgba(84,90,101,1) 30%, rgba(84,90,101,1) 51%, rgba(52,57,69,1) 51%, rgba(52,57,69,1) 67%, rgba(86,94,109,1) 67%, rgba(86,94,109,1) 71%, rgba(70,76,88,1) 71%, rgba(70,76,88,1) 79%, rgba(60,62,69,1) 79%, rgba(60,62,69,1) 88%, rgba(68,79,88,1) 88%);
 	--primary: hsl(0, 0%, 100%);
 }
 
 body {
-	background: gray;
+	background: var(--background);
 }
 
 main {
@@ -36,25 +37,54 @@ main {
 	place-items: center;
 	height: 100dvh;
 	width: 100dvw;
+	overflow: hidden;
+}
+
+main.lobby {
+	background: var(--background);
+	color: var(--primary);
+	width: clamp(10rem, 100%, 40rem);
+	margin: auto;
+}
+
+.scene {
+	width: 100%;
+	aspect-ratio: 1/1;
+	position: relative;
+	display: grid;
+	place-items: center;
+
+	container-type: inline-size;
+}
+
+.scene img {
+	position: absolute;
+	width: 100cqw;
 }
 
 .perspective {
 	transform-style: preserve-3d;
-	perspective: 300px;
+	perspective: 11cqw;
+
+	width: 100cqw;
+	aspect-ratio: 1/1;
+	display: grid;
+	place-items: center;
 }
 
 .container {
-	width: 20rem;
-	height: 20rem;
-	background: lightgray;
-	position: relative;
-	rotate: x 20deg;
-	transform-style: preserve-3d;
+	width: 56cqw;
+    height: 21cqw;
+    border: 1px solid red;
+    position: relative;
+    rotate: x 11deg;
+    transform-style: preserve-3d;
+    transform: translateY(7cqw);
 }
 
 .player {
-	width: 3rem;
-	height: 5rem;
+	width: 20%;
+	height: 40%;
 	/* background: red; */
 
 	position: absolute;
@@ -64,11 +94,12 @@ main {
 
 	transform: translate(-50%, -50%);
 	transition: .5s ease-in;
-	rotate: x -20deg;
+	rotate: x -11deg;
 }
 
 .player > p {
     position: absolute;
+	font-size: 50%;
     top: -1.5rem;
     transform: translate(-50%, 0);
     left: 50%;
