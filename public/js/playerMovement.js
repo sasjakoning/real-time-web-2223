@@ -6,35 +6,30 @@ function movePlayer(x, y, id, socket) {
     const player = document.getElementById(id);
     const playerRect = player.getBoundingClientRect();
 
+    const diffX = Math.abs(playerRect.x - x);
+    const diffY = Math.abs(playerRect.y - y);
 
-    // emit player movement to server only if id matches socket id
-    if (id === socket.id) {
-        const diffX = Math.abs(playerRect.x - x);
-        const diffY = Math.abs(playerRect.y - y);
-
+    if(id === socket.id) {
         x = (x/containerWidth)*100;
         y = (y/containerHeight)*100;
-        
-    
-        if (diffX > diffY) {
-            player.style.left = `${x}%`;
-    
-            setTimeout(() => {
-                player.style.top = `${y}%`;
-            }, 500);
-        } else {
-            player.style.top = `${y}%`;
-    
-            setTimeout(() => {
-                player.style.left = `${x}%`;
-            }, 500);
-        }
 
         socket.emit("playerMove", {x: x, y: y, id: id})
-    }else {
-        console.log(x, y)
+    }
+
+    
+
+    if (diffX > diffY) {
         player.style.left = `${x}%`;
+
+        setTimeout(() => {
+            player.style.top = `${y}%`;
+        }, 500);
+    } else {
         player.style.top = `${y}%`;
+
+        setTimeout(() => {
+            player.style.left = `${x}%`;
+        }, 500);
     }
 }
 
