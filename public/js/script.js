@@ -6,6 +6,11 @@ let socket = io();
 
 let onlineUsers = [];
 
+let frontWalk;
+let backWalk;
+let leftWalk;
+let rightWalk;
+
 // open user register dialog
 const registerDialog = document.querySelector("dialog");
 registerDialog.showModal();
@@ -23,8 +28,6 @@ if(lobby) {
     socket.on('updateOnlineUsers', (users) => {
         onlineUsers = users;
         updateOnlineUsers();
-
-        console.log(onlineUsers);
 
         // add players to container
         for (let i = 0; i < onlineUsers.length; i++) {
@@ -92,7 +95,29 @@ function handlePlayerMovement() {
         const x = e.offsetX;
         const y = e.offsetY;
 
+        console.log(onlineUsers[0].stateMachine[0].inputs[0])
+
         console.log(x, y);
         playerMovement.movePlayer(x, y, socket.id, socket);
     });
+}
+
+function initAnims(front, back, left, right) {
+    frontWalk = front;
+    backWalk = back;
+    leftWalk = left;
+    rightWalk = right;
+
+    socket.emit("setPlayerAnims", {anims: {frontWalk, backWalk, leftWalk, rightWalk}, id: socket.id});
+}
+
+function sendRiveStateMachine(stateMachine) {
+    // canvas = "kaas"
+    socket.emit("setRiveStateMachine", {stateMachine: stateMachine, id: socket.id});
+    console.log("sending stateMachine to server")
+}
+
+export default {
+    initAnims,
+    sendRiveStateMachine
 }
