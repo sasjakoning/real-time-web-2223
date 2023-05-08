@@ -16,7 +16,7 @@ async function getApi() {
             }
           })
         const data = await response.json();
-
+        
         const resizedData = data.payload.departures[0];
 
         console.log(resizedData)

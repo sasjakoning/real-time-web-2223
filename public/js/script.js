@@ -24,11 +24,12 @@ const lobby = document.querySelector('.lobby');
 if(lobby) {
 
     function getApiData() {
+        console.log("getting API data");
         socket.emit("getApiData");
     }
 
     // Get API data on load
-    getApiData;
+    getApiData();
     // Then get API data every minute
     setInterval(getApiData, 60 * 1000);
 
@@ -36,13 +37,39 @@ if(lobby) {
     socket.on("apiData", (data) => {
         console.log(data)
 
-        const infoBoard = document.querySelector(".infoContainer");
+        // create a countdown based on the four digit time string compared to the current time
+
+        const timeString = data.actualDateTime;
+        const time = new Date(timeString);
+        const timeNow = new Date();
+        const timeDiff = time - timeNow;
+        const timeDiffMinutes = Math.floor(timeDiff / 1000 / 60);
+
+        console.log(timeDiffMinutes)
+
+        console.log(time)
+        // convert time to four digit string
+
+        const timeShortened = time.toLocaleTimeString([],
+        { hour: '2-digit', minute: '2-digit' });
+
+        const infoBoard = document.querySelector(".infoContainer--info");
+
+        infoBoard.innerHTML = "";
         const directionText = document.createElement("p");
         directionText.textContent = data.direction;
+        const timeWrapper = document.createElement("div");
         const departureText = document.createElement("p");
-        departureText.textContent = data.actualDateTime;
+        departureText.textContent = timeShortened;
+        const countdown = document.createElement("p");
+        countdown.textContent = timeDiffMinutes + " minuten";
 
-        infoBoard.appendChild(directionText, departureText)
+        timeWrapper.appendChild(departureText);
+        timeWrapper.appendChild(countdown);
+
+
+        infoBoard.appendChild(timeWrapper);
+        infoBoard.appendChild(directionText);
     })
 
     // 1. UPDATE ONLINE USERS

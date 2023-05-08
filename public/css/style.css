@@ -26,10 +26,15 @@ time, mark, audio, video {
 	--background: hsl(220, 27%, 9%);
 	--backgroundGradient: linear-gradient(0deg, rgba(16,20,28,1) 0%, rgba(16,20,28,1) 14%, rgba(52,57,69,1) 14%, rgba(52,57,69,1) 26%, rgba(113,120,132,1) 26%, rgba(113,120,132,1) 30%, rgba(84,90,101,1) 30%, rgba(84,90,101,1) 51%, rgba(52,57,69,1) 51%, rgba(52,57,69,1) 67%, rgba(86,94,109,1) 67%, rgba(86,94,109,1) 71%, rgba(70,76,88,1) 71%, rgba(70,76,88,1) 79%, rgba(60,62,69,1) 79%, rgba(60,62,69,1) 88%, rgba(68,79,88,1) 88%);
 	--primary: hsl(0, 0%, 100%);
+	--NS-yellow: #FFC917;
+	--NS-blue: #003082;
+	--NS-light-blue: #0063D3;
+	--box-shadow: 0 0.125rem 0 0 rgba(7,7,33,.15);
 }
 
 body {
 	background: var(--background);
+	font-family: Segoe UI,Myriad,Verdana,sans-serif;
 }
 
 main {
@@ -70,13 +75,35 @@ main.lobby {
     left: 57%;
 }
 
-.scene .infoContainer p{
+.infoContainer--info{
 	top: 28%;
     position: absolute;
     left: 35%;
-    color: red;
+    color: 
+	#003082;
+	font-weight: bold;
 	max-width: 48%;
+	font-size: 3cqw;
 }
+
+.infoContainer--info > div {
+	display: flex;
+	gap: 1cqw;
+	align-items: baseline;
+	font-size: 2cqw;
+}
+
+.infoContainer--info > div > p:last-of-type {
+	font-size: 1.5cqw;
+}
+
+/* .infoContainer--info p:first-of-type {
+	font-size: 2cqw;
+}
+
+.infoContainer--info p:last-of-type {
+	font-size: 1.5cqw;
+} */
 
 .scene .info-board {
 	width: 100%;
@@ -88,13 +115,19 @@ main.lobby {
 	left: 6%;
 }
 
-.scene .userListContainer .userList {
-	list-style: none;
-	display: flex;
-	flex-direction: column;
-	gap: .2rem;
+.scene .userListContainer p {
+	font-size: 3cqw;
+	font-weight: bold;
+}
 
-	margin-top: .5rem;
+.scene .userListContainer .userList {
+	list-style: disc;
+    padding-left: 3cqw;
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+    font-size: 2cqw;
+    margin-top: 2cqw;
 }
 
 .perspective {
@@ -110,7 +143,6 @@ main.lobby {
 .container {
 	width: 56cqw;
     height: 21cqw;
-    border: 1px solid red;
     position: relative;
     rotate: x 11deg;
     transform-style: preserve-3d;
@@ -135,7 +167,7 @@ main.lobby {
 
 .player > p {
     position: absolute;
-	font-size: 50%;
+	font-size: 70%;
     top: -1.5rem;
     transform: translate(-50%, 0);
     left: 50%;
@@ -148,11 +180,46 @@ main.lobby {
 
 
 dialog {
-	width: clamp(10rem, 100%, 40rem);
+	width: clamp(5rem, 100%, 20rem);
 	height: clamp(5rem, 100%, 20rem);
+	padding: 2rem 1rem;
 	z-index: 100;
+	/* display: grid;
+	place-items: center; */
+	box-shadow: var(--box-shadow);
 }
 
 dialog::backdrop {
 	background-color: rgba(0, 0, 0, .5);
+}
+
+dialog > form {
+	display: flex;
+	flex-direction: column;
+	color: var(--NS-blue);
+}
+
+dialog > form > p {
+	font-size: 1.7rem;
+	font-weight: 400;
+}
+
+dialog > form > label {
+	font-size: 1rem;
+	margin: 1rem 0 .5rem 0;
+}
+
+dialog > form > button {
+	border-radius: .25rem;
+	background: var(--NS-light-blue);
+	color: var(--primary);
+	padding: .5rem;
+	border: none;
+	box-shadow: inset 0 -0.125rem 0 #004ba0;
+	margin: 1rem 0;
+}
+dialog > form > input {
+	border-radius: .25rem;
+	padding: .5rem;
+	border: 1px solid var(--NS-light-blue);
 }
