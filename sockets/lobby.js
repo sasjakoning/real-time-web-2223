@@ -1,3 +1,5 @@
+import api from '../helpers/api.js';
+
 export default (io, socket, onlineUsers) => {
     // 1. HANDLE USER CONNECTION
 
@@ -5,6 +7,11 @@ export default (io, socket, onlineUsers) => {
 
     // 2. SEND CURRENTLY ONLINE USERS TO CLIENT
     io.emit('updateOnlineUsers', onlineUsers);
+
+    socket.on("getApiData", async () => {
+        const data = await api.getApi();
+        socket.emit("apiData", data)
+    })
 
     // 3. HANDLE NEW USER SIGN IN
     socket.on('newUser', (username) => {

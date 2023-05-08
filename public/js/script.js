@@ -23,6 +23,28 @@ const lobby = document.querySelector('.lobby');
 
 if(lobby) {
 
+    function getApiData() {
+        socket.emit("getApiData");
+    }
+
+    // Get API data on load
+    getApiData;
+    // Then get API data every minute
+    setInterval(getApiData, 60 * 1000);
+
+
+    socket.on("apiData", (data) => {
+        console.log(data)
+
+        const infoBoard = document.querySelector(".infoContainer");
+        const directionText = document.createElement("p");
+        directionText.textContent = data.direction;
+        const departureText = document.createElement("p");
+        departureText.textContent = data.actualDateTime;
+
+        infoBoard.appendChild(directionText, departureText)
+    })
+
     // 1. UPDATE ONLINE USERS
     socket.on('updateOnlineUsers', (users) => {
         onlineUsers = users;

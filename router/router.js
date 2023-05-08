@@ -15,9 +15,6 @@ router.get('/lobby', (req, res) => {
     res.render('lobby')
 })
 
-router.get('/lobby/kaas', (req, res) => {
-    res.render('lobby')
-})
 
 
 export default router;
