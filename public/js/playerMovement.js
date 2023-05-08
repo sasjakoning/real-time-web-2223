@@ -11,27 +11,35 @@ function movePlayer(x, y, id, socket) {
         setTimeout(() => {
             player.style.top = `${y}px`;
         }, 500);
-
     } else {
         player.style.top = `${y}px`;
 
         setTimeout(() => {
             player.style.left = `${x}px`;
         }, 500);
+    }
 
+    // emit player movement to server only if id matches socket id
+    if (id === socket.id) {
+        socket.emit("playerMove", {x: x, y: y, id: id})
     }
 }
   
 
 function updateUserPosition(onlineUsers){
+
+    console.log("updating user position")
+    
     
     onlineUsers.forEach(user => {
-        console.log(user)
-        const player = document.getElementById(user[0]);
+        console.log(user.id)
+        const player = document.getElementById(user.id);
+
+        console.log(player)
 
         if(player) {
-            player.style.left = `${user[1].x}px`;
-            player.style.top = `${user[1].y}px`;
+            player.style.left = `${user.x}px`;
+            player.style.top = `${user.y}px`;
         }
     });
 

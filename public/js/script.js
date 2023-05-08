@@ -28,6 +28,7 @@ if(lobby) {
     socket.on('updateOnlineUsers', (users) => {
         onlineUsers = users;
         updateOnlineUsers();
+        playerMovement.updateUserPosition(onlineUsers);
 
         // add players to container
         for (let i = 0; i < onlineUsers.length; i++) {
@@ -44,8 +45,17 @@ if(lobby) {
     });
 
     registerDialog.addEventListener("close", handlePlayerMovement());
-    
 
+    // update player position
+    socket.on("updatePlayerMovement", (data) => {
+        const player = document.getElementById(data.id);
+
+        if(player && data.id !== socket.id) {
+            console.log("updating external player position", data);
+            playerMovement.movePlayer(data.x, data.y, data.id, socket);
+        }
+    })
+    
 }
 
 function updateOnlineUsers() {
@@ -112,7 +122,6 @@ function initAnims(front, back, left, right) {
 }
 
 function sendRiveStateMachine(stateMachine) {
-    // canvas = "kaas"
     socket.emit("setRiveStateMachine", {stateMachine: stateMachine, id: socket.id});
     console.log("sending stateMachine to server")
 }
