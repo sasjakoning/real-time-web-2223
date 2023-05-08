@@ -62,6 +62,41 @@ main.lobby {
 	width: 100cqw;
 }
 
+.scene .infoContainer {
+	position: absolute;
+	top: 6%;
+	width: 38cqw;
+    height: 17cqw;
+    left: 57%;
+}
+
+.scene .infoContainer p{
+	top: 28%;
+    position: absolute;
+    left: 35%;
+    color: red;
+	max-width: 48%;
+}
+
+.scene .info-board {
+	width: 100%;
+}
+
+.scene .userListContainer {
+	position: absolute;
+	top: 6%;
+	left: 6%;
+}
+
+.scene .userListContainer .userList {
+	list-style: none;
+	display: flex;
+	flex-direction: column;
+	gap: .2rem;
+
+	margin-top: .5rem;
+}
+
 .perspective {
 	transform-style: preserve-3d;
 	perspective: 11cqw;
@@ -92,7 +127,7 @@ main.lobby {
 	left: 100%;
 	top: 100%;
 
-	transform: translateY(-90%);
+	transform: translate(-50%, -90%);
 	transform-origin: top;
 	transition: .5s ease-in;
 	rotate: x -11deg;

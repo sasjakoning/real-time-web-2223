@@ -7,6 +7,10 @@ import session from 'express-session';
 
 import lobbySocket from './sockets/lobby.js';
 
+import api from './helpers/api.js';
+
+api.getApi();
+
 const sessionLength = (1000 * 60 * 60 * 24) * 7; // 1 day
 
 const __dirname = path.resolve();

@@ -18,7 +18,6 @@ registerDialog.showModal();
 // get player container
 const playerContainer = document.querySelector(".container");
 
-
 // check if lobby page is loaded
 const lobby = document.querySelector('.lobby');
 
