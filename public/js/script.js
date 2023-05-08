@@ -103,6 +103,15 @@ if(lobby) {
             playerMovement.movePlayer(data.x, data.y, data.id, socket);
         }
     })
+
+    socket.on("userDisconnected", (id) => {
+        console.log("user disconnected", id);
+        const player = document.getElementById(id);
+
+        if(player) {
+            player.remove();
+        }
+    })
     
 }
 

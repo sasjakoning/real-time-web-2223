@@ -66,10 +66,15 @@ export default (io, socket, onlineUsers) => {
     // ?. HANDLE USER DISCONNECT
     socket.on('disconnect', () => {
         console.log('a user disconnected from lobby');
-        for (let user in onlineUsers) {
-            if (onlineUsers[user] === socket.id) {
-                delete onlineUsers[user];
+
+        // remove user from onlineUsers
+
+        for (let i = 0; i < onlineUsers.length; i++) {
+            const user = onlineUsers[i];
+            if (user.id === socket.id) {
+                onlineUsers.splice(i, 1);
                 io.emit('updateOnlineUsers', onlineUsers);
+                io.emit('userDisconnected', socket.id)
             }
         }
     });
