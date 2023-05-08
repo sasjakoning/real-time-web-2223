@@ -1,21 +1,25 @@
+const container = document.querySelector('.container');
+const containerWidth = container.offsetWidth;
+const containerHeight = container.offsetHeight;
+
 function movePlayer(x, y, id, socket) {
     const player = document.getElementById(id);
     const playerRect = player.getBoundingClientRect();
-  
+
     const diffX = Math.abs(playerRect.x - x);
     const diffY = Math.abs(playerRect.y - y);
-  
+
     if (diffX > diffY) {
-        player.style.left = `${x}px`;
+        player.style.left = `${(x/containerWidth)*100}%`;
 
         setTimeout(() => {
-            player.style.top = `${y}px`;
+            player.style.top = `${(y/containerHeight)*100}%`;
         }, 500);
     } else {
-        player.style.top = `${y}px`;
+        player.style.top = `${(y/containerHeight)*100}%`;
 
         setTimeout(() => {
-            player.style.left = `${x}px`;
+            player.style.left = `${(x/containerWidth)*100}%`;
         }, 500);
     }
 
@@ -24,25 +28,18 @@ function movePlayer(x, y, id, socket) {
         socket.emit("playerMove", {x: x, y: y, id: id})
     }
 }
-  
 
-function updateUserPosition(onlineUsers){
-
+function updateUserPosition(onlineUsers) {
     console.log("updating user position")
-    
-    
+
     onlineUsers.forEach(user => {
-        console.log(user.id)
         const player = document.getElementById(user.id);
 
-        console.log(player)
-
         if(player) {
-            player.style.left = `${user.x}px`;
-            player.style.top = `${user.y}px`;
+            player.style.left = `${(user.x/containerWidth)*100}%`;
+            player.style.top = `${(user.y/containerHeight)*100}%`;
         }
     });
-
 }
 
 export default { 

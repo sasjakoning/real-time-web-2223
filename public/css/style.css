@@ -83,8 +83,8 @@ main.lobby {
 }
 
 .player {
-    width: 10%;
-    height: 50%;
+    width: 13%;
+    height: 65%;
 	/* background: red; */
 
 	position: absolute;
@@ -92,7 +92,8 @@ main.lobby {
 	left: 100%;
 	top: 100%;
 
-	transform: translate(-50%, -50%);
+	transform: translateY(-90%);
+	transform-origin: top;
 	transition: .5s ease-in;
 	rotate: x -11deg;
 }
