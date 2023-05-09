@@ -29,36 +29,31 @@ export default (io, socket, onlineUsers) => {
 
     socket.on("playerMove", (data) => {
         // get player from onlineUsers matching the ID and update X and Y coordinates
-        for (let i = 0; i < onlineUsers.length; i++) {
-            const user = onlineUsers[i];
-            if (user.id === socket.id) {
-                user.x = data.x;
-                user.y = data.y;
-            }
-        };
+        const currentUser = matchIDs(onlineUsers, socket);
+        if (currentUser) {
+            currentUser.x = data.x;
+            currentUser.y = data.y;
+        }
 
         io.emit("updatePlayerMovement", { id: socket.id, x: data.x, y: data.y});
     })
 
     socket.on("setPlayerAnims" , (data) => {
-        for (let i = 0; i < onlineUsers.length; i++) {
-            const user = onlineUsers[i];
-            if (user.id === socket.id) {
-                user.anims = data.anims;
-            }
+
+        const currentUser = matchIDs(onlineUsers, socket);
+        if (currentUser) { 
+            currentUser.anims = data.anims;
         }
         
         io.emit('updateOnlineUsers', onlineUsers);
     });
 
     socket.on("setRiveStateMachine" , (data) => {
-        // console.log(data.stateMachine);
-        for (let i = 0; i < onlineUsers.length; i++) {
-            const user = onlineUsers[i];
-            if (user.id === socket.id) {
-                user.stateMachine = data.stateMachine;
-            }
+        const currentUser = matchIDs(onlineUsers, socket);
+        if (currentUser) {
+            currentUser.stateMachine = data.stateMachine;
         }
+        
         io.emit('updateOnlineUsers', onlineUsers);
     });
 
@@ -69,14 +64,22 @@ export default (io, socket, onlineUsers) => {
 
         // remove user from onlineUsers
 
-        for (let i = 0; i < onlineUsers.length; i++) {
-            const user = onlineUsers[i];
-            if (user.id === socket.id) {
-                onlineUsers.splice(i, 1);
-                io.emit('updateOnlineUsers', onlineUsers);
-                io.emit('userDisconnected', socket.id)
-            }
+        const currentUser = matchIDs(onlineUsers, socket);
+        if (currentUser) {
+            onlineUsers.splice(onlineUsers.indexOf(currentUser), 1);
+            io.emit('updateOnlineUsers', onlineUsers);
+            io.emit('userDisconnected', socket.id);
         }
     });
+
+    function matchIDs(onlineUsers, socket) {
+        for (let user of onlineUsers) {
+            if (user.id === socket.id) {
+                return user;
+            }
+        }
+        return null; // Return null if no match is found
+    }
+
 
 }

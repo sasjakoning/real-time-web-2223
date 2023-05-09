@@ -19,7 +19,7 @@ async function getApi() {
         
         const resizedData = data.payload.departures[0];
 
-        console.log(resizedData)
+        console.log("fetching finished")
         return resizedData;
     }catch(err) {
         console.log('error fetching api' + err );
