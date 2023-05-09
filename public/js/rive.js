@@ -12,7 +12,7 @@ async function character(canvas) {
       onLoad: (_) => {
         console.log("rive file loaded");
         canvasCharacter.resizeDrawingSurfaceToCanvas();
-        riveLoaded();
+        // riveLoaded();
 
         const inputs = canvasCharacter.stateMachineInputs("character-states");
 
@@ -23,16 +23,16 @@ async function character(canvas) {
         const leftWalk = inputs.find((i) => i.name === "left-walk");
         const rightWalk = inputs.find((i) => i.name === "right-walk");
 
-        // mainScript.initAnims(frontWalk, backWalk, leftWalk, rightWalk);
+        mainScript.initAnims(frontWalk, backWalk, leftWalk, rightWalk);
   
       },
     });
 
-    function riveLoaded(){
-      console.log(canvasCharacter.animator.stateMachines);
-      const stateMachine = canvasCharacter.animator.stateMachines
-      mainScript.sendRiveStateMachine(stateMachine);
-    };
+    // function riveLoaded(){
+    //   console.log(canvasCharacter.animator.stateMachines);
+    //   const stateMachine = canvasCharacter.animator.stateMachines
+    //   mainScript.sendRiveStateMachine(stateMachine);
+    // };
 
 }
 

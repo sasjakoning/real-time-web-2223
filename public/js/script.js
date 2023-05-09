@@ -6,10 +6,12 @@ let socket = io();
 
 let onlineUsers = [];
 
-let frontWalk;
-let backWalk;
-let leftWalk;
-let rightWalk;
+let animationInputs = [];
+
+// let frontWalk = []
+// let backWalk;
+// let leftWalk;
+// let rightWalk;
 
 // open user register dialog
 const registerDialog = document.querySelector("dialog");
@@ -35,8 +37,6 @@ if(lobby) {
 
 
     socket.on("onGetApiData", (data) => {
-        console.log(data)
-
         // create a countdown based on the four digit time string compared to the current time
 
         const timeString = data.actualDateTime;
@@ -45,11 +45,7 @@ if(lobby) {
         const timeDiff = time - timeNow;
         const timeDiffMinutes = Math.floor(timeDiff / 1000 / 60);
 
-        console.log(timeDiffMinutes)
-
-        console.log(time)
         // convert time to four digit string
-
         const timeShortened = time.toLocaleTimeString([],
         { hour: '2-digit', minute: '2-digit' });
 
@@ -100,7 +96,7 @@ if(lobby) {
 
         if(player && data.id !== socket.id) {
             console.log("updating external player position", data);
-            playerMovement.movePlayer(data.x, data.y, data.id, socket);
+            playerMovement.movePlayer(data.x, data.y, animationInputs, data.id, socket);
         }
     })
 
@@ -162,25 +158,27 @@ function handlePlayerMovement() {
         const x = e.offsetX;
         const y = e.offsetY;
 
-        console.log(onlineUsers[0].stateMachine[0].inputs[0])
-
-        console.log(x, y);
-        playerMovement.movePlayer(x, y, socket.id, socket);
+        playerMovement.movePlayer(x, y, animationInputs, socket.id, socket);
     });
 }
 
 function initAnims(front, back, left, right) {
-    frontWalk = front;
-    backWalk = back;
-    leftWalk = left;
-    rightWalk = right;
 
-    socket.emit("setPlayerAnims", {anims: {frontWalk, backWalk, leftWalk, rightWalk}, id: socket.id});
+    const userInput = {
+        id: socket.id,
+        front: front,
+        back: back,
+        left: left,
+        right: right
+    }
+
+    animationInputs.push(userInput);
+
+    // socket.emit("setPlayerAnims", {anims: {frontWalk, backWalk, leftWalk, rightWalk}, id: socket.id});
 }
 
 function sendRiveStateMachine(stateMachine) {
     socket.emit("setRiveStateMachine", {stateMachine: stateMachine, id: socket.id});
-    console.log("sending stateMachine to server")
 }
 
 export default {
