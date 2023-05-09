@@ -34,7 +34,7 @@ if(lobby) {
     setInterval(getApiData, 60 * 1000);
 
 
-    socket.on("apiData", (data) => {
+    socket.on("onGetApiData", (data) => {
         console.log(data)
 
         // create a countdown based on the four digit time string compared to the current time
@@ -95,7 +95,7 @@ if(lobby) {
     registerDialog.addEventListener("close", handlePlayerMovement());
 
     // update player position
-    socket.on("updatePlayerMovement", (data) => {
+    socket.on("onPlayerMove", (data) => {
         const player = document.getElementById(data.id);
 
         if(player && data.id !== socket.id) {

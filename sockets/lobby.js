@@ -10,7 +10,7 @@ export default (io, socket, onlineUsers) => {
 
     socket.on("getApiData", async () => {
         const data = await api.getApi();
-        socket.emit("apiData", data)
+        socket.emit("onGetApiData", data)
     })
 
     // 3. HANDLE NEW USER SIGN IN
@@ -35,7 +35,7 @@ export default (io, socket, onlineUsers) => {
             currentUser.y = data.y;
         }
 
-        io.emit("updatePlayerMovement", { id: socket.id, x: data.x, y: data.y});
+        io.emit("onPlayerMove", { id: socket.id, x: data.x, y: data.y});
     })
 
     socket.on("setPlayerAnims" , (data) => {
