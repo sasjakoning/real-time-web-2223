@@ -88,3 +88,75 @@ To create a better idea of what happens within the app, I made a flowchart that 
 
 <img src="readme-images/flowchart.jpg" width="800px">
 
+## Development versions
+
+<!-- Show off different versions with detail elements -->
+
+### Version 1
+<details>
+    <summary>
+        View details
+    </summary>
+    <hr>
+    <p>
+        In version 1 I set up the basic structure of the app. I created a simple server and client. The client can connect to the server and the server can send data to the client.
+    </p>
+    <img src="readme-images/v1.png" width="400px">
+</details>
+
+### Version 2
+<details>
+    <summary>
+        View details
+    </summary>
+    <hr>
+    <p>
+        In version 2 I set up the communication with Socket.io and created a simple user sign in with a dialog element. The user can enter their name and join the lobby.
+    </p>
+    <img src="readme-images/v2.png" width="400px">
+</details>
+
+### Version 3
+<details>
+    <summary>
+        View details
+    </summary>
+    <hr>
+    <p>
+        In version 3 I implemented basic user movement using the WASD keys. This movement would be send to the server and broadcasted to all other users. This did however cause lag and would overload the server when hosted on a domain. This due to the amount of data being send to the server and back to the clients.
+    </p>
+    <img src="readme-images/v3.png" width="400px">
+</details>
+
+### Version 4
+<details>
+    <summary>
+        View details
+    </summary>
+    <hr>
+    <p>
+        Version 4 was quite similar to version 3. The main difference was that the player could now not only move with WASD but also with the on screen controls. I still had some issues with the server lag and crashing. To fix this I looked into interpolation and throttling. This turned out to be quite complex and after some brainstorming and research I decided to go with a different approach.
+    </p>
+    <img src="readme-images/v4.png" width="400px">
+</details>
+
+### Version 5
+<details>
+    <summary>
+        View details
+    </summary>
+    <hr>
+    <p>
+        In version 5 I implemented a new way for the user to navigate their character by clicking anywhere on the canvas element. This event would be caught by the client which would send the x and y coordinates to the server. 
+    </p>
+    
+    ```
+        playerContainer.addEventListener("click", (e) => {
+            const x = e.offsetX;
+            const y = e.offsetY;
+
+            playerMovement.movePlayer(x, y, socket.id, socket);
+        });
+    ```
+    <img src="readme-images/v3.png" width="400px">
+</details>
