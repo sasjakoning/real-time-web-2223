@@ -1,7 +1,7 @@
 import mainScript from './script.js';
 
 
-async function character(canvas) {
+async function character(canvas, id) {
     const canvasCharacter = await new rive.Rive({
       src: './images/character.riv',
       canvas: canvas,
@@ -23,7 +23,7 @@ async function character(canvas) {
         const leftWalk = inputs.find((i) => i.name === "left-walk");
         const rightWalk = inputs.find((i) => i.name === "right-walk");
 
-        mainScript.initAnims(frontWalk, backWalk, leftWalk, rightWalk);
+        mainScript.initAnims(frontWalk, backWalk, leftWalk, rightWalk, id);
   
       },
     });

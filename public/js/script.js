@@ -136,7 +136,7 @@ function addPlayer(id, username){
         playerCanvas.classList.add("playerCanvas");
         player.appendChild(playerCanvas);
 
-        rive.character(playerCanvas);
+        rive.character(playerCanvas, id);
         
         // add id to div
         player.id = id;
@@ -162,10 +162,10 @@ function handlePlayerMovement() {
     });
 }
 
-function initAnims(front, back, left, right) {
+function initAnims(front, back, left, right, id) {
 
     const userInput = {
-        id: socket.id,
+        id: id,
         front: front,
         back: back,
         left: left,
@@ -173,8 +173,6 @@ function initAnims(front, back, left, right) {
     }
 
     animationInputs.push(userInput);
-
-    // socket.emit("setPlayerAnims", {anims: {frontWalk, backWalk, leftWalk, rightWalk}, id: socket.id});
 }
 
 function sendRiveStateMachine(stateMachine) {
