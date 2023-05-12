@@ -164,7 +164,7 @@ For this project I decided to use the NS(Nederlandse Spoorwegen) API. This API p
 By sending a request to the API, you can get data about the stations and trains. In my case the only data relevant to me were the specific station and its upcoming departures.
 I created a data model to get a better understanding of the data I would get back from the API and what data I'd want to use in the app.
 
-<img src="readme-images/data-model.jpg" width="800px">
+<img src="readme-images/data-model.jpg" width="400px">
 
 <br>
 
@@ -195,9 +195,7 @@ The data lifecycle diagram describes the flow of data within the app. It shows e
 
 ## 🌐 Realtime Events
 
-<!-- table with socket events -->
-
-[COMING SOON]
+The following events are used to create a real time connection between the client and server. The events are emitted and listened to by both the client and server.
 
 | Event name | Description | Emit | Listen |
 | --- | --- | --- | --- |
