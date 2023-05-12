@@ -68,8 +68,8 @@ npm run start:dev
 - [🚋 Proof Of Concept](#-proof-of-concept)
   - [📖 Concept](#-concept)
   - [🔷 Flowchart](#-flowchart)
-  - [🔁 Lifecycle Diagram](#-lifecycle-diagram)
   - [🧠 Data Model API](#-data-model-api)
+  - [🔁 Lifecycle Diagram](#-lifecycle-diagram)
   - [🌐 Realtime Events](#-realtime-events)
   - [🎨 Visuals](#-visuals)
     - [🕺 Character Design](#-character-design)
@@ -151,23 +151,45 @@ The main platform this app will be used on are mobile browsers. This mainly beca
 
 To create a better idea of what happens within the app, I made a flowchart that describes all functions. 
 
-(WIP)
+This flowchart is based on one of the earlier iterations of the app. The final version of the app may have a different flow. I created this chart mainly to give myself, as a developer, a better understanding of what happens within the app.
 
 <img src="readme-images/flowchart.jpg" width="800px">
-
-## 🔁 Lifecycle Diagram
-
-[INFO SOON]
-
-<img src="readme-images/data-lifecycle.jpg" width="800px">
 
 <br>
 
 ## 🧠 Data Model API
 
-[INFO SOON]
+For this project I decided to use the NS(Nederlandse Spoorwegen) API. This API provides data about the Dutch railways. My general idea for the app was to create a lobby of sorts in which users could move their character around. The NS API proved to be a good fit for this idea and inspired me to create a lobby where users can move around a train station while they wait for their train to arrive.
+
+By sending a request to the API, you can get data about the stations and trains. In my case the only data relevant to me were the specific station and its upcoming departures.
+I created a data model to get a better understanding of the data I would get back from the API and what data I'd want to use in the app.
 
 <img src="readme-images/data-model.jpg" width="800px">
+
+<br>
+
+I used the following query to get the data I needed:
+
+```js
+`https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/departures?station=${stationCode}`
+```
+
+The returned data object:
+
+<img src="readme-images/api-screenshot.png" width="300px">
+
+<br>
+
+The data I got back from the API was a JSON object with a lot of data. I only needed a few properties from the object. I adjusted the amount of data send back to the client to only contain the first upcoming departure. This way I could easily display the data on the screen.
+
+
+<br>
+
+## 🔁 Lifecycle Diagram
+
+The data lifecycle diagram describes the flow of data within the app. It shows emits and listeners for socket events and how the data is handled and what it sends back.
+
+<img src="readme-images/data-lifecycle.jpg" width="800px">
 
 <br>
 
@@ -179,7 +201,15 @@ To create a better idea of what happens within the app, I made a flowchart that 
 
 | Event name | Description | Emit | Listen |
 | --- | --- | --- | --- |
-| `playerMovement` | Sends the x and y coordinates of the player to the server | Client | Server |
+| `connection` | Establishes connection | Client | Server |
+| `updateOnlineUsers` | Sends current onlineUsers array | Server | Client |
+| `getApiData` | Request API call | Client | Server |
+| `onGetApiData` | Return data from API call | Server | Client |
+| `newUser` | Add new user to onlineUsers array | Client | Server |
+| `playerMove` | Send X and Y coordinates and ID of current user | Client | Server |
+| `onPlayerMove` | Send X and Y coordinates and ID of a user to all clients | Server | Client |
+| `disconnect` | Breaks connection | Client | Server |
+| `userDisconnected` | Remove user from onlineUsers array and DOM by ID | Server | Client |
 
 <br>
 
@@ -190,9 +220,7 @@ I drew the base character that could be used for the app. In this case I based t
 
 <img src="readme-images/character-sketch.png" width="200px">
 
-<img src="readme-images/character.png" width="200px">
-<img src="readme-images/side.png" width="200px">
-<img src="readme-images/backside.png" width="200px">
+<img src="readme-images/character.png" width="200px"> <img src="readme-images/side.png" width="200px"> <img src="readme-images/backside.png" width="200px">
 
 <br>
 
