@@ -180,7 +180,7 @@ The returned data object:
 
 <br>
 
-The data I got back from the API was a JSON object with a lot of data. I only needed a few properties from the object. I adjusted the amount of data send back to the client to only contain the first upcoming departure. This way I could easily display the data on the screen.
+The data I got back from the API was a JSON object with a lot of data. I only needed a few properties from the object. I adjusted the amount of data send back to the client to only contain the first upcoming departure. This way I could easily display the data on the screen. I set up the code in such a way that every minute it sends a new request to get an update of the departure time. I match the time of the departure with the current time and add a countdown to the DOM.
 
 
 <br>
