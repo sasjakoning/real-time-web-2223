@@ -501,4 +501,8 @@ Hand written notes of all lectures and brainstorms can be found [here](https://d
 - [NS API](https://apiportal.ns.nl/)
 - [Rive](https://rive.app/)   
 - [Socket.io](https://socket.io/) 
--  
+- My dear peers for sparring with me and helping me out when I got stuck!
+- Robert was a great rubber duck
+- All my Patreons for supporting me and making this possible! (Lying, I don't have any Patreons)
+- Github Copilot my beloved
+- ChatGPT... When it works (sometimes)
