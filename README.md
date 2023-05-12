@@ -240,11 +240,11 @@ Using photoshop I created a background which is a train station set in perspecti
 
 <br>
 
-### 🔳 Wireframe
+### 🔳 Wireframes
 
 I created a simple wireframe to get a general idea of the app
 
-<img src="readme-images/wireframe-1.jpg" width="200px"> <img src="readme-images/wireframe-2.jpg" width="200px"> <img src="readme-images/wireframe-3.jpg" width="200px">
+<img src="readme-images/wireframes.jpg" width="600px">
 
 <br>
 
@@ -266,6 +266,17 @@ During version 5 of development I had my first peer feedback session. I showed m
 
 ### Peer Feedback Session 2
 
+On the last day of the project I had another peer feedback session to get some feedback on the final product. I showed my concept and final product to my peers and got some valuable feedback.
+
+- Something that this app could potentially be missing is a chat function. This way users can communicate with each other.
+    - This is something that I originally planned to add to the app but didn't find the time to implement. I think this would be a great addition to the app. though, I also feel that the experience can be quite unique without a way to chat with other users.
+- The app is missing a offline mode. Currently the user isn't given feedback when they lose connection to the server.
+    - This is something I still wish to add!
+- The app looks cool!
+- I should add a reflection to the readme based on goals I set at the start of the project. 
+    - I added a reflection to the readme
+- There seems to be a bug where, when two players walk at the same time, the values triggering walk animations sometimes get stuck on true. This causes the walking animation to keep playing even when the player isn't moving.
+    - This is something I still wish to fix!
 <br>
 
 ## 💻 Development versions
@@ -450,6 +461,36 @@ The final version of the app is a multi-user lobby where that users can join whe
 ## 🤔 Conlusion / Reflection
 
 <!-- conclusion and stuff i want to do in the future -->
+
+Generally I'm very happy with how this project turned out. I learned an incredible amount of new things especially when to comes the handling real time events and using sockets. Learning about the real time web opened up a whole new world of fun projects for me. The idea of creating something where users can interact with each other is something that motivates me to continue creating fun and interactive apps.
+
+before I started following the course Communication and Multimedia Design I had done a four year course on Game art. So to be able to create something, using the web, that has a game like feel to it is something that I really enjoyed. It gave me a a chance to combine several of my passions, games, art, animation and web development.
+
+There are a couple of things of which I couldn't find the time to implement. One of my main goals working on this project was to create a lobby similar to the game Among Us. In this game multiple people can join a room and change their appearance and interact with each other.
+
+My app has the functionality to join a room together but I had not been able to add different skins the the app. My original idea was to create a bunch of different skins based on people in my friends group. Users that joined the lobby could then walk up to a check-in point and change their appearance. This would be a fun way to interact with each other and make the app more personal.
+
+Another thing I would have liked to add is a chat function. Currently it feels a little boring when you join the lobby. All you can do is move your character around and that's it. It would have been a fun experience for a user to be able to walk around and chat with people that are currently waiting for their train. This may even be a way to meet new people and make new friends.
+
+I also wished to make an app which had multiple lobby's that users could join based on what station they're at and which direction they're planning to go. This as well is something I didn't have time for.
+
+At the start of this project I wrote down a couple of goals that I wanted to achieve during this project. I reflect on these goals below.
+
+Goals set by the course:
+
+- Deal with real time complexity / Handle real time client-server interaction / Handle real time data management
+    - I think I did a pretty good job at working with real time complexity. I scratched my head a couple of times tryig to figure out communication between client and server but eventually got to something im quite happy with.
+- Handle multi user support
+    - I managed to create an app in which users can join a lobby together and interact with each other.
+ 
+Personal goals:
+
+- Move characters(DOM elements) through a space in real time
+    - After quite a bit of trail and error I am quite proud to say I got this working. Originally my plan was to have players move their characters around using on screen controls but having them move by clicking on the canvas turned out to be even better. I do wish I could have created a way for the character to calculate the best path to the clicked location more accurately but I'm happy with the result.
+- Pull accurate data from the NS API
+    - I managed to pull data from the NS API and display it in a fun way. I do wish I could have added more data to the app but I'm happy with what I've got.
+- Animate characters and give them skins using Rive
+    - On of my favorite things to do lately is to incorporate my love for art and animation into web development. Because of that, it's no wonder I try to set up a goal involving Rive in nearly every project. I'm happy to say I managed to create a fun little animation using Rive. I do wish I could have added more animations and skins but I'm already very proud of what I created in such a short time.
 
 ## ⭐ Additional notes
 
