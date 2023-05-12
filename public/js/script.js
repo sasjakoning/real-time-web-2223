@@ -1,162 +1,185 @@
-import playerMovement from "./playerMovement.js";
-import userSignIn from "./userSignIn.js";
+import userSignIn from './userSignIn.js';
+import rive from './rive.js';
+import playerMovement from './playerMovement.js';
 
-// load socket.io
 let socket = io();
 
-// // get currently online users
-// socket.emit("getOnlineUsers");
+let onlineUsers = [];
 
-// get DOM for lobby, player container and user list
-const lobby = document.querySelector(".lobby");
-const playerContainer = document.querySelector(".container");
-const userList = document.querySelector(".userList");
+let animationInputs = [];
+
+// let frontWalk = []
+// let backWalk;
+// let leftWalk;
+// let rightWalk;
 
 // open user register dialog
 const registerDialog = document.querySelector("dialog");
 registerDialog.showModal();
 
+// get player container
+const playerContainer = document.querySelector(".container");
 
-// check if user is on lobby page
-if (lobby) {
+// check if lobby page is loaded
+const lobby = document.querySelector('.lobby');
 
-    let playerId;
+if(lobby) {
 
-    // handle new user sign in
-    userSignIn.userSignIn(socket, registerDialog);
+    function getApiData() {
+        console.log("getting API data");
+        socket.emit("getApiData");
+    }
 
-    // handle currently online users by adding to user list
-    socket.on("onlineUsers", (onlineUsers) => {
-        console.log("currently online users: ", onlineUsers);
-        for (let id in onlineUsers) {
+    // Get API data on load
+    getApiData();
+    // Then get API data every minute
+    setInterval(getApiData, 60 * 1000);
 
-            console.log("id: ", id, "playerId: ", socket.id)
-            
-            addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
-            // turn onlineUsers into an array
-            const onlineUsersArray = Object.entries(onlineUsers);
 
-            updateUserlist(onlineUsersArray);
+    socket.on("onGetApiData", (data) => {
+        // create a countdown based on the four digit time string compared to the current time
 
-            playerMovement.updateUserPosition(onlineUsersArray);
+        const timeString = data.actualDateTime;
+        const time = new Date(timeString);
+        const timeNow = new Date();
+        const timeDiff = time - timeNow;
+        const timeDiffMinutes = Math.floor(timeDiff / 1000 / 60);
 
+        // convert time to four digit string
+        const timeShortened = time.toLocaleTimeString([],
+        { hour: '2-digit', minute: '2-digit' });
+
+        const infoBoard = document.querySelector(".infoContainer--info");
+
+        infoBoard.innerHTML = "";
+        const directionText = document.createElement("p");
+        directionText.textContent = data.direction;
+        const timeWrapper = document.createElement("div");
+        const departureText = document.createElement("p");
+        departureText.textContent = timeShortened;
+        const countdown = document.createElement("p");
+        countdown.textContent = timeDiffMinutes + " minuten";
+
+        timeWrapper.appendChild(departureText);
+        timeWrapper.appendChild(countdown);
+
+
+        infoBoard.appendChild(timeWrapper);
+        infoBoard.appendChild(directionText);
+    })
+
+    // 1. UPDATE ONLINE USERS
+    socket.on('updateOnlineUsers', (users) => {
+        onlineUsers = users;
+        updateOnlineUsers();
+        playerMovement.updateUserPosition(onlineUsers);
+
+        // add players to container
+        for (let i = 0; i < onlineUsers.length; i++) {
+            const user = onlineUsers[i];
+            addPlayer(user.id, user.username);
         }
     });
 
 
-    // handle new user
-    socket.on("userConnected", (onlineUsers, id) => {
-        for (let id in onlineUsers) {
-            console.log("ADDING PLAYER ON USERCONNECTED")
-            addPlayer(id, onlineUsers[id].x, onlineUsers[id].y);
-
-
-            // turn onlineUsers into an array
-            const onlineUsersArray = Object.entries(onlineUsers);
-
-            updateUserlist(onlineUsersArray);
-        }
+    // 2. HANDLE NEW USER
+    const usernameForm = document.querySelector("#usernameForm");
+    usernameForm.addEventListener("submit", (e) => {
+        userSignIn.userSignIn(socket, registerDialog, e);
     });
 
+    registerDialog.addEventListener("close", handlePlayerMovement());
 
-    socket.on("playerId", (id) => {
-        console.log("setting player id: ", id);
-        playerId = id;
-    });
-
-    // check if dialog is closed before adding event listener
-    registerDialog.addEventListener("close", () => {
-
-        playerContainer.addEventListener("click", (e) => {
-            const x = e.offsetX;
-            const y = e.offsetY;
-
-            playerMovement.movePlayer(x, y, socket.id, socket);
-        });
-
-    });
-
-
-
-    // update external player position
-    socket.on("updatePlayerMovement", (data) => {
+    // update player position
+    socket.on("onPlayerMove", (data) => {
         const player = document.getElementById(data.id);
 
         if(player && data.id !== socket.id) {
-            playerMovement.movePlayer(data.x, data.y, data.id, socket);
+            console.log("updating external player position", data);
+            playerMovement.movePlayer(data.x, data.y, animationInputs, data.id, socket);
         }
     })
 
-
-    // handle user disconnect by removing from user list
-    socket.on("userDisconnected", (onlineUsers, id, reason) => {
-
-        console.log("user disconnected: ", id, "reason: ", reason)
-
-
-        if (!Object.keys(onlineUsers).length === 0) {
-            updateUserlist(onlineUsers);
-        }
-
-        // remove player for container based on id
+    socket.on("userDisconnected", (id) => {
+        console.log("user disconnected", id);
         const player = document.getElementById(id);
-        if(player){
-            playerContainer.removeChild(player);
-        }
-    });
 
+        if(player) {
+            player.remove();
+        }
+    })
     
 }
 
-function addPlayer(id, x, y) {
-    const playerExists = document.getElementById(id);
+function updateOnlineUsers() {
+    let onlineUsersList = document.querySelector('.userList');
+    onlineUsersList.innerHTML = '';
 
-    if(!playerExists){
-        const player = document.createElement("div");
-    
-        player.id = id;
-        player.classList.add("player");
-    
-        playerContainer.appendChild(player);
+    for (let i = 0; i < onlineUsers.length; i++) {
+        const user = onlineUsers[i];
+        let li = document.createElement('li');
+        li.innerHTML = user.username;
+        onlineUsersList.appendChild(li);
     }
 
 };
 
-function updateUserlist(onlineUsers) {
+function addPlayer(id, username){
+    const playerExists = document.getElementById(id);
 
-    // clear userList
-    
-    while (userList.firstChild) {
-        userList.removeChild(userList.firstChild);
+    if(!playerExists){
+        console.log("adding new player to container");
+
+        // create div with canvas
+        const player = document.createElement('div');
+        const playerCanvas = document.createElement('canvas');
+        playerCanvas.classList.add("playerCanvas");
+        player.appendChild(playerCanvas);
+
+        rive.character(playerCanvas, id);
+        
+        // add id to div
+        player.id = id;
+        player.classList.add('player');
+
+        // add username to div
+        const playerName = document.createElement('p');
+        playerName.textContent = username;
+        player.appendChild(playerName);
+
+        playerContainer.appendChild(player);
+    }else {
+        console.log("player already exists");
     }
-
-    onlineUsers.forEach(user => {
-        const newUser = document.createElement("li");
-        const newUserTitle = document.createElement("p");
-        newUserTitle.textContent = user[1].username;
-        newUser.appendChild(newUserTitle);
-        userList.appendChild(
-            // create a new li element
-            Object.assign(newUser)
-        );
-    });
-
 }
 
+function handlePlayerMovement() {
+    playerContainer.addEventListener('click', (e) => {
+        const x = e.offsetX;
+        const y = e.offsetY;
 
+        playerMovement.movePlayer(x, y, animationInputs, socket.id, socket);
+    });
+}
 
-// const apiKey = "";
-// const stationCode = "EKZ"; // replace with your desired station code
+function initAnims(front, back, left, right, id) {
 
-// fetch(`https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/departures?station=${stationCode}`, {
-//   headers: {
-//     "Ocp-Apim-Subscription-Key": apiKey
-//   }
-// })
-// .then(response => response.json())
-// .then(data => {
-//   console.log(data);
-// })
-// .catch(error => {
-//   console.error(error);
-// });
+    const userInput = {
+        id: id,
+        front: front,
+        back: back,
+        left: left,
+        right: right
+    }
+
+    animationInputs.push(userInput);
+}
+
+function sendRiveStateMachine(stateMachine) {
+    socket.emit("setRiveStateMachine", {stateMachine: stateMachine, id: socket.id});
+}
+
+export default {
+    initAnims,
+    sendRiveStateMachine
+}

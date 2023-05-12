@@ -1,8 +1,8 @@
 {
-  "name": "real-time-web-2021",
+  "name": "ns-lobby",
   "version": "1.0.0",
-  "description": "A web app",
-  "main": "index.js",
+  "description": "NS Lobby is a multi-user lobby where that users can join when they're waiting for their train to depart. Users can fill in their name and move their player around a virtual train station. This makes for a fun way to kill time while waiting for your train.",
+  "main": "app.js",
   "directories": {
     "doc": "docs"
   },
@@ -35,6 +35,7 @@
     "express-handlebars": "^7.0.2",
     "express-session": "^1.17.3",
     "http": "^0.0.1-security",
+    "node-fetch": "^3.3.1",
     "socket.io": "^4.6.1"
   },
   "devDependencies": {

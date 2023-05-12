@@ -33,7 +33,7 @@ app.use(session({
 }));
 
 
-let onlineUsers = {};
+let onlineUsers = [];
 
 io.on('connection', (socket) => {
 

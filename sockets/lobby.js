@@ -1,39 +1,85 @@
+import api from '../helpers/api.js';
+
 export default (io, socket, onlineUsers) => {
+    // 1. HANDLE USER CONNECTION
 
-    console.log("currently online users: ", onlineUsers);
+    console.log('a user connected to lobby');
 
-    io.emit("onlineUsers", onlineUsers);
+    // 2. SEND CURRENTLY ONLINE USERS TO CLIENT
+    io.emit('updateOnlineUsers', onlineUsers);
 
-    socket.emit("playerId", socket.id);
+    socket.on("getApiData", async () => {
+        const data = await api.getApi();
+        socket.emit("onGetApiData", data)
+    });
 
-    socket.on("newUser", (username) => {
-
-        onlineUsers[socket.id] = {
+    // 3. HANDLE NEW USER SIGN IN
+    socket.on('newUser', (username) => {
+        const user = {
+            username: username,
+            id: socket.id,
             x: 0,
             y: 0,
-            username: username
         };
 
-        io.emit("userConnected", onlineUsers, socket.id);
+        onlineUsers.push(user);
 
-        console.log(`User connected: ${socket.id}`);
+        io.emit('updateOnlineUsers', onlineUsers);
     });
 
     socket.on("playerMove", (data) => {
-        // const player = onlineUsers[socket.id];
+        // get player from onlineUsers matching the ID and update X and Y coordinates
+        const currentUser = matchIDs(onlineUsers, socket);
+        if (currentUser) {
+            currentUser.x = data.x;
+            currentUser.y = data.y;
+        }
 
-        onlineUsers[socket.id].x = data.x;
-        onlineUsers[socket.id].y = data.y;
-
-        io.emit("updatePlayerMovement", { id: socket.id, x: data.x, y: data.y });
+        io.emit("onPlayerMove", { id: socket.id, x: data.x, y: data.y});
     })
 
-    // handle disconnect event, remove user from onlineUsers and send to client.
-    socket.on('disconnect', (reason) => {
-        console.log("reason: ", reason);
-        const id = socket.id;
-        delete onlineUsers[socket.id];
-        io.emit("userDisconnected", onlineUsers,id, reason);
-        console.log(`User disconnected: ${socket.id}`);
-    })
+    socket.on("setPlayerAnims" , (data) => {
+
+        const currentUser = matchIDs(onlineUsers, socket);
+        if (currentUser) { 
+            currentUser.anims = data.anims;
+        }
+        
+        io.emit('updateOnlineUsers', onlineUsers);
+    });
+
+    socket.on("setRiveStateMachine" , (data) => {
+        const currentUser = matchIDs(onlineUsers, socket);
+        if (currentUser) {
+            currentUser.stateMachine = data.stateMachine;
+        }
+        
+        io.emit('updateOnlineUsers', onlineUsers);
+    });
+
+    
+    // ?. HANDLE USER DISCONNECT
+    socket.on('disconnect', () => {
+        console.log('a user disconnected from lobby');
+
+        // remove user from onlineUsers
+
+        const currentUser = matchIDs(onlineUsers, socket);
+        if (currentUser) {
+            onlineUsers.splice(onlineUsers.indexOf(currentUser), 1);
+            io.emit('updateOnlineUsers', onlineUsers);
+            io.emit('userDisconnected', socket.id);
+        }
+    });
+
+    function matchIDs(onlineUsers, socket) {
+        for (let user of onlineUsers) {
+            if (user.id === socket.id) {
+                return user;
+            }
+        }
+        return null; // Return null if no match is found
+    }
+
+
 }
