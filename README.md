@@ -1,13 +1,17 @@
 
 # NS Lobby
 
-## Description
+### 🚀 [Live Demo](https://ns-lobby.up.railway.app/)
+
+<br>
+
+## 📝 Description
 
 NS Lobby is a multi-user lobby where that users can join when they're waiting for their train to depart. Users can fill in their name and move their player around a virtual train station. This makes for a fun way to kill time while waiting for your train.
 
 <br>
 
-## Installation
+## ⬇️ Installation
 
 ### Clone the repository
 
@@ -39,7 +43,7 @@ npm run start:dev
 <hr>
 <br>
 
-# Documentation
+# 📚 Documentation
 
 <br>
 
@@ -49,32 +53,33 @@ npm run start:dev
   * [Goals / Learning Objectives](#goals---learning-objectives)
   * [Introductory Assignment](#introductory-assignment)
 - [NS Lobby](#ns-lobby)
-  - [Description](#description)
-  - [Installation](#installation)
+    - [🚀 Live Demo](#-live-demo)
+  - [📝 Description](#-description)
+  - [⬇️ Installation](#️-installation)
     - [Clone the repository](#clone-the-repository)
     - [Install dependencies](#install-dependencies)
     - [Create a .env file and add your API key](#create-a-env-file-and-add-your-api-key)
     - [Run the app](#run-the-app)
-- [Documentation](#documentation)
+- [📚 Documentation](#-documentation)
   - [Table of contents](#table-of-contents)
-  - [Course Description](#course-description)
-  - [Goals / Learning Objectives](#goals--learning-objectives)
-  - [Introductory Assignment](#introductory-assignment)
-- [Proof Of Concept](#proof-of-concept)
-  - [Concept](#concept)
-  - [Visuals](#visuals)
-    - [Character Design](#character-design)
-    - [Character Animation](#character-animation)
-    - [Background](#background)
-    - [Wireframe](#wireframe)
-  - [Flowchart](#flowchart)
-  - [Lifecycle Diagram](#lifecycle-diagram)
-  - [Data Model API](#data-model-api)
-  - [Realtime Events](#realtime-events)
-  - [Feedback Session](#feedback-session)
+  - [📝 Course Description](#-course-description)
+  - [✅ Goals / Learning Objectives](#-goals--learning-objectives)
+  - [🤔 Introductory Assignment](#-introductory-assignment)
+- [🚋 Proof Of Concept](#-proof-of-concept)
+  - [📖 Concept](#-concept)
+  - [🎨 Visuals](#-visuals)
+    - [🕺 Character Design](#-character-design)
+    - [🚶‍♂️ Character Animation](#️-character-animation)
+    - [🖼️ Background](#️-background)
+    - [🔳 Wireframe](#-wireframe)
+  - [🔷 Flowchart](#-flowchart)
+  - [🔁 Lifecycle Diagram](#-lifecycle-diagram)
+  - [🧠 Data Model API](#-data-model-api)
+  - [🌐 Realtime Events](#-realtime-events)
+  - [✍️ Feedback Session](#️-feedback-session)
     - [Peer Feedback Session 1](#peer-feedback-session-1)
     - [Peer Feedback Session 2](#peer-feedback-session-2)
-  - [Development versions](#development-versions)
+  - [💻 Development versions](#-development-versions)
     - [Version 1](#version-1)
     - [Version 2](#version-2)
     - [Version 3](#version-3)
@@ -83,20 +88,20 @@ npm run start:dev
     - [Version 6](#version-6)
     - [Version 7](#version-7)
     - [Version 8](#version-8)
-  - [Final version (For now)](#final-version-for-now)
-  - [Conlusion / Reflection](#conlusion--reflection)
-  - [Additional notes](#additional-notes)
-  - [Sources](#sources)
+  - [🎊 Final version (For now)](#-final-version-for-now)
+  - [🤔 Conlusion / Reflection](#-conlusion--reflection)
+  - [⭐ Additional notes](#-additional-notes)
+  - [🔖 Sources](#-sources)
 
 <br>
 
-## Course Description
+## 📝 Course Description
 
 Real Time Web is a course from the minor Web Design & Development. During this course I'll learn all about the real time web and learn to create a live connection between the client, server and other users. I'll be able to send data real time both ways and at the same time.
 
 <br>
 
-## Goals / Learning Objectives
+## ✅ Goals / Learning Objectives
 
 There are a few goals I have to achieve during this course:
 
@@ -111,18 +116,20 @@ Additionally, there are a couple of things I wish to learn as well:
 - Pull accurate data from the NS API
 - Animate characters and give them skins using Rive
 
-## Introductory Assignment
+## 🤔 Introductory Assignment
 
 To kick this course off we were assigned to create a simple chat app so we could experiment using socket.io. While the assignment was generally meant to be executed in teams, I decided to work on this assignment on my own. I decided to remake a demo of Whatsapp on the web. 
 I created a room which clients could enter and fill in their name and chat with each other. Making this assignment helped me get an understanding of real time web and the use of socket.io to implement web sockets. I used this code as a base for my next assignment.
 
 <img src="readme-images/chatapp.gif" width="300px">
 
-# Proof Of Concept
+<br>
+
+# 🚋 Proof Of Concept
 
 This is the main assignment of this course. My goal will be to build a meaningful webapp that consumes an external source. 
 
-## Concept
+## 📖 Concept
 
 While working on several assignments during the minor Web Design & Development I already came up with a vague idea to create an online lobby where players can join and move characters around. This idea mainly matches waiting lobbies such as in games. Mainly Among Us and Goose Goose duck.
 
@@ -143,9 +150,9 @@ The main platform this app will be used on are mobile browsers. This mainly beca
 
 <br>
 
-## Visuals
+## 🎨 Visuals
 
-### Character Design
+### 🕺 Character Design
 I drew the base character that could be used for the app. In this case I based the design of the character on myself and aim to add more skins to look like other people(and friends).
 
 <img src="readme-images/character-sketch.png" width="200px">
@@ -156,7 +163,7 @@ I drew the base character that could be used for the app. In this case I based t
 
 <br>
 
-### Character Animation
+### 🚶‍♂️ Character Animation
 For the player movement I created idle and walk animations in all four directions. I used a mix of bone-based and frame-by-frame animation to get the desired result. To make these animations I used Rive. By using Rive I'm able to create bone-based animations and add input based logic to trigger animations on the web.
 
 <img src="readme-images/animations.gif" width="200px">
@@ -165,7 +172,7 @@ For the player movement I created idle and walk animations in all four direction
 
 <br>
 
-### Background
+### 🖼️ Background
 
 Using photoshop I created a background which is a train station set in perspective. This way the player will look like it's physically walking back and forth on the canvas.
 
@@ -174,7 +181,7 @@ Using photoshop I created a background which is a train station set in perspecti
 
 <br>
 
-### Wireframe
+### 🔳 Wireframe
 
 I created a simple wireframe to get a general idea of the app
 
@@ -184,7 +191,7 @@ I created a simple wireframe to get a general idea of the app
 
 <br>
 
-## Flowchart
+## 🔷 Flowchart
 
 To create a better idea of what happens within the app, I made a flowchart that describes all functions. 
 
@@ -192,7 +199,7 @@ To create a better idea of what happens within the app, I made a flowchart that 
 
 <img src="readme-images/flowchart.jpg" width="800px">
 
-## Lifecycle Diagram
+## 🔁 Lifecycle Diagram
 
 [INFO SOON]
 
@@ -200,7 +207,7 @@ To create a better idea of what happens within the app, I made a flowchart that 
 
 <br>
 
-## Data Model API
+## 🧠 Data Model API
 
 [INFO SOON]
 
@@ -208,7 +215,7 @@ To create a better idea of what happens within the app, I made a flowchart that 
 
 <br>
 
-## Realtime Events
+## 🌐 Realtime Events
 
 <!-- table with socket events -->
 
@@ -220,7 +227,7 @@ To create a better idea of what happens within the app, I made a flowchart that 
 
 <br>
 
-## Feedback Session
+## ✍️ Feedback Session
 
 ### Peer Feedback Session 1
 During version 5 of development I had my first peer feedback session. I showed my concept and development versions to two of my peers and got some valuable feedback.
@@ -240,7 +247,7 @@ During version 5 of development I had my first peer feedback session. I showed m
 
 <br>
 
-## Development versions
+## 💻 Development versions
 
 ### Version 1
 <details>
@@ -411,7 +418,7 @@ During version 5 of development I had my first peer feedback session. I showed m
 
 <br>
 
-## Final version (For now)
+## 🎊 Final version (For now)
 
 The final version of the app is a multi-user lobby where that users can join when they're waiting for their train to depart. Users can fill in their name and move their player around a virtual train station. This makes for a fun way to kill time while waiting for your train.
 
@@ -419,15 +426,15 @@ The final version of the app is a multi-user lobby where that users can join whe
 <br>
 <img src="readme-images/final-desktop.gif" width="600px">
 
-## Conlusion / Reflection
+## 🤔 Conlusion / Reflection
 
 <!-- conclusion and stuff i want to do in the future -->
 
-## Additional notes
+## ⭐ Additional notes
 
 Hand written notes of all lectures and brainstorms can be found [here](https://drive.google.com/file/d/1Hz0kcVOwPZ10zKLUCgjWimSPBgrEbl5V/view?usp=sharing)
 
-## Sources
+## 🔖 Sources
 
 - [NS API](https://apiportal.ns.nl/)
 - [Rive](https://rive.app/)   
