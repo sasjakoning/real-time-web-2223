@@ -67,15 +67,15 @@ npm run start:dev
   - [🤔 Introductory Assignment](#-introductory-assignment)
 - [🚋 Proof Of Concept](#-proof-of-concept)
   - [📖 Concept](#-concept)
+  - [🔷 Flowchart](#-flowchart)
+  - [🔁 Lifecycle Diagram](#-lifecycle-diagram)
+  - [🧠 Data Model API](#-data-model-api)
+  - [🌐 Realtime Events](#-realtime-events)
   - [🎨 Visuals](#-visuals)
     - [🕺 Character Design](#-character-design)
     - [🚶‍♂️ Character Animation](#️-character-animation)
     - [🖼️ Background](#️-background)
     - [🔳 Wireframe](#-wireframe)
-  - [🔷 Flowchart](#-flowchart)
-  - [🔁 Lifecycle Diagram](#-lifecycle-diagram)
-  - [🧠 Data Model API](#-data-model-api)
-  - [🌐 Realtime Events](#-realtime-events)
   - [✍️ Feedback Session](#️-feedback-session)
     - [Peer Feedback Session 1](#peer-feedback-session-1)
     - [Peer Feedback Session 2](#peer-feedback-session-2)
@@ -133,8 +133,7 @@ This is the main assignment of this course. My goal will be to build a meaningfu
 
 While working on several assignments during the minor Web Design & Development I already came up with a vague idea to create an online lobby where players can join and move characters around. This idea mainly matches waiting lobbies such as in games. Mainly Among Us and Goose Goose duck.
 
-<img src="readme-images/amongus.png" width="400px">
-<img src="readme-images/goosegooseduck.jpg" width="400px">
+<img src="readme-images/amongus.png" width="400px"> <img src="readme-images/goosegooseduck.jpg" width="400px">
 
 <br>
 
@@ -144,9 +143,43 @@ For my lobby, I decided to go with a lobby that people can join when they're wai
 
 The main platform this app will be used on are mobile browsers. This mainly because people waiting on their train are most likely on their phone. Ideally the app is responsive and works on all devices.
 
-<img src="readme-images/concept-1.png" width="200px">
-<img src="readme-images/concept-2.png" width="200px">
-<img src="readme-images/concept-3.png" width="200px">
+<img src="readme-images/concept-1.png" width="200px"> <img src="readme-images/concept-2.png" width="200px"> <img src="readme-images/concept-3.png" width="200px">
+
+<br>
+
+## 🔷 Flowchart
+
+To create a better idea of what happens within the app, I made a flowchart that describes all functions. 
+
+(WIP)
+
+<img src="readme-images/flowchart.jpg" width="800px">
+
+## 🔁 Lifecycle Diagram
+
+[INFO SOON]
+
+<img src="readme-images/data-lifecycle.jpg" width="800px">
+
+<br>
+
+## 🧠 Data Model API
+
+[INFO SOON]
+
+<img src="readme-images/data-model.jpg" width="800px">
+
+<br>
+
+## 🌐 Realtime Events
+
+<!-- table with socket events -->
+
+[COMING SOON]
+
+| Event name | Description | Emit | Listen |
+| --- | --- | --- | --- |
+| `playerMovement` | Sends the x and y coordinates of the player to the server | Client | Server |
 
 <br>
 
@@ -185,45 +218,7 @@ Using photoshop I created a background which is a train station set in perspecti
 
 I created a simple wireframe to get a general idea of the app
 
-<img src="readme-images/wireframe-1.jpg" width="200px">
-<img src="readme-images/wireframe-2.jpg" width="200px">
-<img src="readme-images/wireframe-3.jpg" width="200px">
-
-<br>
-
-## 🔷 Flowchart
-
-To create a better idea of what happens within the app, I made a flowchart that describes all functions. 
-
-(WIP)
-
-<img src="readme-images/flowchart.jpg" width="800px">
-
-## 🔁 Lifecycle Diagram
-
-[INFO SOON]
-
-<img src="readme-images/data-lifecycle.jpg" width="800px">
-
-<br>
-
-## 🧠 Data Model API
-
-[INFO SOON]
-
-<img src="readme-images/data-model.jpg" width="800px">
-
-<br>
-
-## 🌐 Realtime Events
-
-<!-- table with socket events -->
-
-[COMING SOON]
-
-| Event name | Description | Emit | Listen |
-| --- | --- | --- | --- |
-| `playerMovement` | Sends the x and y coordinates of the player to the server | Client | Server |
+<img src="readme-images/wireframe-1.jpg" width="200px"> <img src="readme-images/wireframe-2.jpg" width="200px"> <img src="readme-images/wireframe-3.jpg" width="200px">
 
 <br>
 
