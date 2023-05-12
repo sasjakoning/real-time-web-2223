@@ -70,6 +70,7 @@ npm run start:dev
   - [Flowchart](#flowchart)
   - [Lifecycle Diagram](#lifecycle-diagram)
   - [Data Model API](#data-model-api)
+  - [Realtime Events](#realtime-events)
   - [Feedback Session](#feedback-session)
     - [Peer Feedback Session 1](#peer-feedback-session-1)
     - [Peer Feedback Session 2](#peer-feedback-session-2)
@@ -83,6 +84,9 @@ npm run start:dev
     - [Version 7](#version-7)
     - [Version 8](#version-8)
   - [Final version (For now)](#final-version-for-now)
+  - [Conlusion / Reflection](#conlusion--reflection)
+  - [Additional notes](#additional-notes)
+  - [Sources](#sources)
 
 <br>
 
@@ -201,6 +205,18 @@ To create a better idea of what happens within the app, I made a flowchart that 
 [INFO SOON]
 
 <img src="readme-images/data-model.jpg" width="800px">
+
+<br>
+
+## Realtime Events
+
+<!-- table with socket events -->
+
+[COMING SOON]
+
+| Event name | Description | Emit | Listen |
+| --- | --- | --- | --- |
+| `playerMovement` | Sends the x and y coordinates of the player to the server | Client | Server |
 
 <br>
 
@@ -399,4 +415,21 @@ During version 5 of development I had my first peer feedback session. I showed m
 
 The final version of the app is a multi-user lobby where that users can join when they're waiting for their train to depart. Users can fill in their name and move their player around a virtual train station. This makes for a fun way to kill time while waiting for your train.
 
-<!-- videos of mobile and desktop version here -->
+<img src="readme-images/final-mobile.gif" width="300px">
+<br>
+<img src="readme-images/final-desktop.gif" width="600px">
+
+## Conlusion / Reflection
+
+<!-- conclusion and stuff i want to do in the future -->
+
+## Additional notes
+
+Hand written notes of all lectures and brainstorms can be found [here](https://drive.google.com/file/d/1Hz0kcVOwPZ10zKLUCgjWimSPBgrEbl5V/view?usp=sharing)
+
+## Sources
+
+- [NS API](https://apiportal.ns.nl/)
+- [Rive](https://rive.app/)   
+- [Socket.io](https://socket.io/) 
+-  
