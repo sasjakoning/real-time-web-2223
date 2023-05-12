@@ -45,9 +45,9 @@ npm run start:dev
 
 ## Table of contents
 
-  * [Course description](#course-description)
-  * [Goals / Learning objectives](#goals---learning-objectives)
-  * [Introductory assignment](#introductory-assignment)
+  * [Course Description](#course-description)
+  * [Goals / Learning Objectives](#goals---learning-objectives)
+  * [Introductory Assignment](#introductory-assignment)
 - [NS Lobby](#ns-lobby)
   - [Description](#description)
   - [Installation](#installation)
