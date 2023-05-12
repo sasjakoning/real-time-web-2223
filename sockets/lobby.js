@@ -11,7 +11,7 @@ export default (io, socket, onlineUsers) => {
     socket.on("getApiData", async () => {
         const data = await api.getApi();
         socket.emit("onGetApiData", data)
-    })
+    });
 
     // 3. HANDLE NEW USER SIGN IN
     socket.on('newUser', (username) => {
