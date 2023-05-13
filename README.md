@@ -16,7 +16,7 @@ Development on this project has continued beyond the original deadline. The main
 | --- | --- |
 | ✅ | Cleaned up code |
 | ✅ | Added offline state |
-| 🔲 | Added chat function |
+| ✅ | Added chat function |
 | 🔲 | Fixed bug where players moving at the same time causes animations to get stuck |
 | 🔲 | Added max player count |
 | 🔲 | Added more skins |
