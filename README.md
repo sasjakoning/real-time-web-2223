@@ -11,15 +11,15 @@
 Development on this project has continued beyond the original deadline. The main branch contains the last version of the app before the deadline. Check out [Lobby-v9](https://github.com/sasjakoning/real-time-web-2223/tree/lobby-v9) for the latest version.
 
 ### ⚙️ Latest version TODO
-- [x] Cleaned up code
-- [x] Added offline state
-- [] Added chat function
-- [] Fixed bug where players moving at the same time causes animations to get stuck
-- [] Added max player count
-- [] Added more skins
-- [] Added more background assets and interactables
-- [] Added train arriving and departing in background
-- [] Added function CSS analog clock
+✅ Cleaned up code
+✅ Added offline state
+🔲 Added chat function
+🔲 Fixed bug where players moving at the same time causes animations to get stuck
+🔲 Added max player count
+🔲 Added more skins
+🔲 Added more background assets and interactables
+🔲 Added train arriving and departing in background
+🔲 Added function CSS analog clock
 
 
 <br>
