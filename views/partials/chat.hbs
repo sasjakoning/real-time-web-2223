@@ -1,0 +1,21 @@
+<article class="chat">
+    {{!-- simple chat layout with form to send messages --}}
+
+    <section class="chat__messages">
+        {{!-- messages will be appended here --}}
+        <div class="chat__message chat__message--send">Hi How are you doing? Im doing around thanks for asking! How has your day been?</div>
+        <div class="chat__message chat__message--received">
+            <p>Username</p>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident dolorum quia, dicta aspernatur a, ut corporis quisquam quasi voluptates vel dolore libero similique aliquid fugiat. Temporibus aperiam voluptatum aut aliquid.</p>
+        </div>
+    </section>
+
+    <form class="chat__form">
+        <input type="text" class="chat__input" placeholder="Type your message here..." required>
+        <button type="submit" class="chat__submit" aria-label="Send message">
+            <img src="/images/send.svg" alt="">
+        </button>
+    </form>
+
+
+</article>

@@ -1,12 +1,19 @@
 import userSignIn from './userSignIn.js';
 import rive from './rive.js';
 import playerMovement from './playerMovement.js';
+import chat from './chat.js';
 
 let socket = io();
 
 let onlineUsers = [];
 let animationInputs = [];
 const playerContainer = document.querySelector(".container");
+
+chat.sendChat(socket);
+
+socket.on("onSendChat", (data) => {
+    chat.receiveChat(socket, data);
+});
 
 // Get API data on load
 getApiData();

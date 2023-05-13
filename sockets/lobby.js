@@ -28,6 +28,23 @@ export default (io, socket, onlineUsers) => {
         io.emit('updateOnlineUsers', onlineUsers);
     });
 
+    // HANDLE USER CHAT
+    socket.on("sendChat", (data) => {
+        console.log(data);
+        const userId = data.id;
+        let username;
+        // match user id to username
+        onlineUsers.forEach(onlineUser => {
+            if (onlineUser.id === userId) {
+                username = onlineUser.username;
+            }
+        });
+        const message = data.message;
+
+        io.emit("onSendChat", { userId, username, message });
+
+    });        
+
     // HANDLE USER MOVEMENT
     socket.on("playerMove", (data) => {
         // Get player from onlineUsers matching the ID and update X and Y coordinates
