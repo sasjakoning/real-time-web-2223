@@ -1,6 +1,6 @@
 import mainScript from './script.js';
 
-
+// Initialize Rive and load character
 async function character(canvas, id) {
     const canvasCharacter = await new rive.Rive({
       src: './images/character.riv',
@@ -12,11 +12,8 @@ async function character(canvas, id) {
       onLoad: (_) => {
         console.log("rive file loaded");
         canvasCharacter.resizeDrawingSurfaceToCanvas();
-        // riveLoaded();
 
         const inputs = canvasCharacter.stateMachineInputs("character-states");
-
-        
 
         const frontWalk = inputs.find((i) => i.name === "front-walk");
         const backWalk = inputs.find((i) => i.name === "back-walk");
@@ -27,13 +24,6 @@ async function character(canvas, id) {
   
       },
     });
-
-    // function riveLoaded(){
-    //   console.log(canvasCharacter.animator.stateMachines);
-    //   const stateMachine = canvasCharacter.animator.stateMachines
-    //   mainScript.sendRiveStateMachine(stateMachine);
-    // };
-
 }
 
 

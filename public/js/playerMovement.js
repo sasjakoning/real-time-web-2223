@@ -1,7 +1,6 @@
 const container = document.querySelector('.container');
 const containerWidth = container.offsetWidth;
 const containerHeight = container.offsetHeight;
-const containerRect = container.getBoundingClientRect();
 
 let frontWalk;
 let backWalk;
@@ -10,33 +9,33 @@ let rightWalk;
 
 
 function movePlayer(x, y, animationInputs, id, socket) {
-    // get player element matching id
+    // Get player element matching id
     const player = document.getElementById(id);
 
     // Round clicked position values to avoid decimal bugs
     const roundedX = Math.round(x);
     const roundedY = Math.round(y);
 
-    // get current position of player relative to the container
+    // Get current position of player relative to the container
     const playerX = player.offsetLeft;
     const playerY = player.offsetTop;
 
-    // get difference between clicked position and current position
+    // Get difference between clicked position and current position
     const diffX = Math.abs(playerX - roundedX);
     const diffY = Math.abs(playerY - roundedY);
 
-    // check if the current player is moving or if it's and external player
+    // Check if the current player is moving or if it's and external player
     if(id === socket.id) {
-        // convert x and y to percentages
+        // Convert x and y to percentages
         x = (x/containerWidth)*100;
         y = (y/containerHeight)*100;
 
         socket.emit("playerMove", {x: x, y: y, id: id})
     }
 
-    // get animation inputs object matching id
+    // Get animation inputs object matching id
     const animInputs = animationInputs.find((i) => i.id === id);
-    // set animation inputs
+    // Set animation inputs
     frontWalk = animInputs.front;
     backWalk = animInputs.back;
     leftWalk = animInputs.left;
@@ -45,19 +44,19 @@ function movePlayer(x, y, animationInputs, id, socket) {
 
     // Calculate which direction to move the player based on which difference in distance is greater
     if (diffX > diffY) {
-        // move player
+        // Move player
         player.style.left = `${x}%`;
 
-        // trigger animation based on direction
+        // Trigger animation based on direction
         handleAnimationDirection(roundedX > playerX ? "right" : "left");
 
-        // wait for transition to end and fire next animation and movement.
+        // Wait for transition to end and fire next animation and movement.
         setTimeout(() => {
             handleAnimationDirection(roundedY > playerY ? "front" : "back");
 
             player.style.top = `${y}%`;
 
-            // wait for transition end and reset animations
+            // Wait for transition end and reset animations
             setTimeout(() => {
                 handleAnimationEnd();
             }, 500);
@@ -130,7 +129,7 @@ function handleAnimationEnd() {
     frontWalk.value = false;
     rightWalk.value = false;
     leftWalk.value = false;
-  }
+}
 
 export default { 
     movePlayer,

@@ -1,19 +1,20 @@
 import api from '../helpers/api.js';
 
 export default (io, socket, onlineUsers) => {
-    // 1. HANDLE USER CONNECTION
+    // HANDLE USER CONNECTION
 
     console.log('a user connected to lobby');
 
-    // 2. SEND CURRENTLY ONLINE USERS TO CLIENT
+    // SEND CURRENTLY ONLINE USERS TO CLIENT
     io.emit('updateOnlineUsers', onlineUsers);
 
+    // HANDLE API REQUEST
     socket.on("getApiData", async () => {
         const data = await api.getApi();
         socket.emit("onGetApiData", data)
     });
 
-    // 3. HANDLE NEW USER SIGN IN
+    // HANDLE NEW USER SIGN IN
     socket.on('newUser', (username) => {
         const user = {
             username: username,
@@ -27,43 +28,24 @@ export default (io, socket, onlineUsers) => {
         io.emit('updateOnlineUsers', onlineUsers);
     });
 
+    // HANDLE USER MOVEMENT
     socket.on("playerMove", (data) => {
-        // get player from onlineUsers matching the ID and update X and Y coordinates
+        // Get player from onlineUsers matching the ID and update X and Y coordinates
         const currentUser = matchIDs(onlineUsers, socket);
         if (currentUser) {
             currentUser.x = data.x;
             currentUser.y = data.y;
         }
 
+        // EMIT PLAYER MOVEMENT TO ALL CLIENTS
         io.emit("onPlayerMove", { id: socket.id, x: data.x, y: data.y});
     })
-
-    socket.on("setPlayerAnims" , (data) => {
-
-        const currentUser = matchIDs(onlineUsers, socket);
-        if (currentUser) { 
-            currentUser.anims = data.anims;
-        }
-        
-        io.emit('updateOnlineUsers', onlineUsers);
-    });
-
-    socket.on("setRiveStateMachine" , (data) => {
-        const currentUser = matchIDs(onlineUsers, socket);
-        if (currentUser) {
-            currentUser.stateMachine = data.stateMachine;
-        }
-        
-        io.emit('updateOnlineUsers', onlineUsers);
-    });
-
     
-    // ?. HANDLE USER DISCONNECT
+    // HANDLE USER DISCONNECT
     socket.on('disconnect', () => {
         console.log('a user disconnected from lobby');
 
-        // remove user from onlineUsers
-
+        // Remove user from onlineUsers
         const currentUser = matchIDs(onlineUsers, socket);
         if (currentUser) {
             onlineUsers.splice(onlineUsers.indexOf(currentUser), 1);
@@ -80,6 +62,5 @@ export default (io, socket, onlineUsers) => {
         }
         return null; // Return null if no match is found
     }
-
 
 }

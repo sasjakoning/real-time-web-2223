@@ -226,6 +226,26 @@ dialog > form > input {
 	border: 1px solid var(--NS-light-blue);
 }
 
+.offline {
+	position: absolute;
+    z-index: 100;
+	max-width: 10rem;
+    background: var(--primary);
+    color: var(--NS-blue);
+    padding: 2rem 1rem;
+	box-shadow: var(--box-shadow);
+}
+
+.offline > h3 {
+	font-size: 1.5rem;
+	font-weight: 400;
+	margin-bottom: 1rem;
+}
+
+.hidden {
+	display: none;
+}
+
 @media (max-width: 40rem) {
 	main.lobby {
 		background: linear-gradient(0deg, rgba(16,20,28,1) 0%, rgba(16,20,28,1) 50%, rgba(68,79,88,1) 50%, rgba(68,79,88,1) 100%);
