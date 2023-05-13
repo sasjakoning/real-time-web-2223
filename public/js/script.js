@@ -9,12 +9,6 @@ let onlineUsers = [];
 let animationInputs = [];
 const playerContainer = document.querySelector(".container");
 
-chat.sendChat(socket);
-
-socket.on("onSendChat", (data) => {
-    chat.receiveChat(socket, data);
-});
-
 // Get API data on load
 getApiData();
 // Then get API data every minute
@@ -87,6 +81,25 @@ socket.on("onPlayerMove", (data) => {
         playerMovement.movePlayer(data.x, data.y, animationInputs, data.id, socket);
     }
 })
+
+
+/* ------------------------------------------------------ */
+/*                     CHAT MANAGEMENT                    */
+/* ------------------------------------------------------ */
+
+const chatToggle = document.querySelector(".chatToggle");
+
+chatToggle.addEventListener("click", () => {
+    const chat = document.querySelector(".chat");
+    chat.classList.toggle("hidden");
+});
+
+
+chat.sendChat(socket);
+
+socket.on("onSendChat", (data) => {
+    chat.receiveChat(socket, data);
+});
 
 
 /* ------------------------------------------------------ */

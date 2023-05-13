@@ -36,6 +36,8 @@ function receiveChat(socket, data) {
 
     chatMessageContainer.appendChild(chatMessage);
     chat.appendChild(chatMessageContainer);
+
+    chat.scrollTop = chat.scrollHeight;
 }
 
 export default {  
