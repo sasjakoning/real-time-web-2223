@@ -281,15 +281,16 @@ dialog > form > input {
 }
 
 .chat {
+	pointer-events: none;
 	position: absolute;
-	top: 0;
+	bottom: 0;
 	left: 0;
 	width: calc(100dvw - 2rem);
-	height: calc(100dvh - 2rem);
+	height: clamp(10rem, 40dvh, 40rem);
 	overflow: hidden;
 	z-index: 10;
 	padding: 1rem;
-	background: var(--NS-gray-90);
+	background: linear-gradient(180deg, rgba(255,255,255,0) 0%, black 60%);
 	color: var(--NS-blue);
 	box-shadow: var(--box-shadow);
 
@@ -300,8 +301,10 @@ dialog > form > input {
 }
 
 .chat__messages {
+	pointer-events: all;
 	flex: 1;
 	width: 100%;
+	max-width: 39rem;
 	overflow-y: scroll;
 	display: flex;
 	flex-direction: column;
@@ -309,7 +312,15 @@ dialog > form > input {
 	padding-bottom: 1rem;
 }
 
+/* hide scrollbar */
+.chat__messages::-webkit-scrollbar {
+	display: none;
+}
+
+
+
 .chat__message {
+	pointer-events: all;
 	min-width: 1rem;
 	max-width: 80%;
 	background-color: var(--primary);
@@ -335,6 +346,8 @@ dialog > form > input {
 }
 
 .chat__form {
+	pointer-events: all;
+	max-width: 39rem;
 	width: 100%;
 	display: flex;
 	justify-content: space-between;
@@ -349,7 +362,7 @@ dialog > form > input {
 	left: 0;
 	width: 100%;
 	height: 1rem;
-	background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--NS-gray-90) 100%);
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, black 100%);
 }
 
 .chat__form .chat__input {

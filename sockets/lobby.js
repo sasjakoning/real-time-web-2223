@@ -30,7 +30,6 @@ export default (io, socket, onlineUsers) => {
 
     // HANDLE USER CHAT
     socket.on("sendChat", (data) => {
-        console.log(data);
         const userId = data.id;
         let username;
         // match user id to username
