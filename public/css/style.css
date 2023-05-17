@@ -388,6 +388,36 @@ dialog > form > input {
 }
 
 
+/* ------------------------------------------------------ */
+/*                          Skins                         */
+/* ------------------------------------------------------ */
+
+.skins {
+    position: absolute;
+    width: 3.3cqw;
+    height: 15cqw;
+    left: 21cqw;
+    top: 41cqw;
+	z-index: 10;
+}
+
+.skins > button {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	border: none;
+	background: none;
+	padding: 0;
+}
+
+.skins  img {
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+}
+
+
 /* ------------------------- --- ------------------------ */
 
 @media (max-width: 40rem) {

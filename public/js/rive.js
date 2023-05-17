@@ -19,8 +19,14 @@ async function character(canvas, id) {
         const backWalk = inputs.find((i) => i.name === "back-walk");
         const leftWalk = inputs.find((i) => i.name === "left-walk");
         const rightWalk = inputs.find((i) => i.name === "right-walk");
+        const skins = inputs.find((i) => i.name === "skin");
+        console.log(skins)
 
-        mainScript.initAnims(frontWalk, backWalk, leftWalk, rightWalk, id);
+        // set skins to random whole number between 0 and 2
+
+        skins.value = Math.floor(Math.random() * 3);
+
+        mainScript.initAnims(frontWalk, backWalk, leftWalk, rightWalk, skins, id);
   
       },
     });

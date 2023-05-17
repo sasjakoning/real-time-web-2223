@@ -103,6 +103,26 @@ socket.on("onSendChat", (data) => {
 
 
 /* ------------------------------------------------------ */
+/*                     SKIN MANAGEMENT                    */
+/* ------------------------------------------------------ */
+
+const skinToggle = document.querySelector(".changeSkin");
+
+skinToggle.addEventListener("click", () => {
+    // get object from animationInputs which has an id matching the socket id
+
+    const skinValue = animationInputs.find((i) => i.id === socket.id);
+
+    if (skinValue) {
+        const skin = skinValue.skin;
+        skin.value = 1;
+    }
+
+
+});
+
+
+/* ------------------------------------------------------ */
 /*             HANDLE EXTERNAL USER DISCONNECT            */
 /* ------------------------------------------------------ */
 
@@ -171,10 +191,11 @@ function handlePlayerMovement() {
     });
 }
 
-function initAnims(front, back, left, right, id) {
+function initAnims(front, back, left, right, skins,  id) {
     // Pushes rive inputs to array as object
     const userInput = {
         id: id,
+        skin: skins,
         front: front,
         back: back,
         left: left,
