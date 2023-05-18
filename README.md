@@ -19,7 +19,7 @@ Development on this project has continued beyond the original deadline. The main
 | ✅ | Added chat function |
 | 🔲 | Fixed bug where players moving at the same time causes animations to get stuck |
 | 🔲 | Added max player count |
-| 🔲 | Added more skins |
+| ✅ | Added more skins |
 | 🔲 | Added more background assets and interactables |
 | 🔲 | Added train arriving and departing in background |
 | 🔲 | Added function CSS analog clock |
