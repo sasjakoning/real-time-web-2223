@@ -223,6 +223,8 @@ function initAnims(front, back, left, right, skins,  id) {
         right: right
     }
 
+    console.log("userInput", userInput.front.value)
+
     // skins.value = Math.floor(Math.random() * 3);
 
     // socket.emit("skinChange", {skin: skins.value, id: socket.id});
