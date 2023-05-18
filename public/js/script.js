@@ -53,7 +53,7 @@ socket.on('updateOnlineUsers', (users) => {
 
     // add players to container
     onlineUsers.forEach(user => {
-        addPlayer(user.id, user.username);
+        addPlayer(user.id, user.username, user.skin);
     });
 });
 
@@ -63,7 +63,7 @@ socket.on('updateOnlineUsers', (users) => {
 /* ------------------------------------------------------ */
 
 // HANDLE NEW USER SIGN IN
-const registerDialog = document.querySelector("dialog");
+const registerDialog = document.querySelector(".registerDialog");
 registerDialog.showModal();
 registerDialog.addEventListener("close", handlePlayerMovement())
 
@@ -107,18 +107,39 @@ socket.on("onSendChat", (data) => {
 /* ------------------------------------------------------ */
 
 const skinToggle = document.querySelector(".changeSkin");
+const skinDialog = document.querySelector(".skinDialog");
+const skinForm = document.querySelector("#skinForm");
 
 skinToggle.addEventListener("click", () => {
-    // get object from animationInputs which has an id matching the socket id
+    skinDialog.showModal();
+});
 
-    const skinValue = animationInputs.find((i) => i.id === socket.id);
+skinForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    skinDialog.close();
 
-    if (skinValue) {
-        const skin = skinValue.skin;
-        skin.value = 1;
+    // get value of checked radio button
+    const skinValue = skinForm.querySelector('input[name="skin"]:checked').value;
+
+    console.log("skin value", skinValue)
+
+    // Send skin value to server
+    socket.emit("skinChange", {skin: skinValue, id: socket.id});
+});
+
+socket.on("onSkinChange", (data) => {  
+
+    const skin = animationInputs.find((i) => i.id === data.id);
+
+    if (skin) {
+        if(data.skin == "skin0"){
+            skin.skin.value = 0;
+        }else if(data.skin == "skin1"){
+            skin.skin.value = 1;
+        }else if(data.skin == "skin2"){
+            skin.skin.value = 2;
+        }
     }
-
-
 });
 
 
@@ -153,19 +174,19 @@ function updateOnlineUsers() {
 
 };
 
-function addPlayer(id, username) {
+function addPlayer(id, username, skin) {
     const playerExists = document.getElementById(id);
 
     if (!playerExists) {
         console.log("adding new player to container");
-
+        
         // Create div with canvas
         const player = document.createElement('div');
         const playerCanvas = document.createElement('canvas');
         playerCanvas.classList.add("playerCanvas");
         player.appendChild(playerCanvas);
 
-        rive.character(playerCanvas, id);
+        rive.character(playerCanvas, id, skin);
 
         // Add id to div
         player.id = id;
@@ -201,6 +222,10 @@ function initAnims(front, back, left, right, skins,  id) {
         left: left,
         right: right
     }
+
+    // skins.value = Math.floor(Math.random() * 3);
+
+    // socket.emit("skinChange", {skin: skins.value, id: socket.id});
 
     animationInputs.push(userInput);
 }

@@ -1,7 +1,7 @@
 import mainScript from './script.js';
 
 // Initialize Rive and load character
-async function character(canvas, id) {
+async function character(canvas, id, skin) {
     const canvasCharacter = await new rive.Rive({
       src: './images/character.riv',
       canvas: canvas,
@@ -20,11 +20,16 @@ async function character(canvas, id) {
         const leftWalk = inputs.find((i) => i.name === "left-walk");
         const rightWalk = inputs.find((i) => i.name === "right-walk");
         const skins = inputs.find((i) => i.name === "skin");
-        console.log(skins)
 
         // set skins to random whole number between 0 and 2
 
-        skins.value = Math.floor(Math.random() * 3);
+        if(skin == "skin0"){
+          skins.value = 0;
+        } else if(skin == "skin1"){
+          skins.value = 1;
+        } else if(skin == "skin2"){
+          skins.value = 2;
+        }
 
         mainScript.initAnims(frontWalk, backWalk, leftWalk, rightWalk, skins, id);
   

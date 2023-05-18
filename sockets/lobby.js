@@ -21,6 +21,7 @@ export default (io, socket, onlineUsers) => {
             id: socket.id,
             x: 0,
             y: 0,
+            skin: 0
         };
 
         onlineUsers.push(user);
@@ -55,6 +56,19 @@ export default (io, socket, onlineUsers) => {
 
         // EMIT PLAYER MOVEMENT TO ALL CLIENTS
         io.emit("onPlayerMove", { id: socket.id, x: data.x, y: data.y});
+    })
+
+    // HANDLE SKIN CHANGE
+    socket.on("skinChange", (data) => {
+        // Get player from onlineUsers matching the ID and update skin
+
+        const currentUser = matchIDs(onlineUsers, socket);
+        console.log(currentUser)
+        if (currentUser) {
+            currentUser.skin = data.skin;
+            console.log(currentUser)
+        }
+        io.emit("onSkinChange", { id: socket.id, skin: data.skin})
     })
     
     // HANDLE USER DISCONNECT
