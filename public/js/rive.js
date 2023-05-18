@@ -21,7 +21,6 @@ async function character(canvas, id, skin) {
         const rightWalk = inputs.find((i) => i.name === "right-walk");
         const skins = inputs.find((i) => i.name === "skin");
 
-        // set skins to random whole number between 0 and 2
 
         if(skin == "skin0"){
           skins.value = 0;
