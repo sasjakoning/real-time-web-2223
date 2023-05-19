@@ -75,6 +75,7 @@ main.lobby header {
 	position: relative;
 	display: grid;
 	place-items: center;
+	margin-top: 4rem;
 
 	container-type: inline-size;
 }
@@ -218,6 +219,7 @@ dialog > form {
 	color: var(--NS-blue);
 }
 
+
 dialog > form > p {
 	font-size: 1.7rem;
 	font-weight: 400;
@@ -241,6 +243,34 @@ dialog > form > button {
 dialog > form > input {
 	border-radius: .25rem;
 	padding: .5rem;
+	border: 1px solid var(--NS-light-blue);
+}
+
+.skinDialog > form {
+	gap: 1rem;
+}
+
+.skinDialog > form > div {
+	padding: 1rem;
+	border: 1px solid var(--NS-gray-60);
+	position: relative;
+}
+
+.skinDialog > form > div > label {
+	position: absolute;
+	width: calc(100% - 1rem);
+	padding-left: 1rem;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.skinDialog > form > div > input {
+	position: absolute;
+	appearance: none;
+}
+
+.skinDialog > form > div:has(> input:checked) {
 	border: 1px solid var(--NS-light-blue);
 }
 
