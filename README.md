@@ -1,9 +1,12 @@
 
 # NS Lobby
 
-### 🚀 [Live Demo (on deadline)](https://ns-lobby.up.railway.app/)
+### 🚀 [(DOWN)Live Demo (on deadline)](https://ns-lobby.up.railway.app/)
 
-### 🚀 [Live Demo (latest version)](https://ns-lobby-latest.up.railway.app/)
+### 🚀 [(DOWN)Live Demo (latest version)](https://ns-lobby-latest.up.railway.app/)
+
+### 🚀 [(UP)Live Demo (latest version)](https://ns-lobby-latest.up.railway.app/)
+> Adaptable is not ideal when it comes to hosting. You're advised to run this app locally!
 
 <br>
 
