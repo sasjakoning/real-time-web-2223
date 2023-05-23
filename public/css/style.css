@@ -29,6 +29,11 @@ time, mark, audio, video {
 	--NS-yellow: #FFC917;
 	--NS-blue: #003082;
 	--NS-light-blue: #0063D3;
+	--NS-gray-94:#F0F0F2;
+	--NS-gray-90:#E6E6E9;
+	--NS-gray-80:#CDCDD3;
+	--NS-gray-70:#B5B5BC;
+	--NS-gray-60:#9C9CA6;
 	--box-shadow: 0 0.125rem 0 0 rgba(7,7,33,.15);
 }
 
@@ -52,12 +57,25 @@ main.lobby {
 	margin: auto;
 }
 
+main.lobby header {
+	display: flex;
+	width: calc(100dvw - 2rem);
+	justify-content: end;
+	padding: .7rem 2rem;
+	background-color: var(--NS-blue);
+
+	position: fixed;
+	top: 0;
+	z-index: 100;
+}
+
 .scene {
 	width: 100%;
 	aspect-ratio: 1/1;
 	position: relative;
 	display: grid;
 	place-items: center;
+	margin-top: 4rem;
 
 	container-type: inline-size;
 }
@@ -148,6 +166,7 @@ main.lobby {
     rotate: x 11deg;
     transform-style: preserve-3d;
     transform: translateY(7cqw);
+	container-type: size;
 }
 
 .player {
@@ -200,6 +219,7 @@ dialog > form {
 	color: var(--NS-blue);
 }
 
+
 dialog > form > p {
 	font-size: 1.7rem;
 	font-weight: 400;
@@ -225,6 +245,211 @@ dialog > form > input {
 	padding: .5rem;
 	border: 1px solid var(--NS-light-blue);
 }
+
+.skinDialog > form {
+	gap: 1rem;
+}
+
+.skinDialog > form > div {
+	padding: 1rem;
+	border: 1px solid var(--NS-gray-60);
+	position: relative;
+}
+
+.skinDialog > form > div > label {
+	position: absolute;
+	width: calc(100% - 1rem);
+	padding-left: 1rem;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.skinDialog > form > div > input {
+	position: absolute;
+	appearance: none;
+}
+
+.skinDialog > form > div:has(> input:checked) {
+	border: 1px solid var(--NS-light-blue);
+}
+
+.offline {
+	position: absolute;
+    z-index: 100;
+	max-width: 10rem;
+    background: var(--primary);
+    color: var(--NS-blue);
+    padding: 2rem 1rem;
+	box-shadow: var(--box-shadow);
+}
+
+.offline > h3 {
+	font-size: 1.5rem;
+	font-weight: 400;
+	margin-bottom: 1rem;
+}
+
+.hidden {
+	display: none !important;
+}
+
+/* ------------------------------------------------------ */
+/*                          Chat                          */
+/* ------------------------------------------------------ */
+
+.chatToggle {
+	border: transparent;
+	background: none;
+	width: 1.5rem;
+    height: 1.5rem;
+	display: block;
+	padding: 0;
+}
+
+.chatToggle > img {
+	width: 100%;
+}
+
+.chat {
+	pointer-events: none;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: calc(100dvw - 2rem);
+	height: clamp(10rem, 40dvh, 40rem);
+	overflow: hidden;
+	z-index: 10;
+	padding: 1rem;
+	background: linear-gradient(180deg, rgba(255,255,255,0) 0%, black 60%);
+	color: var(--NS-blue);
+	box-shadow: var(--box-shadow);
+
+	display: flex;
+	flex-direction: column;
+	justify-content: end;
+	align-items: center;
+}
+
+.chat__messages {
+	pointer-events: all;
+	flex: 1;
+	width: 100%;
+	max-width: 39rem;
+	overflow-y: scroll;
+	display: flex;
+	flex-direction: column;
+	margin-top: 3rem;
+	padding-bottom: 1rem;
+}
+
+/* hide scrollbar */
+.chat__messages::-webkit-scrollbar {
+	display: none;
+}
+
+
+
+.chat__message {
+	pointer-events: all;
+	min-width: 1rem;
+	max-width: 80%;
+	background-color: var(--primary);
+	padding: .5rem;
+	border-radius: .75rem;
+	box-shadow: var(--box-shadow);
+	margin-top: 1rem;
+}
+
+.chat__message--send {
+	align-self: flex-end;
+	background-color: var(--NS-light-blue);
+	color: var(--primary);
+}
+
+.chat__message--received {
+	align-self: flex-start;
+}
+
+.chat__message--received p:nth-child(1) {
+	font-weight: 500;
+	margin-bottom: .2rem;
+}
+
+.chat__form {
+	pointer-events: all;
+	max-width: 39rem;
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	position: relative;
+}
+
+.chat__form::before {
+	content: '';
+	position: absolute;
+	top: -1rem;
+	left: 0;
+	width: 100%;
+	height: 1rem;
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, black 100%);
+}
+
+.chat__form .chat__input {
+	width: 100%;
+	border-radius: 50rem;
+	padding: .5rem;
+	border: 1px solid var(--NS-light-blue);
+}
+
+.chat__form .chat__submit {
+	height: 100%;
+	aspect-ratio: 1/1;
+	border-radius: 50%;
+	background: var(--NS-light-blue);
+	color: var(--primary);
+	padding: .7rem;
+	border: none;
+	box-shadow: inset 0 -0.125rem 0 #004ba0;
+}
+
+.chat__form .chat__submit > img {
+	width: 90%;
+}
+
+
+/* ------------------------------------------------------ */
+/*                          Skins                         */
+/* ------------------------------------------------------ */
+
+.skins {
+    position: absolute;
+    width: 3.3cqw;
+    height: 15cqw;
+    left: 21cqw;
+    top: 41cqw;
+	z-index: 10;
+}
+
+.skins > button {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	border: none;
+	background: none;
+	padding: 0;
+}
+
+.skins  img {
+	width: 100%;
+	top: 0;
+	left: 0;
+	position: absolute;
+}
+
+
+/* ------------------------- --- ------------------------ */
 
 @media (max-width: 40rem) {
 	main.lobby {

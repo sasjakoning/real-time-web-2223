@@ -1,25 +1,27 @@
 import api from '../helpers/api.js';
 
 export default (io, socket, onlineUsers) => {
-    // 1. HANDLE USER CONNECTION
+    // HANDLE USER CONNECTION
 
     console.log('a user connected to lobby');
 
-    // 2. SEND CURRENTLY ONLINE USERS TO CLIENT
+    // SEND CURRENTLY ONLINE USERS TO CLIENT
     io.emit('updateOnlineUsers', onlineUsers);
 
+    // HANDLE API REQUEST
     socket.on("getApiData", async () => {
         const data = await api.getApi();
         socket.emit("onGetApiData", data)
     });
 
-    // 3. HANDLE NEW USER SIGN IN
+    // HANDLE NEW USER SIGN IN
     socket.on('newUser', (username) => {
         const user = {
             username: username,
             id: socket.id,
             x: 0,
             y: 0,
+            skin: 0
         };
 
         onlineUsers.push(user);
@@ -27,43 +29,53 @@ export default (io, socket, onlineUsers) => {
         io.emit('updateOnlineUsers', onlineUsers);
     });
 
+    // HANDLE USER CHAT
+    socket.on("sendChat", (data) => {
+        const userId = data.id;
+        let username;
+        // match user id to username
+        onlineUsers.forEach(onlineUser => {
+            if (onlineUser.id === userId) {
+                username = onlineUser.username;
+            }
+        });
+        const message = data.message;
+
+        io.emit("onSendChat", { userId, username, message });
+
+    });        
+
+    // HANDLE USER MOVEMENT
     socket.on("playerMove", (data) => {
-        // get player from onlineUsers matching the ID and update X and Y coordinates
+        // Get player from onlineUsers matching the ID and update X and Y coordinates
         const currentUser = matchIDs(onlineUsers, socket);
         if (currentUser) {
             currentUser.x = data.x;
             currentUser.y = data.y;
         }
 
+        // EMIT PLAYER MOVEMENT TO ALL CLIENTS
         io.emit("onPlayerMove", { id: socket.id, x: data.x, y: data.y});
     })
 
-    socket.on("setPlayerAnims" , (data) => {
+    // HANDLE SKIN CHANGE
+    socket.on("skinChange", (data) => {
+        // Get player from onlineUsers matching the ID and update skin
 
         const currentUser = matchIDs(onlineUsers, socket);
-        if (currentUser) { 
-            currentUser.anims = data.anims;
-        }
-        
-        io.emit('updateOnlineUsers', onlineUsers);
-    });
-
-    socket.on("setRiveStateMachine" , (data) => {
-        const currentUser = matchIDs(onlineUsers, socket);
+        console.log(currentUser)
         if (currentUser) {
-            currentUser.stateMachine = data.stateMachine;
+            currentUser.skin = data.skin;
+            console.log(currentUser)
         }
-        
-        io.emit('updateOnlineUsers', onlineUsers);
-    });
-
+        io.emit("onSkinChange", { id: socket.id, skin: data.skin})
+    })
     
-    // ?. HANDLE USER DISCONNECT
+    // HANDLE USER DISCONNECT
     socket.on('disconnect', () => {
         console.log('a user disconnected from lobby');
 
-        // remove user from onlineUsers
-
+        // Remove user from onlineUsers
         const currentUser = matchIDs(onlineUsers, socket);
         if (currentUser) {
             onlineUsers.splice(onlineUsers.indexOf(currentUser), 1);
@@ -80,6 +92,5 @@ export default (io, socket, onlineUsers) => {
         }
         return null; // Return null if no match is found
     }
-
 
 }

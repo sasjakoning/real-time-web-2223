@@ -6,10 +6,10 @@ function userSignIn(socket, registerDialog, e){
     const usernameInput = document.querySelector("#usernameInput");
     const username = usernameInput.value;
 
-    // send username to socket
+    // Send username to socket
     socket.emit("newUser", username);
 
-    // close dialog
+    // Close dialog
     registerDialog.close();
 }
 
