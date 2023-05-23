@@ -1,17 +1,10 @@
 
 # NS Lobby
 
-### 🚀 [(DOWN)Live Demo (on deadline)](https://ns-lobby.up.railway.app/)
-
-### 🚀 [(DOWN)Live Demo (latest version)](https://ns-lobby-latest.up.railway.app/)
-
-### 🚀 [(UP)Live Demo (latest version)](https://ns-lobby-latest.up.railway.app/)
+### 🚀 [Live Demo](https://ns-lobby-latest.up.railway.app/)
 > Adaptable is not ideal when it comes to hosting. You're advised to run this app locally!
 
 <br>
-
-## IMPORTANT NOTE
-Development on this project has continued beyond the original deadline. The main branch contains the last version of the app before the deadline. Check out [Lobby-v9](https://github.com/sasjakoning/real-time-web-2223/tree/lobby-v9) for the latest version.
 
 ### ⚙️ Latest version TODO
 
@@ -25,11 +18,7 @@ Development on this project has continued beyond the original deadline. The main
 | ✅ | Added more skins |
 | 🔲 | Added more background assets and interactables |
 | 🔲 | Added train arriving and departing in background |
-| 🔲 | Added function CSS analog clock |
-
-
-
-
+| 🔲 | Added functioning CSS analog clock |
 
 <br>
 

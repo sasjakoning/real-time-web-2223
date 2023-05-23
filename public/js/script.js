@@ -84,6 +84,26 @@ socket.on("onPlayerMove", (data) => {
 
 
 /* ------------------------------------------------------ */
+/*                   USERLIST MANAGEMENT                  */
+/* ------------------------------------------------------ */
+
+const userListContainer = document.querySelector(".userListContainer");
+const userListOpen = document.querySelector(".userListToggle");
+
+userListOpen.addEventListener("click", () => {
+    // open dialog
+    userListContainer.showModal();
+});
+
+const userListClose = document.querySelector(".closeUserList");
+
+userListClose.addEventListener("click", () => {
+    // close dialog
+    userListContainer.close();
+});
+
+
+/* ------------------------------------------------------ */
 /*                     CHAT MANAGEMENT                    */
 /* ------------------------------------------------------ */
 
@@ -165,6 +185,9 @@ function updateOnlineUsers() {
     let onlineUsersList = document.querySelector('.userList');
     onlineUsersList.innerHTML = '';
 
+    const onlineUsersCount = document.querySelector('.userListToggle > span');
+    onlineUsersCount.textContent = onlineUsers.length;
+
     for (let i = 0; i < onlineUsers.length; i++) {
         const user = onlineUsers[i];
         let li = document.createElement('li');
@@ -224,10 +247,6 @@ function initAnims(front, back, left, right, skins,  id) {
     }
 
     console.log("userInput", userInput.front.value)
-
-    // skins.value = Math.floor(Math.random() * 3);
-
-    // socket.emit("skinChange", {skin: skins.value, id: socket.id});
 
     animationInputs.push(userInput);
 }
