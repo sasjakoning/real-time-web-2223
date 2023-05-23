@@ -129,9 +129,14 @@ socket.on("onSendChat", (data) => {
 const skinToggle = document.querySelector(".changeSkin");
 const skinDialog = document.querySelector(".skinDialog");
 const skinForm = document.querySelector("#skinForm");
+const skinHint = document.querySelector(".hint");
 
 skinToggle.addEventListener("click", () => {
     skinDialog.showModal();
+
+    if(!skinHint.classList.contains("hidden")){
+        skinHint.classList.add("hidden");
+    }
 });
 
 skinForm.addEventListener("submit", (e) => {

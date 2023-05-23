@@ -1,3 +1,6 @@
+<img src="readme-images/header.png">
+
+<br>
 
 # NS Lobby
 
@@ -6,16 +9,17 @@
 
 <br>
 
-### ⚙️ Latest version TODO
+### ⚙️ Latest added features
 
 | Status | Description |
 | --- | --- |
 | ✅ | Cleaned up code |
 | ✅ | Added offline state |
 | ✅ | Added chat function |
-| 🔲 | Fixed bug where players moving at the same time causes animations to get stuck |
-| 🔲 | Added max player count |
 | ✅ | Added more skins |
+| ✅ | Added better player list and count |
+| ✅ | Added hints |
+| 🔲 | Added max player count |
 | 🔲 | Added more background assets and interactables |
 | 🔲 | Added train arriving and departing in background |
 | 🔲 | Added functioning CSS analog clock |
