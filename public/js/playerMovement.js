@@ -12,6 +12,7 @@ function movePlayer(x, y, animationInputs, id, socket) {
   // Round clicked position values to avoid decimal bugs
   const roundedX = Math.round(x);
   const roundedY = Math.round(y);
+
   // Get current position of player relative to the container
   const playerX = player.offsetLeft;
   const playerY = player.offsetTop;
@@ -21,12 +22,6 @@ function movePlayer(x, y, animationInputs, id, socket) {
 
   // Check if the current player is moving or if it's and external player
   if(id === socket.id) {
-    // Convert x and y to cqw units
-    console.log(x, y)
-    x = (x/containerWidth)*100 + "cqw";
-    y = (y/containerHeight)*100 + "cqh";
-
-    console.log(x, y)
     socket.emit("playerMove", {x: x, y: y, id: id})
   }
 
@@ -38,31 +33,51 @@ function movePlayer(x, y, animationInputs, id, socket) {
   leftWalk = animInputs.left;
   rightWalk = animInputs.right;
 
+  const distance = diffX + diffY;
+
+  // Calculate the transition time based on a fixed speed factor
+  const speedFactor = 0.2; // Adjust this value to control the movement speed
+  const transitionTime = Math.round(distance / speedFactor);
+  console.log("transition time is " + transitionTime);
+
+  // Calculate the CSS transition duration based on the transition time
+  const cssTransitionDuration = transitionTime / 1000 + "s";
+
+
+  // Set CSS transition duration for the player
+  player.style.transitionDuration = cssTransitionDuration;
+
+  // Convert clicked position to cqw and cqh units
+  x = (x/containerWidth)*100;
+  y = (y/containerHeight)*100;
+
   // Calculate which direction to move the player based on which difference in distance is greater
   if (diffX > diffY) {
     // Move player
-    player.style.left = `${x}`;
+    player.style.left = `${x}cqw`;
     // Trigger animation based on direction
     handleAnimationDirection(roundedX > playerX ? "right" : "left");
     // Wait for transition to end and fire next animation and movement.
     setTimeout(() => {
       handleAnimationDirection(roundedY > playerY ? "front" : "back");
-      player.style.top = `${y}`;
+      player.style.top = `${y}cqh`;
       // Wait for transition end and reset animations
       setTimeout(() => {
         handleAnimationEnd();
-      }, 500);
-    }, 500);
+        player.style.transitionDuration = ""; // Reset CSS transition duration
+      }, transitionTime);
+    }, transitionTime);
   } else {
-    player.style.top = `${y}`;
+    player.style.top = `${y}cqh`;
     handleAnimationDirection(roundedY > playerY ? "front" : "back");
     setTimeout(() => {
-      player.style.left = `${x}`;
+      player.style.left = `${x}cqw`;
       handleAnimationDirection(roundedX < playerX ? "right" : "left");
       setTimeout(() => {
         handleAnimationEnd();
-      }, 500);
-    }, 500);
+        player.style.transitionDuration = ""; // Reset CSS transition duration
+      }, transitionTime);
+    }, transitionTime);
   }
 }
 
