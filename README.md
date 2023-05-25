@@ -4,7 +4,9 @@
 
 # NS Lobby
 
-### 🚀 [Live Demo](https://ns-lobby-latest.up.railway.app/)
+### 🚀 [Live Demo (Backup)](https://ns-lobby.onrender.com/)
+
+### 🚀 [Live Demo (Alternative link)](https://ns-lobby-latest.up.railway.app/)
 > Adaptable is not ideal when it comes to hosting. You're advised to run this app locally!
 
 <br>
@@ -20,6 +22,7 @@
 | ✅ | Added better player list and count |
 | ✅ | Added hints |
 | ✅ | Added max player count |
+| ✅ | Adjust player speed based on distance |
 | 🔲 | Added more background assets and interactables |
 | 🔲 | Added train arriving and departing in background |
 | 🔲 | Added functioning CSS analog clock |
