@@ -17,6 +17,7 @@ const server = http.createServer(app);
 
 import { Server } from 'socket.io';
 const io = new Server(server);
+const MAX_USERS = 8;
 
 app.set('view engine', 'hbs');  
 app.use(express.static(__dirname + '/public'));
@@ -36,6 +37,12 @@ app.use(session({
 let onlineUsers = [];
 
 io.on('connection', (socket) => {
+
+  if(onlineUsers.length >= MAX_USERS) {
+    socket.emit('serverFull');
+    socket.disconnect();
+    return;
+  }
 
   lobbySocket(io, socket, onlineUsers);
 

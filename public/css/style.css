@@ -243,13 +243,16 @@ dialog > form {
 	color: var(--NS-blue);
 }
 
-
-dialog > form > p {
+dialog > form > p, .serverFull h2 {
 	font-size: 1.7rem;
 	font-weight: 400;
 }
 
-dialog > form > label {
+.serverFull {
+	color: var(--NS-blue);
+}
+
+dialog > form > label, .serverFull p {
 	font-size: 1rem;
 	margin: 1rem 0 .5rem 0;
 }

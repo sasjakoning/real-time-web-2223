@@ -169,6 +169,16 @@ socket.on("onSkinChange", (data) => {
 
 
 /* ------------------------------------------------------ */
+/*                   HANDLE SERVER FULL                   */
+/* ------------------------------------------------------ */
+
+socket.on("serverFull", () => {
+    const serverFull = document.querySelector(".serverFull");
+    serverFull.showModal();
+});
+
+
+/* ------------------------------------------------------ */
 /*             HANDLE EXTERNAL USER DISCONNECT            */
 /* ------------------------------------------------------ */
 

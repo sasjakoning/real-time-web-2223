@@ -19,7 +19,7 @@
 | ✅ | Added more skins |
 | ✅ | Added better player list and count |
 | ✅ | Added hints |
-| 🔲 | Added max player count |
+| ✅ | Added max player count |
 | 🔲 | Added more background assets and interactables |
 | 🔲 | Added train arriving and departing in background |
 | 🔲 | Added functioning CSS analog clock |
