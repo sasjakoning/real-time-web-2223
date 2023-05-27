@@ -4,7 +4,7 @@
 
 # NS Lobby
 
-### 🚀 [Live Demo (Backup)](https://ns-lobby.onrender.com/)
+### 🚀 [Live Demo](https://ns-lobby.onrender.com/)
 
 ### 🚀 [Live Demo (Alternative link)](https://ns-lobby-latest.up.railway.app/)
 > Adaptable is not ideal when it comes to hosting. You're advised to run this app locally!
