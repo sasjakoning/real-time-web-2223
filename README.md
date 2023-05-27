@@ -55,7 +55,11 @@ npm install
 touch .env
 ```
 
-You can get an API key for the NS API by requesting it [here](https://apiportal.ns.nl/)
+You can get an API key for the NS API by requesting it [here](https://apiportal.ns.nl/). Add the following line to your .env file:
+
+```bash
+    API_KEY=[YOUR API KEY]
+```
 
 ### Run the app
 
@@ -68,6 +72,8 @@ npm run start:dev
 <br>
 
 # 📚 Documentation
+
+The following documentation is based on the first deadline of the project.
 
 <br>
 
