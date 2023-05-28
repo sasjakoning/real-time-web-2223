@@ -278,18 +278,16 @@ dialog > form > input {
 }
 
 .skinDialog > form > div {
-	padding: 1rem;
+	padding: .5rem;
 	border: 1px solid var(--NS-gray-60);
 	position: relative;
 }
 
 .skinDialog > form > div > label {
-	position: absolute;
 	width: calc(100% - 1rem);
-	padding-left: 1rem;
+	padding-left: .5rem;
 	height: 100%;
-	top: 0;
-	left: 0;
+	display: block;
 }
 
 .skinDialog > form > div > input {

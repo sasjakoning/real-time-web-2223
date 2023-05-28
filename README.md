@@ -11,21 +11,22 @@
 
 <br>
 
-### ⚙️ Latest added features
+### ⚙️ Changelog
+The following features and fixes have been added since the deadline of the project.
 
-| Status | Description |
-| --- | --- |
-| ✅ | Cleaned up code |
-| ✅ | Added offline state |
-| ✅ | Added chat function |
-| ✅ | Added more skins |
-| ✅ | Added better player list and count |
-| ✅ | Added hints |
-| ✅ | Added max player count |
-| ✅ | Adjust player speed based on distance |
-| 🔲 | Added more background assets and interactables |
-| 🔲 | Added train arriving and departing in background |
-| 🔲 | Added functioning CSS analog clock |
+| Status | Title                                            | Description |
+| ------ | ------------------------------------------------ | ----------- |
+| ✅     | Cleaned up code                                  | Changed structure and readability of the code. |
+| ✅     | Added offline state                              | Whenever a client is not connected to the server a dialog will appear with an offline message. |
+| ✅     | Added chat function                              | Clients can now chat with each other by pressing the chat icon on the top right of the screen. |
+| ✅     | Added more skins                                 | Clients can now change their skins to give themselves more identity. Interested in the skins and animations? View them in more detail [here](https://rive.app/s/YIvG7RIUqUy8lM8CP9k2xQ/)!  |
+| ✅     | Added better player list and count               | Connected clients are no longer shown directly on screen. Instead, they are in a dialog which can be opened by pressing the users icon on the top left of the screen. |
+| ✅     | Added hints                                      | Added hints for the ability to change skins and the amount of online players(using a counter on top of the users icon). |
+| ✅     | Added max player count                           | No more than eight players are able to join the lobby to avoid server overload and lag. When a client tries to join a full lobby, it will receive a message saying the lobby is currently full and to try again later. |
+| ✅     | Adjust player speed based on distance            | Players no longer race across the container when traversing long distances. It's transition duration will now be dynamically changed based on the distance the player has to travel. |
+| 🔲    | Added more background assets and interactables   | Add more assets like trash bins and seats which the players could potentially interact with. |
+| 🔲    | Added train arriving and departing in background | Have an image of a train arrive on and leave the station based on the timetable given by the API |
+| 🔲    | Added functioning CSS analog clock               | Add a functional CSS analog clock which tracks the client system time. |
 
 <br>
 
