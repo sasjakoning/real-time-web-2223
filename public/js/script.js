@@ -77,7 +77,6 @@ socket.on("onPlayerMove", (data) => {
     const player = document.getElementById(data.id);
 
     if (player && data.id !== socket.id) {
-        console.log("updating external player position", data);
         playerMovement.movePlayer(data.x, data.y, animationInputs, data.id, socket);
     }
 })
@@ -146,8 +145,6 @@ skinForm.addEventListener("submit", (e) => {
     // get value of checked radio button
     const skinValue = skinForm.querySelector('input[name="skin"]:checked').value;
 
-    console.log("skin value", skinValue)
-
     // Send skin value to server
     socket.emit("skinChange", {skin: skinValue, id: socket.id});
 });
@@ -183,7 +180,6 @@ socket.on("serverFull", () => {
 /* ------------------------------------------------------ */
 
 socket.on("userDisconnected", (id) => {
-    console.log("user disconnected", id);
     const player = document.getElementById(id);
 
     if (player) {
@@ -217,7 +213,10 @@ function addPlayer(id, username, skin) {
 
     if (!playerExists) {
         console.log("adding new player to container");
-        
+
+        // check if id matches online user id
+        const onlineUser = onlineUsers.find((user) => user.id === id);
+
         // Create div with canvas
         const player = document.createElement('div');
         const playerCanvas = document.createElement('canvas');
@@ -236,15 +235,22 @@ function addPlayer(id, username, skin) {
         player.appendChild(playerName);
 
         playerContainer.appendChild(player);
+
+        player.style.left = onlineUser.x + "cqw";
+        player.style.top = onlineUser.y + "cqh";
     } else {
         console.log("player already exists");
     }
 }
 
 function handlePlayerMovement() {
+    const container = document.querySelector('.container');
+    const containerWidth = container.offsetWidth;
+    const containerHeight = container.offsetHeight;
     playerContainer.addEventListener('click', (e) => {
-        const x = e.offsetX;
-        const y = e.offsetY;
+        // Get x and Y coordinates of click relative to container
+        const x = (e.offsetX / containerWidth)*100;
+        const y = (e.offsetY / containerHeight)*100;
 
         playerMovement.movePlayer(x, y, animationInputs, socket.id, socket);
     });
@@ -260,8 +266,6 @@ function initAnims(front, back, left, right, skins,  id) {
         left: left,
         right: right
     }
-
-    console.log("userInput", userInput.front.value)
 
     animationInputs.push(userInput);
 }

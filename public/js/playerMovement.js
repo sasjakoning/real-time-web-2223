@@ -9,16 +9,15 @@ let rightWalk;
 function movePlayer(x, y, animationInputs, id, socket) {
   // Get player element matching id
   const player = document.getElementById(id);
-  // Round clicked position values to avoid decimal bugs
-  const roundedX = Math.round(x);
-  const roundedY = Math.round(y);
 
   // Get current position of player relative to the container
-  const playerX = player.offsetLeft;
-  const playerY = player.offsetTop;
+  // convert playerX and playerY to containerWidth and containerHeight
+  const playerX = (player.offsetLeft / containerWidth)*100;
+  const playerY = (player.offsetTop / containerHeight)*100;
+
   // Get difference between clicked position and current position
-  const diffX = Math.abs(playerX - roundedX);
-  const diffY = Math.abs(playerY - roundedY);
+  const diffX = Math.abs(playerX - x);
+  const diffY = Math.abs(playerY - y);
 
   // Check if the current player is moving or if it's and external player
   if(id === socket.id) {
@@ -36,9 +35,9 @@ function movePlayer(x, y, animationInputs, id, socket) {
   const distance = diffX + diffY;
 
   // Calculate the transition time based on a fixed speed factor
-  const speedFactor = 0.2; // Adjust this value to control the movement speed
-  const transitionTime = Math.round(distance / speedFactor);
-  console.log("transition time is " + transitionTime);
+  const speedFactor = 10;
+
+  const transitionTime = Math.round(distance * speedFactor);
 
   // Calculate the CSS transition duration based on the transition time
   const cssTransitionDuration = transitionTime / 1000 + "s";
@@ -47,19 +46,15 @@ function movePlayer(x, y, animationInputs, id, socket) {
   // Set CSS transition duration for the player
   player.style.transitionDuration = cssTransitionDuration;
 
-  // Convert clicked position to cqw and cqh units
-  x = (x/containerWidth)*100;
-  y = (y/containerHeight)*100;
-
   // Calculate which direction to move the player based on which difference in distance is greater
   if (diffX > diffY) {
     // Move player
     player.style.left = `${x}cqw`;
     // Trigger animation based on direction
-    handleAnimationDirection(roundedX > playerX ? "right" : "left");
+    handleAnimationDirection(x > playerX ? "right" : "left");
     // Wait for transition to end and fire next animation and movement.
     setTimeout(() => {
-      handleAnimationDirection(roundedY > playerY ? "front" : "back");
+      handleAnimationDirection(y > playerY ? "front" : "back");
       player.style.top = `${y}cqh`;
       // Wait for transition end and reset animations
       setTimeout(() => {
@@ -69,10 +64,10 @@ function movePlayer(x, y, animationInputs, id, socket) {
     }, transitionTime);
   } else {
     player.style.top = `${y}cqh`;
-    handleAnimationDirection(roundedY > playerY ? "front" : "back");
+    handleAnimationDirection(y > playerY ? "front" : "back");
     setTimeout(() => {
       player.style.left = `${x}cqw`;
-      handleAnimationDirection(roundedX < playerX ? "right" : "left");
+      handleAnimationDirection(x < playerX ? "left" : "right");
       setTimeout(() => {
         handleAnimationEnd();
         player.style.transitionDuration = ""; // Reset CSS transition duration
@@ -82,11 +77,9 @@ function movePlayer(x, y, animationInputs, id, socket) {
 }
 
 function updateUserPosition(onlineUsers) {
-  console.log("updating user position")
   onlineUsers.forEach(user => {
     const player = document.getElementById(user.id);
     if(player) {
-        console.log("updating user position", player)
       player.style.left = user.x;
       player.style.top = user.y;
     }
@@ -125,7 +118,6 @@ function handleAnimationDirection(direction) {
 }
 
 function handleAnimationEnd() {
-  console.log("animation ended");
   backWalk.value = false;
   frontWalk.value = false;
   rightWalk.value = false;

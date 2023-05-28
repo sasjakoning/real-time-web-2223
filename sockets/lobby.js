@@ -48,6 +48,7 @@ export default (io, socket, onlineUsers) => {
     // HANDLE USER MOVEMENT
     socket.on("playerMove", (data) => {
         // Get player from onlineUsers matching the ID and update X and Y coordinates
+
         const currentUser = matchIDs(onlineUsers, socket);
         if (currentUser) {
             currentUser.x = data.x;
@@ -63,10 +64,8 @@ export default (io, socket, onlineUsers) => {
         // Get player from onlineUsers matching the ID and update skin
 
         const currentUser = matchIDs(onlineUsers, socket);
-        console.log(currentUser)
         if (currentUser) {
             currentUser.skin = data.skin;
-            console.log(currentUser)
         }
         io.emit("onSkinChange", { id: socket.id, skin: data.skin})
     })

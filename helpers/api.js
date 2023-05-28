@@ -9,7 +9,6 @@ async function getApi() {
     const stationCode = "EKZ"; // replace with your desired station code
 
     try {
-        console.log("fetching...")
         const response = await fetch(`https://gateway.apiportal.ns.nl/reisinformatie-api/api/v2/departures?station=${stationCode}`, {
             headers: {
               "Ocp-Apim-Subscription-Key": apiKey
@@ -19,7 +18,6 @@ async function getApi() {
         
         const resizedData = data.payload.departures[0];
 
-        console.log("fetching finished")
         return resizedData;
     }catch(err) {
         console.log('error fetching api' + err );
